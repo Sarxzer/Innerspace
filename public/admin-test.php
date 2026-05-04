@@ -106,6 +106,9 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
         (<?= htmlspecialchars($m['pronouns']) ?>) — <em><?= htmlspecialchars($m['role']) ?></em>
         <p><?= htmlspecialchars($m['description']) ?></p>
         <small>Visibility: <?= htmlspecialchars($m['visibility']) ?></small>
+        <?php if ($m['avatar_url']): ?>
+            <div><img src="<?= htmlspecialchars($m['avatar_url']) ?>" alt="Avatar" width="80"></div>
+        <?php endif; ?>
     </div>
 <?php endforeach; ?>
 
