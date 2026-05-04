@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# Allow extensions-less URLs
+RewriteRule ^([^/.]+)$ $1.php [L]
+
+# Forbid access to .htaccess itself
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>
