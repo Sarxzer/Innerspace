@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . '/../src/php/database.php';
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+require_once __DIR__ . '/../../src/php/database.php';
 
 $user_id = isset($_GET['user_id']) ? (int)$_GET['user_id'] : 1;
 
