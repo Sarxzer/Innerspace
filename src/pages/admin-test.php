@@ -27,7 +27,7 @@ $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Fetch current fronters (no ended_at)
 $stmt = $pdo->prepare("
-    SELECT m.name, m.color, m.pronouns
+    SELECT m.name, m.color, m.pronouns, fs.note
     FROM fronting_session_members fsm
     JOIN fronting_sessions fs ON fs.id = fsm.session_id
     JOIN members m ON m.id = fsm.member_id
@@ -87,7 +87,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <p><?= htmlspecialchars($system['description']) ?></p>
 <p><strong>Public:</strong> <?= $system['is_public'] ? 'Yes' : 'No' ?></p>
 
-<h2>Currently Fronting</h2>
+<h2>Currently Fronting (<?= $fronters[0]['note'] ?? 'No note' ?>)</h2>
 <?php if ($fronters): ?>
     <?php foreach ($fronters as $f): ?>
         <p>
