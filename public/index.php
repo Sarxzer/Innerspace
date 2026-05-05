@@ -1,5 +1,5 @@
 <?php
-$pagesDir = __DIR__ . '/../src/pages/';
+$pagesDir = __DIR__ . '/../src/pages';
 if (!is_dir($pagesDir)) {
     die("Pages directory not found: $pagesDir");
 }
@@ -18,11 +18,12 @@ match($parts[0]) {
     '','home' => require $pagesDir . '/home.php',
     'login'   => require $pagesDir . '/login.php',
     'dashboard'   => require $pagesDir . '/dashboard.php',
-    'members'     => match(true) {
-        isset($parts[2]) && $parts[2] === 'edit' => require $pagesDir . '/member-edit.php',  // /members/skye/edit
-        isset($parts[1])                          => require $pagesDir . '/member.php',       // /members/skye
-        default                                   => require $pagesDir . '/members.php',      // /members
+    'system'     => match(true) {
+        isset($parts[2]) && !isset($parts[3]) => require $pagesDir . '/member.php',  // /system/system_name/member_name
+        isset($parts[1]) && !isset($parts[2]) => require $pagesDir . '/system.php',       // /system/system_name
+        default                                   => require $pagesDir . '/404.php',
     },
+    'systems'    => require $pagesDir . '/systems.php',
     'fronting'    => require $pagesDir . '/fronting.php',
     'history'     => require $pagesDir . '/history.php',
     'friends'     => match(true) {
@@ -31,7 +32,7 @@ match($parts[0]) {
     },
     'friend'      => require $pagesDir . '/friend-view.php',  // /friend/abc123token
     'settings'    => require $pagesDir . '/settings.php',
-    default       => (function () {
+    default       => (function () use ($pagesDir) {
         http_response_code(404);
         return require $pagesDir . '/404.php';
     })(),

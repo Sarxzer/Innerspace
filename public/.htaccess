@@ -1,10 +1,6 @@
 RewriteEngine On
 
-# Allow extensions-less URLs
-RewriteRule ^([^/.]+)$ $1.php [L]
-
-# Forbid access to .htaccess itself
-<Files .htaccess>
-    Order allow,deny
-    Deny from all
-</Files>
+# Redirect all requests to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
