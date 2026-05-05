@@ -1,57 +1,71 @@
 <?php
 session_start();
+
 $pagesDir = __DIR__ . '/../src/pages';
+$includesDir = __DIR__ . '/../src/includes';
+
 if (!is_dir($pagesDir)) {
     die("Pages directory not found: $pagesDir");
 }
 
-$uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-$parts = explode('/', $uri);
+$uri    = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$parts  = explode('/', $uri);
 
-// Auth check — everything except the public routes requires login
-$public_routes = ['', 'login', 'friend', 'home']; // add 'home' to public routes for testing
-// if (!isset($_SESSION['user_id']) && !in_array($parts[0], $public_routes)) {
-//     header('Location: /login');
-//     exit;
-// }
+// Auth guard
+$protected_routes = ['dashboard', 'manage', 'settings', 'fronting', 'history', 'friends'];
+if (in_array($parts[0], $protected_routes) && !isset($_SESSION['user_id'])) {
+    header('Location: /login');
+    exit;
+}
 
-// Handle pages that require headers before output
-match($parts[0]) {
-    'logout'  => require $pagesDir . '/auth/logout.php',
-    default => null
-};
-
+// Fetch current user if logged in
 if (isset($_SESSION['user_id'])) {
-    // Fetch user info for use in pages
     require_once __DIR__ . '/../src/php/database.php';
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
     $stmt->execute([$_SESSION['user_id']]);
     $current_user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    echo "<p>Logged in as " . htmlspecialchars($current_user['username']) . " | <a href='/settings'>Settings</a> | <a href='/logout'>Logout</a></p>";
 }
 
 match($parts[0]) {
-    '','home' => require $pagesDir . '/admin-test.php',
-    'login'   => require $pagesDir . '/auth/login.php',
-    'logout'  => null, // Already handled above 
-    'dashboard'   => require $pagesDir . '/dashboard.php',
-    'system'     => match(true) {
-        isset($parts[2]) && !isset($parts[3]) => require $pagesDir . '/system/member.php',  // /system/system_name/member_name
-        isset($parts[1]) && !isset($parts[2]) => require $pagesDir . '/system/system.php',       // /system/system_name
-        default                                   => require $pagesDir . '/error/404.php',
+    // Public
+    '', 'home'  => require $pagesDir . '/home.php',
+    'login'     => require $pagesDir . '/auth/login.php',
+    'register'  => require $pagesDir . '/auth/register.php',
+    'logout'    => require $pagesDir . '/auth/logout.php',
+
+    // Public system/member viewing
+    'system' => match(true) {
+        isset($parts[1]) && isset($parts[2]) => require $pagesDir . '/system/member.php',   // /system/{handle}/{member_handle}
+        isset($parts[1])                     => require $pagesDir . '/system/system.php',   // /system/{handle}
+        default                              => require $pagesDir . '/system/systems.php',       // /system alone makes no sense but we use it to list all systems in dev
     },
-    'systems'    => require $pagesDir . '/system/systems.php',
-    'fronting'    => require $pagesDir . '/dashboard/fronting.php',
-    'history'     => require $pagesDir . '/dashboard/history.php',
-    'friends'     => match(true) {
-        isset($parts[1]) && $parts[1] === 'invite' => require $pagesDir . '/invite.php',     // /friends/invite
-        default                                     => require $pagesDir . '/friends.php',   // /friends
+
+    // Authenticated
+    'dashboard' => require $pagesDir . '/dashboard/dashboard.php',
+    'fronting'  => require $pagesDir . '/dashboard/fronting.php',
+    'history'   => require $pagesDir . '/dashboard/history.php',
+    'settings'  => require $pagesDir . '/settings/settings.php',
+
+    'friends' => match(true) {
+        isset($parts[1]) && $parts[1] === 'invite' => require $pagesDir . '/friends/invite.php',  // /friends/invite
+        default                                     => require $pagesDir . '/friends/friends.php', // /friends
     },
-    'friend'      => require $pagesDir . '/friend-view.php',  // /friend/abc123token
-    'settings'    => require $pagesDir . '/settings/settings.php',
-    default       => (function () use ($pagesDir) {
+    'friend' => require $pagesDir . '/friends/friend-view.php', // /friend/{token}
+
+    // System management (authenticated)
+    'manage' => match(true) {
+        $parts[1] === 'system' && isset($parts[2]) && $parts[3] === 'member' && isset($parts[4])
+                                          => require $pagesDir . '/manage/member-edit.php',   // /manage/system/{handle}/member/{member_handle}
+        $parts[1] === 'system' && isset($parts[2]) && $parts[3] === 'members'
+                                          => require $pagesDir . '/manage/members.php',       // /manage/system/{handle}/members
+        $parts[1] === 'system' && isset($parts[2])
+                                          => require $pagesDir . '/manage/system-edit.php',   // /manage/system/{handle}
+        default                           => require $pagesDir . '/manage/systems.php',       // /manage or /manage/systems
+    },
+
+    // Fallback
+    default => (function () use ($pagesDir) {
         http_response_code(404);
-        return require $pagesDir . '/404.php';
+        require $pagesDir . '/errors/404.php';
     })(),
 };

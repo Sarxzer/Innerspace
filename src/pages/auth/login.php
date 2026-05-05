@@ -31,6 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
+
+    <?php include $includesDir . '/navbar.php'; ?>
+
     <form action="login" method="post">
         <h1>Login</h1>
         <label for="username">Username:</label><br>
@@ -39,6 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="password" id="password" name="password" required><br><br>
         <input type="submit" value="Login">
     </form>
+
+    <a href="/register">Don't have an account? Register here.</a>
 </body>
 
 </html>

@@ -8,6 +8,8 @@
 </head>
 
 <body>
+    <?php include 'admin-test.php'; ?>
+
     <h1>Innerspace</h1>
     <p>Welcome to Innerspace! This is a platform for managing and sharing information about systems, members, and fronting sessions.</p>
 

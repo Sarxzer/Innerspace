@@ -77,6 +77,8 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 
+<?php include __DIR__ . '/../includes/navbar.php'; ?>
+
 <div class="goto">
     <?php foreach ($systems as $s): ?>
         <a href="?user_id=<?= $s['user_id'] ?>"><?= htmlspecialchars($s['name']) ?></a>
