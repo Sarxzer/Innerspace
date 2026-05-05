@@ -1,39 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+session_start();
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Innerspace</title>
-</head>
+$pagesDir = __DIR__ . '/../src/pages';
+$includesDir = __DIR__ . '/../src/includes';
 
-<body>
-    <h1>Innerspace</h1>
-    <p>Welcome to Innerspace! This is a platform for managing and sharing information about systems, members, and fronting sessions.</p>
+if (!is_dir($pagesDir)) {
+    die("Pages directory not found: $pagesDir");
+}
 
-    <h2>Getting Started</h2>
-    <p>To get started, please log in or create an account. Once you have an account, you can create your own system, add members, and track fronting sessions.</p>
+$uri    = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$parts  = explode('/', $uri);
 
-    <h3>Test image upload</h3>
-    <form method="POST" action="/upload-pfp.php" enctype="multipart/form-data">
-        <input type="file" name="pfp" accept="image/*" required>
-        <button>Upload</button>
-    </form>
+// Auth guard
+$protected_routes = ['dashboard', 'manage', 'settings', 'fronting', 'history', 'friends'];
+if (in_array($parts[0], $protected_routes) && !isset($_SESSION['user_id'])) {
+    header('Location: /login');
+    exit;
+}
 
-    <?php
-    // list all uploaded pfps for testing (/uploads/pfps/{user_id}/{user_id}.webp)
-    $pfpDir = __DIR__ . "/uploads/pfps";
-    if (is_dir($pfpDir)) {
-        $users = scandir($pfpDir);
-        foreach ($users as $userId) {
-            if ($userId === '.' || $userId === '..') continue;
-            $pfpPath = "$pfpDir/$userId/$userId.webp";
-            if (file_exists($pfpPath)) {
-                echo "<p>User $userId: <img src=\"/uploads/pfps/$userId/$userId.webp\" alt=\"PFP\" width=\"64\"></p>";
-            }
-        }
-    }
-    ?>
-</body>
+// Fetch current user if logged in
+if (isset($_SESSION['user_id'])) {
+    require_once __DIR__ . '/../src/php/database.php';
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $current_user = $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
-</html>
+match($parts[0]) {
+    // Public
+    '', 'home'  => require $pagesDir . '/home.php',
+    'login'     => require $pagesDir . '/auth/login.php',
+    'register'  => require $pagesDir . '/auth/register.php',
+    'logout'    => require $pagesDir . '/auth/logout.php',
+
+    // Public system/member viewing
+    'system' => match(true) {
+        isset($parts[1]) && isset($parts[2]) => require $pagesDir . '/system/member.php',   // /system/{handle}/{member_handle}
+        isset($parts[1])                     => require $pagesDir . '/system/system.php',   // /system/{handle}
+        default                              => require $pagesDir . '/system/systems.php',       // /system alone makes no sense but we use it to list all systems in dev
+    },
+
+    // Authenticated
+    'dashboard' => require $pagesDir . '/dashboard/dashboard.php',
+    'fronting'  => require $pagesDir . '/dashboard/fronting.php',
+    'history'   => require $pagesDir . '/dashboard/history.php',
+    'settings'  => require $pagesDir . '/settings/settings.php',
+
+    'friends' => match(true) {
+        isset($parts[1]) && $parts[1] === 'invite' => require $pagesDir . '/friends/invite.php',  // /friends/invite
+        default                                     => require $pagesDir . '/friends/friends.php', // /friends
+    },
+    'friend' => require $pagesDir . '/friends/friend-view.php', // /friend/{token}
+
+    // System management (authenticated)
+    'manage' => match(true) {
+        $parts[1] === 'system' && isset($parts[2]) && $parts[3] === 'member' && isset($parts[4])
+                                          => require $pagesDir . '/manage/member-edit.php',   // /manage/system/{handle}/member/{member_handle}
+        $parts[1] === 'system' && isset($parts[2]) && $parts[3] === 'members'
+                                          => require $pagesDir . '/manage/members.php',       // /manage/system/{handle}/members
+        $parts[1] === 'system' && isset($parts[2])
+                                          => require $pagesDir . '/manage/system-edit.php',   // /manage/system/{handle}
+        default                           => require $pagesDir . '/manage/systems.php',       // /manage or /manage/systems
+    },
+
+    // Fallback
+    default => (function () use ($pagesDir) {
+        http_response_code(404);
+        require $pagesDir . '/errors/404.php';
+    })(),
+};

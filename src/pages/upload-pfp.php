@@ -3,7 +3,7 @@ session_start();
 
 $_SESSION['user_id'] ++; // for testing, increment user_id on each upload to simulate different users
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Format;
@@ -35,7 +35,7 @@ if (!str_starts_with($mime, 'image/')) {
 // 👤 however you store user id
 $userId = $_SESSION['user_id'];
 
-$pfpDir = __DIR__ . "/uploads/pfps/$userId";
+$pfpDir = __DIR__ . "/../uploads/pfps/$userId";
 if (!is_dir($pfpDir)) {
     mkdir($pfpDir, 0755, true);
 }
