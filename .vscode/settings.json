@@ -1,0 +1,7 @@
+{
+  "intelephense.environment.includePaths": [
+    "src",
+    "vendor"
+  ],
+  "intelephense.files.maxSize": 5000000
+}

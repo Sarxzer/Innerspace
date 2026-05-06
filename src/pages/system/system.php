@@ -1,8 +1,9 @@
 <?php
+
 /** @var array $parts
  * @var PDO $pdo
  * @var string $includesDir
-*/
+ */
 
 $parts ??= explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 
@@ -26,7 +27,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 $stmt = $pdo->prepare("SELECT * FROM fronting_sessions WHERE system_id = ? AND ended_at IS NULL");
 $stmt->execute([$system['id']]);
-$active_sessions = $stmt->fetch(PDO::FETCH_ASSOC); 
+$active_sessions = $stmt->fetch(PDO::FETCH_ASSOC);
 
 $fronting_session_members = [];
 if ($active_sessions) {
@@ -45,7 +46,6 @@ foreach ($fronting_session_members as $fsm) {
     if (!in_array($fsm['name'], $nowFrontingMembers, true)) {
         $nowFrontingMembers[] = $fsm['name'];
     }
-
 }
 
 // echo "<h1>" . htmlspecialchars($system['name']) . "</h1>";
@@ -70,13 +70,69 @@ foreach ($fronting_session_members as $fsm) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($system['name']) ?> | Innerspace</title>
+    <link rel="stylesheet" href="/assets/css/style.css?v=<?= filemtime(__DIR__ . '/../../../public/assets/css/style.css') ?>">
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
 </head>
+
 <body>
-    <?php include $includesDir . '/navbar.php'; ?>
+    <div class="page">
+        <div class="pixel-scanlines"></div>
+        <div class="content">
+            <?php include $includesDir . '/navbar.php'; ?>
+
+            <div class="main">
+                <div class="system-header">
+                    <div class="system-title"><?= htmlspecialchars($system['name']) ?></div>
+                    <div class="system-meta">
+                        <div class="meta-item">
+                            <div class="meta-label">Handle</div>
+                            <div class="meta-value">@<?= htmlspecialchars($system['handle']) ?></div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Owner</div>
+                            <div class="meta-value"><?= htmlspecialchars($user['username']) ?></div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Members</div>
+                            <div class="meta-value"><?= count($members) ?></div>
+                        </div>
+                    </div>
+                    <div class="system-description"><?= nl2br(htmlspecialchars($system['description'])) ?></div>
+                    <div class="fronting-badge">
+                        <div class="fronting-dot"></div>
+                        <div class="fronting-text"><?= $nowFrontingMembers ? "Now fronting: " . implode(", ", $nowFrontingMembers) : "No one is fronting" ?></div>
+                    </div>
+                </div>
+
+                <div class="section-title">Members</div>
+
+                <div class="members-grid">
+                    <?php foreach ($members as $member): ?>
+                        <a href='/system/<?= htmlspecialchars($system['handle']) ?>/<?= htmlspecialchars($member['handle']) ?>' class="member-card">
+                            <div class="member-accent-bar" style="background: <?= htmlspecialchars($member['color']) ?>;"></div>
+                            <div class="member-hex" style="color: <?= htmlspecialchars($member['color']) ?>">#<?= substr(htmlspecialchars($member['color']), 1) ?></div>
+                            <div class="member-top">
+                                <div class="color-dot" style="background-color: <?= htmlspecialchars($member['color']) ?>"></div>
+                                <div class="member-name"><?= htmlspecialchars($member['name']) ?></div>
+                                <div class="member-role"><?= htmlspecialchars($member['role']) ?></div>
+                            </div>
+                            <div class="member-pronouns"><?= htmlspecialchars($member['pronouns']) ?></div>
+                            <div class="member-description"><?= nl2br(htmlspecialchars($member['description'])) ?></div>
+                            <div class="card-arrow">[->]</div>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- <?php include $includesDir . '/navbar.php'; ?>
 
     <h1><?= htmlspecialchars($system['name']) ?></h1>
     <p>Handle: @<?= htmlspecialchars($system['handle']) ?></p>
@@ -91,6 +147,7 @@ foreach ($fronting_session_members as $fsm) {
         <?php foreach ($members as $member): ?>
             <li><a href='/system/<?= htmlspecialchars($system['handle']) ?>/<?= htmlspecialchars($member['handle']) ?>'><?= htmlspecialchars($member['name']) ?></a> (<?= htmlspecialchars($member['pronouns']) ?>, <span style='color: <?= htmlspecialchars($member['color']) ?>'><?= htmlspecialchars($member['color']) ?></span>)</li>
         <?php endforeach; ?>
-    </ul>
+    </ul> -->
 </body>
+
 </html>

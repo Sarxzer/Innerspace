@@ -1,0 +1,216 @@
+// =====================
+// _components.scss
+// Innerspace – UI components
+// =====================
+
+@use 'variables' as *;
+
+// ── Scanlines overlay ──────────────────────────────────
+
+.pixel-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.06) 2px,
+        rgba(0, 0, 0, 0.06) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+// ── System header panel ────────────────────────────────
+
+.system-header {
+    background: $color-bg-card;
+    border: $border-pixel $color-light-blue;
+    box-shadow: $pixel-shadow;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: -6px;
+        left: -6px;
+        right: 6px;
+        bottom: 6px;
+        border: 1px solid rgba($color-light-blue, 0.15);
+        pointer-events: none;
+    }
+}
+
+.system-title {
+    font-family: $font-pixel;
+    font-size: 14px;
+    margin-bottom: 0.5rem;
+}
+
+.system-description {
+    font-family: $font-retro;
+    font-size: 20px;
+    color: $color-text-muted;
+    margin-bottom: 1rem;
+}
+
+.system-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.meta-item {
+    background: rgba($color-bg-panel, 0.6);
+    border: 1px solid rgba($color-light-blue, 0.2);
+    padding: 0.5rem 0.75rem;
+}
+
+// ── Fronting badge ─────────────────────────────────────
+
+.fronting-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba($color-light-blue, 0.12);
+    border: 1px solid $color-light-blue;
+    padding: 0.4rem 0.9rem;
+    font-size: 18px;
+    color: $color-light-blue;
+}
+
+.fronting-dot {
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    background: $color-online;
+    box-shadow:
+        0 0 0 2px $shadow-dark,
+        0 0 0 3px $color-online;
+    animation: blink 1.4s step-end infinite;
+}
+
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.2;
+    }
+}
+
+// ── Section title ──────────────────────────────────────
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+
+    &::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: rgba($color-light-blue, 0.2);
+    }
+}
+
+// ── Member cards ───────────────────────────────────────
+
+.members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.member-card {
+    background: $color-bg-card;
+    border: $border-pixel rgba($color-light-blue, 0.25);
+    box-shadow: 3px 3px 0 $shadow-dark;
+    padding: 1.25rem;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    transition:
+        transform 0.08s,
+        box-shadow 0.08s;
+
+    &:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: $pixel-shadow-hover;
+
+        .card-arrow {
+            opacity: 1;
+        }
+    }
+}
+
+.member-accent-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+}
+
+.member-hex {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 13px;
+    color: $color-text-muted;
+    font-family: $font-retro;
+    letter-spacing: 1px;
+}
+
+.member-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0.75rem;
+}
+
+.color-dot {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    border: 2px solid $shadow-dark;
+    outline: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.member-name {
+    font-family: $font-retro;
+    font-size: 26px;
+    line-height: 1;
+}
+
+.member-pronouns {
+    font-size: 15px;
+    color: $color-text-muted;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.member-role {
+    font-size: 14px;
+    color: $color-text-muted;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.card-arrow {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 14px;
+    color: $color-text-muted;
+    opacity: 0;
+    transition: opacity 0.1s;
+}

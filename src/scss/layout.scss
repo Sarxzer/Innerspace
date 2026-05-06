@@ -1,0 +1,97 @@
+// =====================
+// _layout.scss
+// Innerspace – page structure
+// =====================
+
+@use 'variables' as *;
+
+// ── Page shell ─────────────────────────────────────────
+
+.page {
+    background: $color-bg-main;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+}
+
+.main {
+    padding: 2rem 1.5rem;
+}
+
+// ── Nav ────────────────────────────────────────────────
+
+nav {
+    background: $color-bg-panel;
+    border-bottom: 3px solid $color-light-blue;
+    box-shadow: 0 4px 0 $shadow-dark;
+}
+
+.nav-inner {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0 1.5rem;
+}
+
+.nav-logo {
+    font-family: $font-pixel;
+    font-size: 11px;
+    color: $color-light-blue;
+    padding: 1rem 1.5rem 1rem 0;
+    border-right: 2px solid rgba($color-light-blue, 0.3);
+    margin-right: 1rem;
+    letter-spacing: 1px;
+    line-height: 1.6;
+}
+
+nav a {
+    font-family: $font-retro;
+    font-size: 20px;
+    color: $color-text-muted;
+    padding: 0.75rem 1rem;
+    display: inline-block;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+    letter-spacing: 1px;
+    transition:
+        color 0.1s,
+        border-color 0.1s;
+
+    &:hover {
+        color: $color-text-main;
+        border-bottom-color: $color-light-purple;
+    }
+
+    &.active {
+        color: $color-light-blue;
+        border-bottom-color: $color-light-blue;
+    }
+}
+
+// ── Breadcrumb ─────────────────────────────────────────
+
+.breadcrumb {
+    background: rgba($color-bg-panel, 0.5);
+    border-bottom: 1px solid rgba($color-light-blue, 0.2);
+    padding: 0.4rem 1.5rem;
+    font-size: 16px;
+    color: $color-text-muted;
+
+    a {
+        color: $color-light-blue;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    span {
+        margin: 0;
+        color: rgba($color-light-blue, 0.4);
+    }
+}

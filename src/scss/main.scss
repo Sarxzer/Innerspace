@@ -1,0 +1,21 @@
+// =====================
+// main.scss
+// Innerspace – entry point
+// =====================
+
+@use 'variables' as *;
+
+// Global styles
+@use 'reset';
+
+// Typography & type styles
+@use 'typography';
+
+// Animations & effects
+@use 'animations';
+
+// UI components
+@use 'components';
+
+// Page structure & layout
+@use 'layout';

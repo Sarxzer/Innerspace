@@ -1,0 +1,45 @@
+// =====================
+// _typography.scss
+// Innerspace – type system
+// =====================
+
+@use 'variables' as *;
+
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap");
+
+body {
+    font-family: $font-retro;
+    font-size: 18px;
+    color: $color-text-main;
+    line-height: 1.5;
+}
+
+h1,
+.title-pixel {
+    font-family: $font-pixel;
+    font-size: 14px;
+    color: $color-text-main;
+    text-shadow: 2px 2px 0 $shadow-dark;
+    line-height: 1.6;
+}
+
+h2,
+.section-title {
+    font-family: $font-pixel;
+    font-size: 10px;
+    color: $color-text-muted;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.meta-label {
+    font-size: 14px;
+    color: $color-text-muted;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.meta-value {
+    font-size: 20px;
+    color: $color-text-main;
+}

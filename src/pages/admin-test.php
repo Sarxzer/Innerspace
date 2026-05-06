@@ -1,4 +1,9 @@
 <?php
+/**
+ * @var array $parts
+ * @var PDO $pdo
+ * @var string $includesDir
+ */
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 require_once __DIR__ . '/../../src/php/database.php';
@@ -63,90 +68,200 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($system['name']) ?> | Innerspace</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
+
     <style>
-        body { font-family: sans-serif; max-width: 700px; margin: 2rem auto; padding: 0 1rem; }
-        h2 { border-bottom: 1px solid #ccc; padding-bottom: .3rem; }
-        .member { border: 1px solid #ddd; border-radius: 6px; padding: .75rem 1rem; margin-bottom: .75rem; }
-        .color-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
-        table { width: 100%; border-collapse: collapse; }
-        td, th { text-align: left; padding: .4rem .6rem; border-bottom: 1px solid #eee; }
+        .color-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+        .member {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background: rgba(255, 255, 255, 0.05);
+        }
     </style>
 </head>
+
 <body>
+    <div class="page">
+        <div class="pixel-scanlines"></div>
+        <div class="content">
+            <?php include $includesDir . '/navbar.php'; ?>
 
-<?php include __DIR__ . '/../includes/navbar.php'; ?>
+            <div class="main">
+                <h1><?= htmlspecialchars($system['name']) ?></h1>
+                <p><?= htmlspecialchars($system['description']) ?></p>
+                <p><strong>Public:</strong> <?= $system['is_public'] ? 'Yes' : 'No' ?></p>
 
-<div class="goto">
-    <?php foreach ($systems as $s): ?>
-        <a href="?user_id=<?= $s['user_id'] ?>"><?= htmlspecialchars($s['name']) ?></a>
-    <?php endforeach; ?>
-</div>
+                <h2>Currently Fronting (<?= $fronters[0]['note'] ?? 'No note' ?>)</h2>
+                <?php if ($fronters): ?>
+                    <?php foreach ($fronters as $f): ?>
+                        <p>
+                            <span class="color-dot" style="background:<?= htmlspecialchars($f['color']) ?>"></span>
+                            <strong><?= htmlspecialchars($f['name']) ?></strong>
+                            (<?= htmlspecialchars($f['pronouns']) ?>)
+                        </p>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>Nobody is currently fronting.</p>
+                <?php endif; ?>
 
-<h1><?= htmlspecialchars($system['name']) ?> | Innerspace</h1>
-<p><?= htmlspecialchars($system['description']) ?></p>
-<p><strong>Public:</strong> <?= $system['is_public'] ? 'Yes' : 'No' ?></p>
+                <h2>Members</h2>
+                <?php foreach ($members as $m): ?>
+                    <div class="member">
+                        <span class="color-dot" style="background:<?= htmlspecialchars($m['color']) ?>"></span>
+                        <strong><?= htmlspecialchars($m['name']) ?></strong>
+                        (<?= htmlspecialchars($m['pronouns']) ?>) — <em><?= htmlspecialchars($m['role']) ?></em>
+                        <p><?= htmlspecialchars($m['description']) ?></p>
+                        <small>Visibility: <?= htmlspecialchars($m['visibility']) ?></small>
+                        <?php if ($m['avatar_url']): ?>
+                            <div><img src="<?= htmlspecialchars($m['avatar_url']) ?>" alt="Avatar" width="80"></div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
 
-<h2>Currently Fronting (<?= $fronters[0]['note'] ?? 'No note' ?>)</h2>
-<?php if ($fronters): ?>
-    <?php foreach ($fronters as $f): ?>
-        <p>
-            <span class="color-dot" style="background:<?= htmlspecialchars($f['color']) ?>"></span>
-            <strong><?= htmlspecialchars($f['name']) ?></strong>
-            (<?= htmlspecialchars($f['pronouns']) ?>)
-        </p>
-    <?php endforeach; ?>
-<?php else: ?>
-    <p>Nobody is currently fronting.</p>
-<?php endif; ?>
-
-<h2>Members</h2>
-<?php foreach ($members as $m): ?>
-    <div class="member">
-        <span class="color-dot" style="background:<?= htmlspecialchars($m['color']) ?>"></span>
-        <strong><?= htmlspecialchars($m['name']) ?></strong>
-        (<?= htmlspecialchars($m['pronouns']) ?>) — <em><?= htmlspecialchars($m['role']) ?></em>
-        <p><?= htmlspecialchars($m['description']) ?></p>
-        <small>Visibility: <?= htmlspecialchars($m['visibility']) ?></small>
-        <?php if ($m['avatar_url']): ?>
-            <div><img src="<?= htmlspecialchars($m['avatar_url']) ?>" alt="Avatar" width="80"></div>
-        <?php endif; ?>
+                <h2>Fronting History</h2>
+                <?php if ($history): ?>
+                    <table>
+                        <tr>
+                            <th>Who</th>
+                            <th>Started</th>
+                            <th>Ended</th>
+                            <th>Note</th>
+                        </tr>
+                        <?php foreach ($history as $h): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($h['members_out']) ?></td>
+                                <td><?= htmlspecialchars($h['started_at']) ?></td>
+                                <td><?= $h['ended_at'] ? htmlspecialchars($h['ended_at']) : '<em>going</em>' ?></td>
+                                <td><?= htmlspecialchars($h['note'] ?? '') ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                <?php else: ?>
+                    <p>No history yet.</p>
+                <?php endif; ?>
+                <h2>Friends</h2>
+                <?php if ($friends): ?>
+                    <table>
+                        <tr>
+                            <th>Username</th>
+                            <th>Access</th>
+                        </tr>
+                        <?php foreach ($friends as $fr): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($fr['username']) ?></td>
+                                <td><?= htmlspecialchars($fr['access_level']) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                <?php else: ?>
+                    <p>No friends added yet.</p>
+                <?php endif; ?>
     </div>
-<?php endforeach; ?>
 
-<h2>Fronting History</h2>
-<?php if ($history): ?>
-    <table>
-        <tr><th>Who</th><th>Started</th><th>Ended</th><th>Note</th></tr>
-        <?php foreach ($history as $h): ?>
-            <tr>
-                <td><?= htmlspecialchars($h['members_out']) ?></td>
-                <td><?= htmlspecialchars($h['started_at']) ?></td>
-                <td><?= $h['ended_at'] ? htmlspecialchars($h['ended_at']) : '<em>now</em>' ?></td>
-                <td><?= htmlspecialchars($h['note'] ?? '') ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
-<?php else: ?>
-    <p>No history yet.</p>
-<?php endif; ?>
+    <!-- <?php include __DIR__ . '/../includes/navbar.php'; ?>
 
-<h2>Friends</h2>
-<?php if ($friends): ?>
-    <table>
-        <tr><th>Username</th><th>Access</th></tr>
-        <?php foreach ($friends as $fr): ?>
-            <tr>
-                <td><?= htmlspecialchars($fr['username']) ?></td>
-                <td><?= htmlspecialchars($fr['access_level']) ?></td>
-            </tr>
+    <div class="goto">
+        <?php foreach ($systems as $s): ?>
+            <a href="?user_id=<?= $s['user_id'] ?>"><?= htmlspecialchars($s['name']) ?></a>
         <?php endforeach; ?>
-    </table>
-<?php else: ?>
-    <p>No friends added yet.</p>
-<?php endif; ?>
+    </div>
+
+    <h1><?= htmlspecialchars($system['name']) ?> | Innerspace</h1>
+    <p><?= htmlspecialchars($system['description']) ?></p>
+    <p><strong>Public:</strong> <?= $system['is_public'] ? 'Yes' : 'No' ?></p>
+
+    <h2>Currently Fronting (<?= $fronters[0]['note'] ?? 'No note' ?>)</h2>
+    <?php if ($fronters): ?>
+        <?php foreach ($fronters as $f): ?>
+            <p>
+                <span class="color-dot" style="background:<?= htmlspecialchars($f['color']) ?>"></span>
+                <strong><?= htmlspecialchars($f['name']) ?></strong>
+                (<?= htmlspecialchars($f['pronouns']) ?>)
+            </p>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>Nobody is currently fronting.</p>
+    <?php endif; ?>
+
+    <h2>Members</h2>
+    <?php foreach ($members as $m): ?>
+        <div class="member">
+            <span class="color-dot" style="background:<?= htmlspecialchars($m['color']) ?>"></span>
+            <strong><?= htmlspecialchars($m['name']) ?></strong>
+            (<?= htmlspecialchars($m['pronouns']) ?>) — <em><?= htmlspecialchars($m['role']) ?></em>
+            <p><?= htmlspecialchars($m['description']) ?></p>
+            <small>Visibility: <?= htmlspecialchars($m['visibility']) ?></small>
+            <?php if ($m['avatar_url']): ?>
+                <div><img src="<?= htmlspecialchars($m['avatar_url']) ?>" alt="Avatar" width="80"></div>
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
+
+    <h2>Fronting History</h2>
+    <?php if ($history): ?>
+        <table>
+            <tr>
+                <th>Who</th>
+                <th>Started</th>
+                <th>Ended</th>
+                <th>Note</th>
+            </tr>
+            <?php foreach ($history as $h): ?>
+                <tr>
+                    <td><?= htmlspecialchars($h['members_out']) ?></td>
+                    <td><?= htmlspecialchars($h['started_at']) ?></td>
+                    <td><?= $h['ended_at'] ? htmlspecialchars($h['ended_at']) : '<em>going</em>' ?></td>
+                    <td><?= htmlspecialchars($h['note'] ?? '') ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php else: ?>
+        <p>No history yet.</p>
+    <?php endif; ?>
+
+    <h2>Friends</h2>
+    <?php if ($friends): ?>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Access</th>
+            </tr>
+            <?php foreach ($friends as $fr): ?>
+                <tr>
+                    <td><?= htmlspecialchars($fr['username']) ?></td>
+                    <td><?= htmlspecialchars($fr['access_level']) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php else: ?>
+        <p>No friends added yet.</p>
+    <?php endif; ?> -->
 
 </body>
+
 </html>

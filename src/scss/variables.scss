@@ -1,0 +1,31 @@
+// =====================
+// _variables.scss
+// Innerspace – design tokens
+// =====================
+
+// Fonts
+$font-pixel: "Press Start 2P", monospace;
+$font-retro: "VT323", monospace;
+
+// Core palette
+$color-bg-main: #1a1a2e;
+$color-bg-card: #16213e;
+$color-bg-panel: #0f3460;
+
+$color-text-main: #e8e6f0;
+$color-text-muted: #9d9ab5;
+
+// Accent colors
+$color-light-blue: #a3c4f3;
+$color-light-purple: #c3b1e1;
+
+// Status
+$color-online: #a3f3c4;
+
+// Shadows & borders
+$pixel-shadow: 4px 4px 0px #0a0a1a;
+$pixel-shadow-hover: 5px 5px 0 #0a0a1a;
+$shadow-dark: #0a0a1a;
+
+// Border
+$border-pixel: 2px solid;
