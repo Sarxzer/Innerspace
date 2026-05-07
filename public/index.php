@@ -53,6 +53,7 @@ match ($parts[0]) {
     'logout'    => require $pagesDir . '/auth/logout.php',
 
     // Public system/member viewing
+    'systems' => header('Location: /system'), // Redirect /systems to /system for now
     'system' => match (true) {
         isset($parts[1]) && isset($parts[2]) => require $pagesDir . '/system/member.php',   // /system/{handle}/{member_handle}
         isset($parts[1])                     => require $pagesDir . '/system/system.php',   // /system/{handle}

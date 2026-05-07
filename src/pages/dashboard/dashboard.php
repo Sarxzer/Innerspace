@@ -23,7 +23,21 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
 </head>
 <body>
-    <?php include $includesDir . '/navbar.php'; ?>
+    <div class="page">
+        <div class="pixel-scanlines"></div>
+        <div class="content">
+            <?php include $includesDir . '/navbar.php'; ?>
+
+            <h1>Dashboard</h1>
+            <p>Welcome to your dashboard! This is where you can manage your systems, members, and fronting sessions.</p>
+            <ul>
+                <li><a href="/systems">View Systems</a></li>
+                <li><a href="/fronting">Manage Fronting Sessions</a></li>
+                <li><a href="/settings">Account Settings</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- <?php include $includesDir . '/navbar.php'; ?>
 
     <h1>Dashboard</h1>
     <p>Welcome to your dashboard! This is where you can manage your systems, members, and fronting sessions.</p>
@@ -31,6 +45,6 @@ if (!isset($_SESSION['user_id'])) {
         <li><a href="/systems">View Systems</a></li>
         <li><a href="/fronting">Manage Fronting Sessions</a></li>
         <li><a href="/settings">Account Settings</a></li>
-    </ul>
+    </ul> -->
 </body>
 </html>
