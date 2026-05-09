@@ -7,10 +7,12 @@
  */
 
 require_once __DIR__ . '/../../php/database.php';
+require_once __DIR__ . '/../../php/totp.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
+    $totpEnabled = isset($_POST['totp']);
 
     if (empty($username) || empty($password)) {
         die("Username and password are required.");
@@ -28,8 +30,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare("INSERT INTO users (username, password_hash) VALUES (?, ?)");
     $stmt->execute([$username, $hashed_password]);
 
+    $userId = $pdo->lastInsertId();
+
     // Log the user in
-    $_SESSION['user_id'] = $pdo->lastInsertId();
+    if ($totpEnabled) {
+        $data = totp_generate_secret($username, 'Innerspace');
+
+        $_SESSION['pending_totp_user_id'] = $userId;
+        $_SESSION['pending_totp_secret'] = $data['secret'];
+        $_SESSION['pending_totp_qr'] = $data['qr_base64'];
+
+        header("Location: /register/totp");
+        exit;
+    }
+    $_SESSION['user_id'] = $userId;
 
     header("Location: /dashboard");
     exit;
@@ -57,11 +71,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="main">
                 <form action="register" method="post" class="auth-form">
                     <h1>Register</h1>
+
                     <label for="username">Username:</label><br>
                     <input type="text" id="username" name="username" required><br><br>
+
                     <label for="password">Password:</label><br>
                     <input type="password" id="password" name="password" required><br><br>
+
+                    <label for="totp">
+                        <input type="checkbox" name="totp" id="totp" value="1">
+                        Enable Two-Factor Authentication
+                    </label><br>
+
                     <input type="submit" value="Register">
+
                 </form>
 
                 <p><a href="/login">Already have an account? Login here.</a></p>

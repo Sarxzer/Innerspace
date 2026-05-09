@@ -48,8 +48,17 @@ match ($parts[0]) {
     // Public
     ''  => header('Location: /home'), // Redirect root to home
     'home'  => require $pagesDir . '/home.php',
-    'login'     => require $pagesDir . '/auth/login.php',
-    'register'  => require $pagesDir . '/auth/register.php',
+    // 'login'     => require $pagesDir . '/auth/login.php',
+    'login'     => match (true) {
+        isset($parts[1]) && $parts[1] === 'totp' => require $pagesDir . '/auth/login-totp.php', // /login/totp
+        default                                     => require $pagesDir . '/auth/login.php',      // /login
+    },
+    // 'register'  => require $pagesDir . '/auth/register.php',
+    'register'  => match (true) {
+        isset($parts[1]) && $parts[1] === 'totp' => require $pagesDir . '/auth/setup-totp.php',          // /register/totp
+        isset($parts[1]) && $parts[1] === 'backup-codes' => require $pagesDir . '/auth/backup-codes.php', // /register/backup-codes
+        default                                     => require $pagesDir . '/auth/register.php',      // /register
+    },
     'logout'    => require $pagesDir . '/auth/logout.php',
 
     // Public system/member viewing
