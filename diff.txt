@@ -1,0 +1,512 @@
+diff --git a/public/assets/css/style.css b/public/assets/css/style.css
+index 8315c9c..4bfd9a1 100644
+--- a/public/assets/css/style.css
++++ b/public/assets/css/style.css
+@@ -1,3 +1,4 @@
++@charset "UTF-8";
+ @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap");
+ *,
+ *::before,
+@@ -245,6 +246,34 @@ h2,
+   transition: opacity 0.1s;
+ }
+ 
++/* ── Form elements ─────────────────────────────────────── */
++.input-wrapper {
++  display: flex;
++  align-items: flex-start;
++  border: 0.5px solid #a3c4f3;
++  background: rgba(163, 196, 243, 0.1);
++  padding: 10px 12px;
++  gap: 6px;
++}
++.input-wrapper .prefix {
++  font-family: "VT323", monospace;
++  color: #a3c4f3;
++  font-size: 18px;
++  user-select: none;
++  margin-top: 1px;
++}
++.input-wrapper input {
++  flex: 1;
++  border: none;
++  outline: none;
++  background: transparent;
++  resize: vertical;
++  font-family: "VT323", monospace;
++  font-size: 18px;
++  color: #e8e6f0;
++  margin-top: 1px;
++}
++
+ .page {
+   background-color: #1a1a2e;
+   min-height: 100vh;
+@@ -335,4 +364,30 @@ nav a.active {
+   color: rgba(163, 196, 243, 0.4);
+ }
+ 
++.site-footer {
++  background: #0f3460;
++  border-top: 3px solid #a3c4f3;
++  box-shadow: 0 -4px 0 #0a0a1a;
++  padding: 0.75rem 1.5rem;
++  display: flex;
++  align-items: center;
++  gap: 0.75rem;
++  font-family: "VT323", monospace;
++  font-size: 18px;
++  color: #9d9ab5;
++}
++.site-footer .footer-version {
++  color: #a3c4f3;
++  letter-spacing: 1px;
++}
++.site-footer .footer-sep {
++  color: rgba(163, 196, 243, 0.3);
++}
++.site-footer .footer-credit {
++  color: #9d9ab5;
++}
++.site-footer .footer-heart {
++  color: #c3b1e1;
++}
++
+ /*# sourceMappingURL=style.css.map */
+diff --git a/public/assets/css/style.css.map b/public/assets/css/style.css.map
+index f324eb8..451f44d 100644
+--- a/public/assets/css/style.css.map
++++ b/public/assets/css/style.css.map
+@@ -1 +1 @@
+-{"version":3,"sourceRoot":"","sources":["../../../src/scss/typography.scss","../../../src/scss/reset.scss","../../../src/scss/variables.scss","../../../src/scss/animations.scss","../../../src/scss/components.scss","../../../src/scss/layout.scss"],"names":[],"mappings":"AAOQ;ACFR;AAAA;AAAA;EAGI;EACA;EACA;;;AAGJ;EACI;EACA;;;AAGJ;EACI;;;ADVJ;EACI,aEHS;EFIT;EACA,OEEc;EFDd;;;AAGJ;AAAA;EAEI,aEZS;EFaT;EACA,OENc;EFOd;EACA;;;AAGJ;AAAA;EAEI,aErBS;EFsBT;EACA,OEde;EFef;EACA;;;AAGJ;EACI;EACA,OErBe;EFsBf;EACA;;;AAGJ;EACI;EACA,OE7Bc;;;ACRlB;EACI;IAEI;;EAEJ;IACI;;;ACHR;EACI;EACA;EACA;EAOA;EACA;;;AAKJ;EACI,YFfY;EEgBZ;EACA,YFHW;EEIX;EACA;EACA;;AAEA;EACI;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;;AAIR;EACI,aFxCS;EEyCT;EACA;;;AAGJ;EACI,aF7CS;EE8CT;EACA,OFvCe;EEwCf;;;AAGJ;EACI;EACA;EACA;EACA;;;AAGJ;EACI;EACA;EACA;;;AAKJ;EACI;EACA;EACA;EACA;EACA;EACA;EACA;EACA,OF/De;;;AEkEnB;EACI;EACA;EACA;EACA,YFlEW;EEmEX,YACI;EAEJ;;;AAGJ;EACI;IAEI;;EAEJ;IACI;;;AAMR;EACI;EACA;EACA;EACA;;AAEA;EACI;EACA;EACA;EACA;;;AAMR;EACI;EACA;EACA;;;AAGJ;EACI,YFvHY;EEwHZ;EACA;EACA;EACA;EACA;EACA;EACA,YACI;;AAGJ;EACI;EACA,YFrHa;;AEuHb;EACI;;;AAKZ;EACI;EACA;EACA;EACA;EACA;;;AAGJ;EACI;EACA;EACA;EACA;EACA,OFrJe;EEsJf,aF9JS;EE+JT;;;AAGJ;EACI;EACA;EACA;EACA;;;AAGJ;EACI;EACA;EACA;EACA;EACA;;;AAGJ;EACI,aFlLS;EEmLT;EACA;;;AAGJ;EACI;EACA,OFjLe;EEkLf;EACA;EACA;EACA;EACA;;;AAGJ;EACI;EACA,OF3Le;EE4Lf;EACA;;;AAGJ;EACI;EACA;EACA;EACA;EACA,OFrMe;EEsMf;EACA;;;AC7MJ;EACI;EACA;EACA;EACA;;AAEA;EACI;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;;AAIR;EACI;EACA;;;AAGJ;EACI;;;AAKJ;EACI,YH7Ba;EG8Bb;EACA;;;AAGJ;EACI;EACA;EACA;EACA;;;AAGJ;EACI,aHhDS;EGiDT;EACA,OHtCe;EGuCf;EACA;EACA;EACA;EACA;;;AAGJ;EACI,aH1DS;EG2DT;EACA,OHpDe;EGqDf;EACA;EACA;EACA;EACA;EACA,YACI;;AAGJ;EACI,OHhEU;EGiEV,qBH5Da;;AG+DjB;EACI,OHjEW;EGkEX,qBHlEW;;;AGwEnB;EACI;EACA;EACA;EACA;EACA,OHhFe;;AGkFf;EACI,OHhFW;;AGkFX;EACI;;AAIR;EACI;EACA","file":"style.css"}
+\ No newline at end of file
++{"version":3,"sourceRoot":"","sources":["../../../src/scss/typography.scss","../../../src/scss/reset.scss","../../../src/scss/variables.scss","../../../src/scss/animations.scss","../../../src/scss/components.scss","../../../src/scss/layout.scss"],"names":[],"mappings":";AAOQ;ACFR;AAAA;AAAA;EAGI;EACA;EACA;;;AAGJ;EACI;EACA;;;AAGJ;EACI;;;ADVJ;EACI,aEHS;EFIT;EACA,OEEc;EFDd;;;AAGJ;AAAA;EAEI,aEZS;EFaT;EACA,OENc;EFOd;EACA;;;AAGJ;AAAA;EAEI,aErBS;EFsBT;EACA,OEde;EFef;EACA;;;AAGJ;EACI;EACA,OErBe;EFsBf;EACA;;;AAGJ;EACI;EACA,OE7Bc;;;ACRlB;EACI;IAEI;;EAEJ;IACI;;;ACHR;EACI;EACA;EACA;EAOA;EACA;;;AAKJ;EACI,YFfY;EEgBZ;EACA,YFHW;EEIX;EACA;EACA;;AAEA;EACI;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;;AAIR;EACI,aFxCS;EEyCT;EACA;;;AAGJ;EACI,aF7CS;EE8CT;EACA,OFvCe;EEwCf;;;AAGJ;EACI;EACA;EACA;EACA;;;AAGJ;EACI;EACA;EACA;;;AAKJ;EACI;EACA;EACA;EACA;EACA;EACA;EACA;EACA,OF/De;;;AEkEnB;EACI;EACA;EACA;EACA,YFlEW;EEmEX,YACI;EAEJ;;;AAGJ;EACI;IAEI;;EAEJ;IACI;;;AAMR;EACI;EACA;EACA;EACA;;AAEA;EACI;EACA;EACA;EACA;;;AAMR;EACI;EACA;EACA;;;AAGJ;EACI,YFvHY;EEwHZ;EACA;EACA;EACA;EACA;EACA;EACA,YACI;;AAGJ;EACI;EACA,YFrHa;;AEuHb;EACI;;;AAKZ;EACI;EACA;EACA;EACA;EACA;;;AAGJ;EACI;EACA;EACA;EACA;EACA,OFrJe;EEsJf,aF9JS;EE+JT;;;AAGJ;EACI;EACA;EACA;EACA;;;AAGJ;EACI;EACA;EACA;EACA;EACA;;;AAGJ;EACI,aFlLS;EEmLT;EACA;;;AAGJ;EACI;EACA,OFjLe;EEkLf;EACA;EACA;EACA;EACA;;;AAGJ;EACI;EACA,OF3Le;EE4Lf;EACA;;;AAGJ;EACI;EACA;EACA;EACA;EACA,OFrMe;EEsMf;EACA;;;AAIJ;AAGA;EACE;EACA;EACA;EACA;EACA;EACA;;AAEA;EACE,aF/NS;EEgOT,OFrNe;EEsNf;EACA;EACA;;AAGF;EACE;EACA;EACA;EACA;EACA;EACA,aF5OS;EE6OT;EACA,OFvOc;EEwOd;;;AC7OJ;EACI;EACA;EACA;EACA;;AAEA;EACI;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;;AAIR;EACI;EACA;;;AAGJ;EACI;;;AAKJ;EACI,YH7Ba;EG8Bb;EACA;;;AAGJ;EACI;EACA;EACA;EACA;;;AAGJ;EACI,aHhDS;EGiDT;EACA,OHtCe;EGuCf;EACA;EACA;EACA;EACA;;;AAGJ;EACI,aH1DS;EG2DT;EACA,OHpDe;EGqDf;EACA;EACA;EACA;EACA;EACA,YACI;;AAGJ;EACI,OHhEU;EGiEV,qBH5Da;;AG+DjB;EACI,OHjEW;EGkEX,qBHlEW;;;AGwEnB;EACI;EACA;EACA;EACA;EACA,OHhFe;;AGkFf;EACI,OHhFW;;AGkFX;EACI;;AAIR;EACI;EACA;;;AAOR;EACI;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAEA;EACI;EACA;;AAGJ;EACI;;AAGJ;EACI;;AAGJ;EACI","file":"style.css"}
+\ No newline at end of file
+diff --git a/public/index.php b/public/index.php
+index 1b2ee82..9621966 100644
+--- a/public/index.php
++++ b/public/index.php
+@@ -43,6 +43,19 @@ if (isset($_SESSION['user_id'])) {
+     $current_user = $stmt->fetch(PDO::FETCH_ASSOC);
+ }
+ 
++if (str_starts_with($parts[0], '@')) {
++    // Handle /@system/member URLs
++    $system_handle = substr($parts[0], 1);
++    if (isset($parts[1])) {
++        // /@system/member
++        require $pagesDir . '/system/member.php';
++    } else {
++        // /@system
++        require $pagesDir . '/system/system.php';
++    }
++    exit;
++}
++
+ 
+ match ($parts[0]) {
+     // Public
+@@ -64,33 +77,40 @@ match ($parts[0]) {
+     // Public system/member viewing
+     'systems' => header('Location: /system'), // Redirect /systems to /system for now
+     'system' => match (true) {
+-        isset($parts[1]) && isset($parts[2]) => require $pagesDir . '/system/member.php',   // /system/{handle}/{member_handle}
+-        isset($parts[1])                     => require $pagesDir . '/system/system.php',   // /system/{handle}
++        isset($parts[1]) && isset($parts[2]) => header('Location: /@' . $parts[1] . '/' . $parts[2]),   // /system/{handle}/{member_handle}
++        isset($parts[1])                     => header('Location: /@' . $parts[1]), // /system/{handle}
+         default                              => require $pagesDir . '/system/systems.php',       // /system alone makes no sense but we use it to list all systems in dev
+     },
+ 
++    // Managed (authenticated) system/member editing
++    'manage' => match (true) {
++        isset($parts[1], $parts[2], $parts[3], $parts[4]) && $parts[1] === 'system' && $parts[3] === 'member'
++        => require $pagesDir . '/manage/member-edit.php',   // /manage/system/{handle}/member/{member_handle}
++        isset($parts[1], $parts[2], $parts[3]) && $parts[1] === 'system' && $parts[3] === 'members'
++        => require $pagesDir . '/manage/members.php',       // /manage/system/{handle}/members
++        isset($parts[1], $parts[2]) && $parts[1] === 'system'
++        => require $pagesDir . '/manage/system-edit.php',   // /manage/system/{handle}
++        isset($parts[1], $parts[2]) && $parts[1] === 'systems' && $parts[2] === 'new'
++        => require $pagesDir . '/manage/system-new.php',    // /manage/systems/new
++        default                           => require $pagesDir . '/manage/systems.php',       // /manage or /manage/systems
++    },
++
+     // Authenticated
+     'dashboard' => require $pagesDir . '/dashboard/dashboard.php',
+     'fronting'  => require $pagesDir . '/dashboard/fronting.php',
+     'history'   => require $pagesDir . '/dashboard/history.php',
+-    'settings'  => require $pagesDir . '/settings/settings.php',
++    // 'settings'  => require $pagesDir . '/settings/settings.php',
++    'settings'  => match (true) {
++        isset($parts[1]) && $parts[1] === 'setup-totp' => require $pagesDir . '/settings/setup-totp.php',          // /settings/setup-totp
++        isset($parts[1]) && $parts[1] === 'backup-codes' => require $pagesDir . '/settings/backup-codes.php', // /settings/backup-codes
++        default                                     => require $pagesDir . '/settings/settings.php',      // /settings
++    },
+ 
+     'friends' => match (true) {
+         isset($parts[1]) && $parts[1] === 'invite' => require $pagesDir . '/friends/invite.php',  // /friends/invite
+         default                                     => require $pagesDir . '/friends/friends.php', // /friends
+     },
+-    'friend' => require $pagesDir . '/friends/friend-view.php', // /friend/{token}
+-
+-    // System management (authenticated)
+-    'manage' => match (true) {
+-        $parts[1] === 'system' && isset($parts[2]) && $parts[3] === 'member' && isset($parts[4])
+-        => require $pagesDir . '/manage/member-edit.php',   // /manage/system/{handle}/member/{member_handle}
+-        $parts[1] === 'system' && isset($parts[2]) && $parts[3] === 'members'
+-        => require $pagesDir . '/manage/members.php',       // /manage/system/{handle}/members
+-        $parts[1] === 'system' && isset($parts[2])
+-        => require $pagesDir . '/manage/system-edit.php',   // /manage/system/{handle}
+-        default                           => require $pagesDir . '/manage/systems.php',       // /manage or /manage/systems
+-    },
++    'friend' => require $pagesDir . '/friends/friend-view.php', // /friend/{token}  
+ 
+     // Fallback
+     default => (function () use ($pagesDir) {
+diff --git a/src/pages/home.php b/src/pages/home.php
+index cfd7ade..587d07d 100644
+--- a/src/pages/home.php
++++ b/src/pages/home.php
+@@ -1,4 +1,5 @@
+ <?php
++
+ /**
+  * @var string $includesDir
+  * 
+@@ -11,9 +12,10 @@
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Innerspace</title>
+-    <link rel="stylesheet" href="/assets/css/style.css?v=<?= filemtime(__DIR__ . '/../../../public/assets/css/style.css') ?>">
++    <link rel="stylesheet" href="/assets/css/style.css?v=<?= filemtime(__DIR__ . '/../../public/assets/css/style.css') ?>">
+     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
+-
++    <link rel="manifest" href="/manifest.json">
++    <meta name="theme-color" content="#your-accent-color">
+ </head>
+ 
+ <body>
+@@ -28,7 +30,16 @@
+ 
+             <h2>Getting Started</h2>
+ 
+-            <p>To get started, please log in or create an account. Once you have an account, you can create your own system, add members, and track fronting sessions.</p>  
++            <p>To get started, please log in or create an account. Once you have an account, you can create your own system, add members, and track fronting sessions.</p>
++
++            Lorem ipsum dolor sit amet consectetur adipisicing elit. Id quos esse ullam. Labore velit molestiae perferendis voluptate ipsam, accusamus mollitia sed reiciendis quas, eius eum tempora minima. Qui, temporibus molestiae?
++            Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus nulla, nam minus consequatur, hic illo molestias laborum magni odio consequuntur tempore quam repellat repudiandae non et id pariatur a necessitatibus.
++            Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus accusamus assumenda sit quos consequatur illum laudantium porro ipsam quidem nisi. Perspiciatis distinctio quae aperiam. Veritatis autem eligendi voluptates ad saepe.
++            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste molestias iure facilis dicta ad modi cupiditate totam dolorem libero explicabo consequuntur neque voluptatibus inventore numquam, fugit hic unde in sed?
++            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores autem dolor ratione placeat distinctio voluptatibus explicabo eligendi quo quis error itaque, impedit reprehenderit aspernatur exercitationem unde nemo dignissimos! Id, recusandae.
++
++
++            <?php include $includesDir . '/footer.php'; ?>
+         </div>
+     </div>
+     <!-- <h1>Innerspace</h1>
+diff --git a/src/pages/settings/settings.php b/src/pages/settings/settings.php
+index dea8b84..580edc8 100644
+--- a/src/pages/settings/settings.php
++++ b/src/pages/settings/settings.php
+@@ -6,7 +6,15 @@
+  * @var string $includesDir
+  */
+ 
+-if (!isset($_SESSION['user_id'])) {
++include_once __DIR__ . '/../../php/totp.php';
++
++$stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
++$stmt->execute([$_SESSION['user_id']]);
++$user = $stmt->fetch(PDO::FETCH_ASSOC);
++
++$userId = $_SESSION['user_id'] ?? null;
++
++if (!isset($userId)) {
+     header('Location: /login');
+     exit;
+ }
+@@ -26,6 +34,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+         // Redirect to avoid form resubmission
+         header('Location: /settings');
+         exit;
++    } elseif (isset($_POST['new_email'], $_POST['password'])) {
++        // Handle email update
++        $new_email = $_POST['new_email'];
++        $password = $_POST['password'];
++
++        // Verify password
++        if (password_verify($password, $user['password'])) {
++            $stmt = $pdo->prepare("UPDATE users SET email = ? WHERE id = ?");
++            $stmt->execute([$new_email, $_SESSION['user_id']]);
++            header('Location: /settings');
++            exit;
++        } else {
++            // Handle incorrect password
++            echo "Incorrect password.";
++        }
++    } elseif (isset($_POST['new_password'], $_POST['new_password_confirm'], $_POST['password'])) {
++        // Handle password update
++        $new_password = $_POST['new_password'];
++        $new_password_confirm = $_POST['new_password_confirm'];
++        $current_password = $_POST['password'];
++
++        if ($new_password !== $new_password_confirm) {
++            echo "New passwords do not match.";
++        } elseif (!password_verify($current_password, $user['password'])) {
++            echo "Incorrect current password.";
++        } else {
++            $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
++            $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
++            $stmt->execute([$hashed_password, $_SESSION['user_id']]);
++            header('Location: /settings');
++            exit;
++        }
++    } elseif (isset($_POST['totp_code']) && $user['totp_enabled']) {
++        // Handle 2FA disable
++        
++        $code = trim($_POST['totp_code']);
++
++        $stmt = $pdo->prepare("SELECT totp_secret FROM users WHERE id = ?");
++        $stmt->execute([$_SESSION['user_id']]);
++        $secret = $stmt->fetchColumn();
++
++        $ok = totp_verify($secret, $code) || totp_verify_backup($pdo, $_SESSION['user_id'], $code);
++
++        if ($ok) {
++            // Disable 2FA in the database and delete all backup codes
++            $stmt = $pdo->prepare("UPDATE users SET totp_enabled = 0, totp_secret = NULL WHERE id = ?");
++            $stmt->execute([$_SESSION['user_id']]);
++            $stmt = $pdo->prepare("DELETE FROM totp_backup_codes WHERE user_id = ?");
++            $stmt->execute([$_SESSION['user_id']]);
++            header("Location: /settings");
++            exit;
++        } else {
++            echo "Invalid 2FA code.";
++        }
++
++    } elseif (isset($_POST['password']) && !$user['totp_enabled']) {
++        // Handle 2FA enable
++        
++        $password = $_POST['password'];
++
++        if (password_verify($password, $user['password_hash'])) {
++            // Generate TOTP secret and save to database
++            $data = totp_generate_secret($user['username'], 'Innerspace');
++
++            $_SESSION['pending_totp_user_id'] = $userId;
++            $_SESSION['pending_totp_secret'] = $data['secret'];
++            $_SESSION['pending_totp_qr'] = $data['qr_base64'];
++
++            header("Location: /settings/setup-totp");
++            exit;
++        } else {
++            echo "Incorrect password.";
++        }
+     }
+ }
+ 
+@@ -53,10 +134,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                 <p>This is the settings page.</p>
+ 
+                 <form action="settings" method="POST">
++                    <h2>Update Username</h2>
+                     <label for="username">Username:</label>
+                     <input type="text" id="username" name="username">
+-                    <button type="submit">Save Settings</button>
++
++                    <button type="submit">Update Username</button>
++                </form>
++
++                <form action="settings" method="POST">
++                    <h2>Update Email</h2>
++                    <label for="new_email">New Email:</label>
++                    <input type="email" id="new_email" name="new_email">
++
++                    <label for="password">Actual Password:</label>
++                    <input type="password" id="password" name="password">
++
++                    <button type="submit">Update Email</button>
++                </form>
++
++                <form action="settings" method="POST">
++                    <h2>Update Password</h2>
++                    <label for="password">Actual Password:</label>
++                    <input type="password" id="password" name="password">
++
++                    <label for="new_password">New Password:</label>
++                    <input type="password" id="new_password" name="new_password">
++
++                    <label for="new_password_confirm">Confirm New Password:</label>
++                    <input type="password" id="new_password_confirm" name="new_password_confirm">
++
++                    <button type="submit">Update Password</button>
+                 </form>
++
++                <?php if ($user['totp_enabled']): ?>
++                    <form action="settings" method="POST">
++                        <h2>Disable 2FA</h2>
++                        <label for="totp_code">Current 2FA Code:</label>
++                        <input type="text" id="totp_code" name="totp_code">
++
++                        <button type="submit">Disable 2FA</button>
++                    </form>
++                <?php else: ?>
++                    <form action="settings" method="POST">
++                        <h2>Enable 2FA</h2>
++                        <label for="password">Actual Password:</label>
++                        <input type="password" id="password" name="password">
++
++                        <button type="submit">Enable 2FA</button>
++                    </form>
++                <?php endif; ?>
+             </div>
+         </div>
+     </div>
+@@ -71,5 +197,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+         <button type="submit">Save Settings</button>
+     </form> -->
+ </body>
+-
+ </html>
+\ No newline at end of file
+diff --git a/src/pages/system/member.php b/src/pages/system/member.php
+index 4dc70d7..a47d1a6 100644
+--- a/src/pages/system/member.php
++++ b/src/pages/system/member.php
+@@ -7,8 +7,8 @@
+ 
+ $parts ??= explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+ 
+-$system_handle = $parts[1];
+-$member_handle = $parts[2];
++$system_handle = ltrim($parts[0], '@');
++$member_handle = $parts[1];
+ 
+ $stmt = $pdo->prepare("SELECT * FROM systems WHERE handle = ?");
+ $stmt->execute([$system_handle]);
+diff --git a/src/pages/system/system.php b/src/pages/system/system.php
+index f9fb308..319658e 100644
+--- a/src/pages/system/system.php
++++ b/src/pages/system/system.php
+@@ -5,9 +5,11 @@
+  * @var string $includesDir
+  */
+ 
++
++
+ $parts ??= explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+ 
+-$system_handle = $parts[1];
++$system_handle = ltrim($parts[0], '@');
+ 
+ $stmt = $pdo->prepare("SELECT * FROM systems WHERE handle = ?");
+ $stmt->execute([$system_handle]);
+diff --git a/src/pages/system/systems.php b/src/pages/system/systems.php
+index 5158152..c9ef904 100644
+--- a/src/pages/system/systems.php
++++ b/src/pages/system/systems.php
+@@ -5,6 +5,8 @@
+  * @var string $includesDir
+  */
+ 
++// Show all system (dev)
++
+ $stmt = $pdo->prepare("SELECT * FROM systems");
+ $stmt->execute();
+ $systems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+@@ -57,7 +59,7 @@ $systems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                 <?php else: ?>
+                     <ul>
+                         <?php foreach ($systems as $system): ?>
+-                            <li><a href='/system/<?= htmlspecialchars($system['handle']) ?>'><?= htmlspecialchars($system['name']) ?></a> (@<?= htmlspecialchars($system['handle']) ?>) - <?= $system['is_public'] ? 'Public' : 'Private' ?></li>
++                            <li><a href='/@<?= htmlspecialchars($system['handle']) ?>'><?= htmlspecialchars($system['name']) ?></a> (@<?= htmlspecialchars($system['handle']) ?>) - <?= $system['is_public'] ? 'Public' : 'Private' ?></li>
+                         <?php endforeach; ?>
+                     </ul>
+                 <?php endif; ?>
+diff --git a/src/scss/components.scss b/src/scss/components.scss
+index e7a152f..173bbfa 100644
+--- a/src/scss/components.scss
++++ b/src/scss/components.scss
+@@ -213,4 +213,38 @@
+     color: $color-text-muted;
+     opacity: 0;
+     transition: opacity 0.1s;
+-}
+\ No newline at end of file
++}
++
++
++/* ── Form elements ─────────────────────────────────────── */
++
++
++.input-wrapper {
++  display: flex;
++  align-items: flex-start;
++  border: 0.5px solid $color-light-blue;
++  background: rgba($color-light-blue, 0.1);
++  padding: 10px 12px;
++  gap: 6px;
++
++  .prefix {
++    font-family: $font-retro;
++    color: $color-light-blue;
++    font-size: 18px;
++    user-select: none;
++    margin-top: 1px;
++  }
++
++  input {
++    flex: 1;
++    border: none;
++    outline: none;
++    background: transparent;
++    resize: vertical;
++    font-family: $font-retro;
++    font-size: 18px;
++    color: $color-text-main;
++    margin-top: 1px;
++  }
++}
++    
+\ No newline at end of file
+diff --git a/src/scss/layout.scss b/src/scss/layout.scss
+index 99dc35b..564bc41 100644
+--- a/src/scss/layout.scss
++++ b/src/scss/layout.scss
+@@ -108,3 +108,36 @@ nav a {
+         color: rgba($color-light-blue, 0.4);
+     }
+ }
++
++
++// ── Footer ─────────────────────────────────────────────
++
++.site-footer {
++    background: #0f3460;
++    border-top: 3px solid #a3c4f3;
++    box-shadow: 0 -4px 0 #0a0a1a;
++    padding: 0.75rem 1.5rem;
++    display: flex;
++    align-items: center;
++    gap: 0.75rem;
++    font-family: "VT323", monospace;
++    font-size: 18px;
++    color: #9d9ab5;
++
++    .footer-version {
++        color: #a3c4f3;
++        letter-spacing: 1px;
++    }
++
++    .footer-sep {
++        color: rgba(163, 196, 243, 0.3);
++    }
++
++    .footer-credit {
++        color: #9d9ab5;
++    }
++
++    .footer-heart {
++        color: #c3b1e1;
++    }
++}
+\ No newline at end of file

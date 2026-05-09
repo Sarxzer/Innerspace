@@ -61,6 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </form>
                 <p><a href="/register">Don't have an account? Register here.</a></p>
             </div>
+
+            <?php include $includesDir . '/footer.php'; ?>
         </div>
     </div>
 </body>

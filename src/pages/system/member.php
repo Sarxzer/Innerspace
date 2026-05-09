@@ -7,8 +7,8 @@
 
 $parts ??= explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 
-$system_handle = $parts[1];
-$member_handle = $parts[2];
+$system_handle = ltrim($parts[0], '@');
+$member_handle = $parts[1];
 
 $stmt = $pdo->prepare("SELECT * FROM systems WHERE handle = ?");
 $stmt->execute([$system_handle]);

@@ -63,6 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($error)) {
                 </form>
                 <p><a href="/login">← Back to login</a></p>
             </div>
+
+            <?php include $includesDir . '/footer.php'; ?>
         </div>
     </div>
 </body>

@@ -12,7 +12,7 @@ $secret = $_SESSION['pending_totp_secret'] ?? null;
 $qr     = $_SESSION['pending_totp_qr'] ?? null;
 
 if (!$userId || !$secret) {
-    header("Location: /register");
+    header("Location: /settings");
     exit;
 }
 
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_id'] = $userId;
         $_SESSION['show_backup_codes'] = $backupCodes;
 
-        header("Location: /register/backup-codes");
+        header("Location: /settings/backup-codes");
         exit;
     }
 }
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <code><?= htmlspecialchars($secret) ?></code>
                 </details><br>
 
-                <form action="totp" method="POST" class="auth-form">
+                <form action="setup-totp" method="POST" class="auth-form">
                     <?php if (!empty($error)): ?>
                         <p class="error"><?= htmlspecialchars($error) ?></p>
                     <?php endif; ?>

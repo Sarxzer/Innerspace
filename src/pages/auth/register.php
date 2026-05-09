@@ -89,6 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <p><a href="/login">Already have an account? Login here.</a></p>
             </div>
+
+            <?php include $includesDir . '/footer.php'; ?>
         </div>
     </div>
     <!-- <?php include $includesDir . '/navbar.php'; ?>

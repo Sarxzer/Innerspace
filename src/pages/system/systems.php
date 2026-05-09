@@ -5,6 +5,8 @@
  * @var string $includesDir
  */
 
+// Show all system (dev)
+
 $stmt = $pdo->prepare("SELECT * FROM systems");
 $stmt->execute();
 $systems = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -57,7 +59,7 @@ $systems = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php else: ?>
                     <ul>
                         <?php foreach ($systems as $system): ?>
-                            <li><a href='/system/<?= htmlspecialchars($system['handle']) ?>'><?= htmlspecialchars($system['name']) ?></a> (@<?= htmlspecialchars($system['handle']) ?>) - <?= $system['is_public'] ? 'Public' : 'Private' ?></li>
+                            <li><a href='/@<?= htmlspecialchars($system['handle']) ?>'><?= htmlspecialchars($system['name']) ?></a> (@<?= htmlspecialchars($system['handle']) ?>) - <?= $system['is_public'] ? 'Public' : 'Private' ?></li>
                         <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>

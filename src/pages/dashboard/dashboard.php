@@ -35,6 +35,8 @@ if (!isset($_SESSION['user_id'])) {
                 <li><a href="/fronting">Manage Fronting Sessions</a></li>
                 <li><a href="/settings">Account Settings</a></li>
             </ul>
+
+            <?php include $includesDir . '/footer.php'; ?>
         </div>
     </div>
     <!-- <?php include $includesDir . '/navbar.php'; ?>

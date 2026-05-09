@@ -214,3 +214,37 @@
     opacity: 0;
     transition: opacity 0.1s;
 }
+
+
+/* ── Form elements ─────────────────────────────────────── */
+
+
+.input-wrapper {
+  display: flex;
+  align-items: flex-start;
+  border: 0.5px solid $color-light-blue;
+  background: rgba($color-light-blue, 0.1);
+  padding: 10px 12px;
+  gap: 6px;
+
+  .prefix {
+    font-family: $font-retro;
+    color: $color-light-blue;
+    font-size: 18px;
+    user-select: none;
+    margin-top: 1px;
+  }
+
+  input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    resize: vertical;
+    font-family: $font-retro;
+    font-size: 18px;
+    color: $color-text-main;
+    margin-top: 1px;
+  }
+}
+    

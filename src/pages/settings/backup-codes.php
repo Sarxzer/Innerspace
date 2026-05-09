@@ -3,7 +3,7 @@
  * @var string $includesDir
  */
 $codes = $_SESSION['show_backup_codes'] ?? null;
-if (!$codes) { header("Location: /dashboard"); exit; }
+if (!$codes) { header("Location: /settings"); exit; }
 unset($_SESSION['show_backup_codes']);
 ?>
 <!DOCTYPE html>
@@ -28,7 +28,7 @@ unset($_SESSION['show_backup_codes']);
                         <li><code><?= htmlspecialchars($code) ?></code></li>
                     <?php endforeach; ?>
                 </ul>
-                <a href="/dashboard">I've saved them, take me to my dashboard →</a>
+                <a href="/settings">I've saved them, take me to my settings →</a>
             </div>
 
             <?php include $includesDir . '/footer.php'; ?>
