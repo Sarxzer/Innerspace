@@ -1,9 +1,16 @@
 <?php
-
 /**
  * @var PDO $pdo
  * @var string $includesDir
  */
+
+$userId = $_SESSION['user_id'];
+
+$stmt = $pdo->prepare('SELECT * FROM systems WHERE user_id = ?');
+$stmt->execute([$userId]);
+$systems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,10 +33,20 @@
 
             <p>Welcome to the management dashboard! Here you can create and manage your systems.</p>
 
-            <ul>
+            <?php if (count($systems) > 0): ?>
+                <h2>Your Systems</h2>
+                <ul>
+                    <?php foreach ($systems as $system): ?>
+                        <li><a href="/manage/system/<?= htmlspecialchars($system['handle']) ?>"><?= htmlspecialchars($system['name']) ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else: ?>
+                <p>You don't have any systems yet. <a href="/manage/systems/new">Create your first system</a> to get started!</p>
+            <?php endif; ?>
+            <!-- <ul>
                 <li><a href="/manage/systems/new">Create New System</a></li>
                 <!-- Future management links can go here -->
-            </ul>
+            </ul> -->
 
             <?php include $includesDir . '/footer.php'; ?>
         </div>

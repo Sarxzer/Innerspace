@@ -6,6 +6,38 @@
  */
 // system creation page
 
+$userId = $_SESSION['user_id'];
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = trim($_POST['name']);
+    $handle = trim($_POST['handle']);
+
+    // Validate input
+    if (empty($name) || empty($handle)) {
+        die('Name and handle are required.');
+    }
+
+    if (!preg_match('/^[a-z0-9\-]+$/', $handle)) {
+        die('Handle can only contain lowercase letters, numbers, and hyphens.');
+    }
+
+    // Check if handle already exists
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM systems WHERE handle = ?');
+    $stmt->execute([$handle]);
+    if ($stmt->fetchColumn() > 0) {
+        die('Handle already exists. Please choose a different one.');
+    }
+
+    // Insert new system into database
+    $stmt = $pdo->prepare('INSERT INTO systems (user_id, name, handle) VALUES (?, ?, ?)');
+    $stmt->execute([$userId, $name, $handle]);
+
+    // Redirect to the new system's page
+    header('Location: /manage/system/' . $handle);
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +57,7 @@
                 <h1>Create a new system</h1>
                 <p>Welcome to the system creation page!</p>
 
-                <form action="new-system" method="POST">
+                <form action="/manage/systems/new" method="POST">
                     <label for="name">System Name:</label>
                     <input type="text" id="name" name="name" required>
 
