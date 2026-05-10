@@ -4,6 +4,8 @@
  * @var array $parts
  * @var PDO $pdo
  * @var string $includesDir
+ * @var string $cssDir
+ * @var string $jsDir
  */
 
 require_once __DIR__ . '/../../php/database.php';
@@ -57,9 +59,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Innerspace</title>
-    <link rel="stylesheet" href="/assets/css/style.css?v=<?= filemtime(__DIR__ . '/../../../public/assets/css/style.css') ?>">
+    <link rel="stylesheet" href="/assets/css/style.css?v=<?= $cssDir ?>">
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
-    <script src="/assets/js/main.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/main.js') ?>" defer></script>
+    <script src="/assets/js/main.js?v=<?= $jsDir?>" defer></script>
 
 </head>
 

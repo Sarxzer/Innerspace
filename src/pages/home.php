@@ -2,6 +2,8 @@
 
 /**
  * @var string $includesDir
+ * @var string $cssDir
+ * @var string $jsDir
  * 
  */
 ?>

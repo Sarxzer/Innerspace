@@ -3,6 +3,8 @@
  * @var array $parts
  * @var PDO $pdo
  * @var string $includesDir
+ * @var string $cssDir
+ * @var string $jsDir
  */
 error_reporting(E_ALL);
 ini_set('display_errors', '1');

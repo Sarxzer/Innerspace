@@ -3,6 +3,8 @@
  * @var array $parts
  * @var PDO $pdo
  * @var string $includesDir
+ * @var string $cssDir
+ * @var string $jsDir
  */
 
 $parts ??= explode('/', trim($_SERVER['REQUEST_URI'], '/'));
@@ -19,9 +21,9 @@ if (!isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Innerspace</title>
-    <link rel="stylesheet" href="/assets/css/style.css?v=<?= filemtime(__DIR__ . '/../../../public/assets/css/style.css') ?>">
+    <link rel="stylesheet" href="/assets/css/style.css?v=<?= $cssDir ?>">
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
-    <script src="/assets/js/main.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/main.js') ?>" defer></script>
+    <script src="/assets/js/main.js?v=<?= $jsDir?>" defer></script>
 </head>
 <body>
     <div class="page">
