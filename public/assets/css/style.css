@@ -298,10 +298,14 @@ h2,
 .content {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .main {
   padding: 2rem 1.5rem;
+  flex: 1;
 }
 
 nav {
@@ -383,6 +387,7 @@ nav a.active {
   font-family: "VT323", monospace;
   font-size: 18px;
   color: #9d9ab5;
+  margin-top: auto;
 }
 .site-footer .footer-version {
   color: #a3c4f3;

@@ -31,13 +31,15 @@ if (!isset($_SESSION['user_id'])) {
         <div class="content">
             <?php include $includesDir . '/navbar.php'; ?>
 
-            <h1>Dashboard</h1>
-            <p>Welcome to your dashboard! This is where you can manage your systems, members, and fronting sessions.</p>
-            <ul>
-                <li><a href="/systems">View Systems</a></li>
-                <li><a href="/fronting">Manage Fronting Sessions</a></li>
-                <li><a href="/settings">Account Settings</a></li>
-            </ul>
+            <div class="main">
+                <h1>Dashboard</h1>
+                <p>Welcome to your dashboard! This is where you can manage your systems, members, and fronting sessions.</p>
+                <ul>
+                    <li><a href="/systems">View Systems</a></li>
+                    <li><a href="/fronting">Manage Fronting Sessions</a></li>
+                    <li><a href="/settings">Account Settings</a></li>
+                </ul>
+            </div>
 
             <?php include $includesDir . '/footer.php'; ?>
         </div>

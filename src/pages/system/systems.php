@@ -67,6 +67,8 @@ $systems = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </ul>
                 <?php endif; ?>
             </div>
+
+            <?php include $includesDir . '/footer.php'; ?>
         </div>
     </div>
 
