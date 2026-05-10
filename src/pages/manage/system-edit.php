@@ -1,17 +1,26 @@
 <?php
 /**
+ * @var PDO $pdo
  * @var string $includesDir
+ * @var array $current_user
  */
-$codes = $_SESSION['show_backup_codes'] ?? null;
-if (!$codes) { header("Location: /settings"); exit; }
-unset($_SESSION['show_backup_codes']);
+
+$userId = $_SESSION['user_id'];
+
+$handle = $parts[2] ?? null;
+
+$stmt = $pdo->prepare('SELECT * FROM systems WHERE handle = ?');
+$stmt->execute([$handle]);
+$system = $stmt->fetch(PDO::FETCH_ASSOC);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Backup Codes | Innerspace</title>
+    <title>Manage | Innerspace</title>
     <link rel="stylesheet" href="/assets/css/style.css?v=<?= filemtime(__DIR__ . '/../../../public/assets/css/style.css') ?>">
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
     <script src="/assets/js/main.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/main.js') ?>" defer></script>
@@ -21,16 +30,10 @@ unset($_SESSION['show_backup_codes']);
         <div class="pixel-scanlines"></div>
         <div class="content">
             <?php include $includesDir . '/navbar.php'; ?>
-            <div class="main">
-                <h1>Backup codes</h1>
-                <p><strong>Save these somewhere safe.</strong> Each one works once. You won't see them again.</p>
-                <ul class="backup-codes">
-                    <?php foreach ($codes as $code): ?>
-                        <li><code><?= htmlspecialchars($code) ?></code></li>
-                    <?php endforeach; ?>
-                </ul>
-                <a href="/settings">I've saved them, take me to my settings →</a>
-            </div>
+
+            <h1>Manage <?= htmlspecialchars($system['name']) ?></h1>
+
+            <p>Welcome to the management dashboard for the <?= htmlspecialchars($system['name']) ?> system.</p>
 
             <?php include $includesDir . '/footer.php'; ?>
         </div>

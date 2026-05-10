@@ -3,7 +3,7 @@
 // Innerspace – page structure
 // =====================
 
-@use 'variables' as *;
+@use "variables" as *;
 
 // ── Page shell ─────────────────────────────────────────
 
@@ -14,7 +14,7 @@
     overflow: hidden;
 
     &::before {
-        content: '';
+        content: "";
         position: fixed;
         top: 0;
         left: 0;
@@ -42,13 +42,13 @@ nav {
     background: $color-bg-panel;
     border-bottom: 3px solid $color-light-blue;
     box-shadow: 0 4px 0 $shadow-dark;
-}
-
-.nav-inner {
     display: flex;
     align-items: center;
-    gap: 0;
     padding: 0 1.5rem;
+}
+
+.nav-toggle {
+    display: none;
 }
 
 .nav-logo {
@@ -62,6 +62,12 @@ nav {
     line-height: 1.6;
 }
 
+.nav-links {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
 nav a {
     font-family: $font-retro;
     font-size: 20px;
@@ -71,9 +77,7 @@ nav a {
     border-bottom: 3px solid transparent;
     margin-bottom: -3px;
     letter-spacing: 1px;
-    transition:
-        color 0.1s,
-        border-color 0.1s;
+    transition: color 0.1s, border-color 0.1s;
 
     &:hover {
         color: $color-text-main;
@@ -108,7 +112,6 @@ nav a {
         color: rgba($color-light-blue, 0.4);
     }
 }
-
 
 // ── Footer ─────────────────────────────────────────────
 

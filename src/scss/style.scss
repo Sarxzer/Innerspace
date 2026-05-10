@@ -3,19 +3,22 @@
 // Innerspace – entry point
 // =====================
 
-@use 'variables' as *;
+@use '_variables' as *;
 
 // Global styles
-@use 'reset';
+@use '_reset';
 
 // Typography & type styles
-@use 'typography';
+@use '_typography';
 
 // Animations & effects
 @use 'animations';
 
 // UI components
-@use 'components';
+@use '_components';
 
 // Page structure & layout
-@use 'layout';
+@use '_layout';
+
+// Responsive adjustments
+@use '_responsive';

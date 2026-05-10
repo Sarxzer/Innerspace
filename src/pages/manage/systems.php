@@ -10,7 +10,14 @@ $stmt = $pdo->prepare('SELECT * FROM systems WHERE user_id = ?');
 $stmt->execute([$userId]);
 $systems = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+if (empty($systems)) {
+    header('Location: /manage/systems/new');
+    exit;
+}
 
+// For now, this page will redirect to the first system's edit page, but in the future we can expand it for multiple systems per user and have a proper listing page here.
+header('Location: /manage/system/' . $systems[0]['handle']);
+exit;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +28,7 @@ $systems = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Manage | Innerspace</title>
     <link rel="stylesheet" href="/assets/css/style.css?v=<?= filemtime(__DIR__ . '/../../../public/assets/css/style.css') ?>">
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
+    <script src="/assets/js/main.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/main.js') ?>" defer></script>
 </head>
 
 <body>
@@ -31,22 +39,14 @@ $systems = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <h1>Manage Systems</h1>
 
-            <p>Welcome to the management dashboard! Here you can create and manage your systems.</p>
-
-            <?php if (count($systems) > 0): ?>
-                <h2>Your Systems</h2>
-                <ul>
-                    <?php foreach ($systems as $system): ?>
-                        <li><a href="/manage/system/<?= htmlspecialchars($system['handle']) ?>"><?= htmlspecialchars($system['name']) ?></a></li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php else: ?>
-                <p>You don't have any systems yet. <a href="/manage/systems/new">Create your first system</a> to get started!</p>
-            <?php endif; ?>
-            <!-- <ul>
-                <li><a href="/manage/systems/new">Create New System</a></li>
-                <!-- Future management links can go here -->
-            </ul> -->
+            <div class="system-list">
+                <?php foreach ($systems as $system): ?>
+                    <a href="/manage/system/<?php echo htmlspecialchars($system['handle']); ?>" class="system-card">
+                        <h2><?php echo htmlspecialchars($system['name']); ?></h2>
+                        <p>@<?php echo htmlspecialchars($system['handle']); ?></p>
+                    </a>
+                <?php endforeach; ?>
+            </div>
 
             <?php include $includesDir . '/footer.php'; ?>
         </div>
