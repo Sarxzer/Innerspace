@@ -23,8 +23,8 @@ $pagesDir = __DIR__ . '/../src/pages';
 $includesDir = __DIR__ . '/../src/includes';
 
 // Cache busting for CSS and JS
-$cssDir = '/assets/css/style.css&v=' . filemtime(__DIR__ . '/../src/css/style.css'); // Cache busting
-$jsDir = '/assets/js/main.js&v=' . filemtime(__DIR__ . '/../src/js/main.js'); // Cache busting
+$cssDir = '/assets/css/style.css?v=' . filemtime(__DIR__ . '/../src/css/style.css'); // Cache busting
+$jsDir = '/assets/js/main.js?v=' . filemtime(__DIR__ . '/../src/js/main.js'); // Cache busting
 
 if (!is_dir($pagesDir)) {
     die("Pages directory not found: $pagesDir");
