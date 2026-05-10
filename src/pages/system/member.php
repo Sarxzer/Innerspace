@@ -41,9 +41,9 @@ if (!$member) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($member['name']) ?> | Innerspace</title>
-    <link rel="stylesheet" href="/assets/css/style.css?v=<?= $cssDir ?>">
+    <link rel="stylesheet" href="<?= $cssDir ?>">
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
-    <script src="/assets/js/main.js?v=<?= $jsDir?>" defer></script>
+    <script src="<?= $jsDir?>" defer></script>
 </head>
 
 <body>

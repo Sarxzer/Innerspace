@@ -14,9 +14,9 @@ unset($_SESSION['show_backup_codes']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Backup Codes | Innerspace</title>
-    <link rel="stylesheet" href="/assets/css/style.css?v=<?= $cssDir ?>">
+    <link rel="stylesheet" href="<?= $cssDir ?>">
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
-    <script src="/assets/js/main.js?v=<?= $jsDir?>" defer></script>
+    <script src="<?= $jsDir?>" defer></script>
 </head>
 <body>
     <div class="page">
