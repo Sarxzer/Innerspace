@@ -58,6 +58,8 @@ if (!$member) {
                 <p>Pronouns: <?= htmlspecialchars($member['pronouns']) ?></p>
                 <p>Color: <span style='color: <?= htmlspecialchars($member['color']) ?>'><?= htmlspecialchars($member['color']) ?></span></p>
             </div>
+
+            <?php include $includesDir . '/footer.php'; ?>
         </div>
     </div>
     <!-- <?php include $includesDir . '/navbar.php'; ?>

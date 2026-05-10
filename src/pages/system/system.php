@@ -134,6 +134,8 @@ foreach ($fronting_session_members as $fsm) {
                 </div>
 
             </div>
+
+            <?php include $includesDir . '/footer.php'; ?>
         </div>
     </div>
 
