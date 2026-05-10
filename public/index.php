@@ -9,13 +9,9 @@ $dotenv->load();
 if ($_ENV['APP_DEBUG'] === 'true') {
     error_reporting(E_ALL);
     ini_set('display_errors', '1');
-    $cssDir = '/assets/css/style.css?v=' . time();
-    $jsDir = '/assets/js/main.js?v=' . time();
 } else {
     error_reporting(0);
     ini_set('display_errors', '0');
-    $cssDir = '/assets/css/style.css';
-    $jsDir = '/assets/js/main.js';
 }
 
 require_once __DIR__ . '/../src/php/database.php';
@@ -25,6 +21,10 @@ session_start();
 
 $pagesDir = __DIR__ . '/../src/pages';
 $includesDir = __DIR__ . '/../src/includes';
+
+// Cache busting for CSS and JS
+$cssDir = '/assets/css/style.css&v=' . filemtime(__DIR__ . '/../src/css/style.css'); // Cache busting
+$jsDir = '/assets/js/main.js&v=' . filemtime(__DIR__ . '/../src/js/main.js'); // Cache busting
 
 if (!is_dir($pagesDir)) {
     die("Pages directory not found: $pagesDir");
