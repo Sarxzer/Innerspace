@@ -8,7 +8,7 @@
  */
 require_once __DIR__ . '/../../php/totp.php';
 
-$userId = $_SESSION['pending_totp_user'] ?? null;
+$userId = $_SESSION['pending_totp_user_id'] ?? null;
 $secret = $_SESSION['pending_totp_secret'] ?? null;
 $qr     = $_SESSION['pending_totp_qr'] ?? null;
 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $backupCodes = totp_generate_backup_codes($pdo, $userId);
 
         // Clean up setup session keys, log user in
-        unset($_SESSION['pending_totp_user'], $_SESSION['pending_totp_secret'], $_SESSION['pending_totp_qr']);
+        unset($_SESSION['pending_totp_user_id'], $_SESSION['pending_totp_secret'], $_SESSION['pending_totp_qr']);
         $_SESSION['user_id'] = $userId;
         $_SESSION['show_backup_codes'] = $backupCodes;
 

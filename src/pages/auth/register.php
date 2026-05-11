@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($totpEnabled) {
         $data = totp_generate_secret($username, 'Innerspace');
 
-        $_SESSION['pending_totp_user'] = $userId;
+        $_SESSION['pending_totp_user_id'] = $userId;
         $_SESSION['pending_totp_secret'] = $data['secret'];
         $_SESSION['pending_totp_qr'] = $data['qr_base64'];
 

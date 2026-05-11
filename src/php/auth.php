@@ -5,7 +5,8 @@
  * Uses PDO for database interactions and secure password hashing
  * Implements "remember me" functionality with secure tokens
  */
-class Auth {
+class Auth
+{
 
     public function __construct(private PDO $pdo) {}
 
@@ -17,7 +18,8 @@ class Auth {
      * Check if user is logged in
      * @return bool
      */
-    public function isLoggedIn(): bool {
+    public function isLoggedIn(): bool
+    {
         return isset($_SESSION['user_id']);
     }
 
@@ -25,7 +27,8 @@ class Auth {
      * Require user to be logged in, otherwise redirect to login page
      * @return void
      */
-    public function requireLogin(): void {
+    public function requireLogin(): void
+    {
         if (!$this->isLoggedIn()) {
             header('Location: /login');
             exit;
@@ -38,7 +41,8 @@ class Auth {
      * @param string $password
      * @return int|null User ID or null if invalid
      */
-    public function checkCredentials(string $username, string $password): ?int {
+    public function checkCredentials(string $username, string $password): ?int
+    {
         $stmt = $this->pdo->prepare("SELECT id, password_hash FROM users WHERE username = ?");
         $stmt->execute([$username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -50,12 +54,27 @@ class Auth {
     }
 
     /**
+     * Verify user's password (used for sensitive operations like changing email/password)
+     * @param int $userId
+     * @param string $password
+     * @return bool
+     */
+    public function verifyPassword(int $userId, string $password): bool
+    {
+        $stmt = $this->pdo->prepare("SELECT password_hash FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        $hash = $stmt->fetchColumn();
+        return $hash ? password_verify($password, $hash) : false;
+    }
+
+    /**
      * Register a new user account
      * @param string $username
      * @param string $password
      * @return int|null User ID if successful, null if username exists
      */
-    public function register(string $username, string $password): ?int {
+    public function register(string $username, string $password): ?int
+    {
         // Check if username already exists
         $stmt = $this->pdo->prepare("SELECT id FROM users WHERE username = ?");
         $stmt->execute([$username]);
@@ -77,7 +96,8 @@ class Auth {
      * @param bool $remember
      * @return void
      */
-    public function login(int $userId, bool $remember = false): void {
+    public function login(int $userId, bool $remember = false): void
+    {
         $_SESSION['user_id'] = $userId;
         if ($remember) {
             $this->rememberUser($userId);
@@ -89,7 +109,8 @@ class Auth {
      * @param int $userId
      * @return bool
      */
-    public function hasTotpEnabled(int $userId): bool {
+    public function hasTotpEnabled(int $userId): bool
+    {
         $stmt = $this->pdo->prepare("SELECT totp_enabled FROM users WHERE id = ?");
         $stmt->execute([$userId]);
         $result = $stmt->fetchColumn();
@@ -101,7 +122,8 @@ class Auth {
      * @param int $userId
      * @return string|null
      */
-    public function getTotpSecret(int $userId): ?string {
+    public function getTotpSecret(int $userId): ?string
+    {
         $stmt = $this->pdo->prepare("SELECT totp_secret FROM users WHERE id = ?");
         $stmt->execute([$userId]);
         return $stmt->fetchColumn() ?: null;
@@ -113,7 +135,8 @@ class Auth {
      * @param string $secret
      * @return void
      */
-    public function enableTotp(int $userId, string $secret): void {
+    public function enableTotp(int $userId, string $secret): void
+    {
         $stmt = $this->pdo->prepare("UPDATE users SET totp_secret = ?, totp_enabled = 1 WHERE id = ?");
         $stmt->execute([$secret, $userId]);
     }
@@ -123,7 +146,8 @@ class Auth {
      * @param int $userId
      * @return void
      */
-    public function loginWithTwoFactor(int $userId): void {
+    public function loginWithTwoFactor(int $userId): void
+    {
         $_SESSION['pending_2fa_user'] = $userId;
         $_SESSION['totp_attempts'] = 0;
     }
@@ -132,7 +156,8 @@ class Auth {
      * Get current logged in user data
      * @return array|null User data or null if not logged in
      */
-    public function getCurrentUser(): ?array {
+    public function getCurrentUser(): ?array
+    {
         if (!$this->isLoggedIn()) {
             return null;
         }
@@ -145,13 +170,89 @@ class Auth {
      * Log out the user by clearing session and cookies
      * @return void
      */
-    public function logout(): void {
+    public function logout(): void
+    {
         $this->revokeRememberToken();
         session_unset();
         session_destroy();
         header('Location: /login');
         exit;
     }
+
+    /**
+     * Log out from all sessions (used when changing password or disabling 2FA)
+     * @param int $userId
+     * @return void
+     */
+    public function logoutOtherSessions(int $userId): void
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM sessions WHERE user_id = ? AND expires_at > NOW()");
+        $stmt->execute([$userId]);
+    }
+
+    // -------------------------------------------------------------------------
+    // Account management
+    // -------------------------------------------------------------------------
+
+    /**
+     * Change user's password and log out from all other sessions
+     * @param int $userId
+     * @param string $newPassword
+     * @return void
+     */
+    public function updatePassword(int $userId, string $newPassword): void
+    {
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $stmt = $this->pdo->prepare("UPDATE users SET password_hash = ? WHERE id = ?");
+        $stmt->execute([$hashedPassword, $userId]);
+        $this->logoutOtherSessions($userId);
+    }
+
+    /**
+      * Change user's username
+      * @param int $userId
+      * @param string $newUsername
+      * @return bool True if successful, false if username is taken
+      */
+    public function updateUsername(int $userId, string $newUsername): bool
+    {
+        // Check if new username is already taken by another user
+        $stmt = $this->pdo->prepare("SELECT id FROM users WHERE username = ? AND id != ?");
+        $stmt->execute([$newUsername, $userId]);
+        if ($stmt->fetch()) {
+            return false; // Username already taken
+        }
+        $stmt = $this->pdo->prepare("UPDATE users SET username = ? WHERE id = ?");
+        $stmt->execute([$newUsername, $userId]);
+        return true;
+    }
+
+    /**
+     * Change user's email
+     * @param int $userId
+     * @param string $newEmail
+     * @return void
+     */
+    public function updateEmail(int $userId, string $newEmail): void
+    {
+        $stmt = $this->pdo->prepare("UPDATE users SET email = ? WHERE id = ?");
+        $stmt->execute([$newEmail, $userId]);
+    }
+
+    /**
+     * Disable TOTP for the user and log out from all sessions
+     * @param int $userId
+     * @return void
+     */
+    public function disableTotp(int $userId): void
+    {
+        $stmt = $this->pdo->prepare("UPDATE users SET totp_secret = NULL, totp_enabled = 0 WHERE id = ?");
+        $stmt->execute([$userId]);
+        $stmt = $this->pdo->prepare("DELETE FROM totp_backup_codes WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        $this->logoutOtherSessions($userId);
+    }
+
 
     // -------------------------------------------------------------------------
     // Remember me (persistent cookie)
@@ -162,7 +263,8 @@ class Auth {
      * @param int $userId
      * @return void
      */
-    public function rememberUser(int $userId): void {
+    public function rememberUser(int $userId): void
+    {
         $token   = bin2hex(random_bytes(32));
         $expires = time() + (30 * 24 * 60 * 60); // 30 days
 
@@ -187,7 +289,8 @@ class Auth {
      * Check if there's a valid remember me token and log in the user
      * @return void
      */
-    public function checkRememberedUser(): void {
+    public function checkRememberedUser(): void
+    {
         if ($this->isLoggedIn() || !isset($_COOKIE['remember_token'])) {
             return;
         }
@@ -228,7 +331,8 @@ class Auth {
      * @param string $token
      * @return void
      */
-    private function revokeToken(string $token): void {
+    private function revokeToken(string $token): void
+    {
         $stmt = $this->pdo->prepare("UPDATE sessions SET is_revoked = 1 WHERE id = ?");
         $stmt->execute([$token]);
     }
@@ -237,14 +341,16 @@ class Auth {
      * Revoke current remember me token if exists
      * @return void
      */
-    private function revokeRememberToken(): void {
+    private function revokeRememberToken(): void
+    {
         if (isset($_COOKIE['remember_token'])) {
             $this->revokeToken($_COOKIE['remember_token']);
             $this->clearRememberCookie();
         }
     }
 
-    private function clearRememberCookie(): void {
+    private function clearRememberCookie(): void
+    {
         $secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
         setcookie('remember_token', '', time() - 3600, '/', '', $secure, true);
     }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @var array $parts
  * @var PDO $pdo
@@ -8,18 +7,14 @@
  * @var string $jsDir
  */
 
+include_once __DIR__ . '/../../php/auth.php';
 include_once __DIR__ . '/../../php/totp.php';
 
-$stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
-$stmt->execute([$_SESSION['user_id']]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$auth = new Auth($pdo);
+$auth->requireLogin();
 
-$userId = $_SESSION['user_id'] ?? null;
-
-if (!isset($userId)) {
-    header('Location: /login');
-    exit;
-}
+$user = $auth->getCurrentUser();
+$userId = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle settings form submission here
@@ -27,11 +22,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_username = $_POST['username'] ?? '';
 
     if ($new_username) {
-        $stmt = $pdo->prepare("UPDATE users SET username = ? WHERE id = ?");
-        $stmt->execute([$new_username, $_SESSION['user_id']]);
 
-        // Optionally update the session username if you store it there
-        // $_SESSION['username'] = $new_username;
+        $ok = $auth->updateUsername($userId, $new_username);
+        if (!$ok) {
+            echo "Username already taken.";
+            exit;
+        } else {
+            // Update successful
+        }
 
         // Redirect to avoid form resubmission
         header('Location: /settings');
@@ -42,9 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST['password'];
 
         // Verify password
-        if (password_verify($password, $user['password'])) {
-            $stmt = $pdo->prepare("UPDATE users SET email = ? WHERE id = ?");
-            $stmt->execute([$new_email, $_SESSION['user_id']]);
+        if ($auth->verifyPassword($userId, $password)) {
+            $auth->updateEmail($userId, $new_email);
             header('Location: /settings');
             exit;
         } else {
@@ -59,39 +56,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($new_password !== $new_password_confirm) {
             echo "New passwords do not match.";
-        } elseif (!password_verify($current_password, $user['password'])) {
+        } elseif (!password_verify($current_password, $user['password_hash'])) {
             echo "Incorrect current password.";
         } else {
-            $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
-            $stmt->execute([$hashed_password, $_SESSION['user_id']]);
+            $auth->updatePassword($userId, $new_password);
+
             header('Location: /settings');
             exit;
         }
-    } elseif (isset($_POST['totp_code']) && $user['totp_enabled']) {
+    } elseif (isset($_POST['totp_code']) && $auth->hasTotpEnabled($userId)) {
         // Handle 2FA disable
         
         $code = trim($_POST['totp_code']);
+        $secret = $auth->getTotpSecret($userId);
 
-        $stmt = $pdo->prepare("SELECT totp_secret FROM users WHERE id = ?");
-        $stmt->execute([$_SESSION['user_id']]);
-        $secret = $stmt->fetchColumn();
-
-        $ok = totp_verify($secret, $code) || totp_verify_backup($pdo, $_SESSION['user_id'], $code);
+        $ok = totp_verify($secret, $code) || totp_verify_backup($pdo, $userId, $code);
 
         if ($ok) {
             // Disable 2FA in the database and delete all backup codes
-            $stmt = $pdo->prepare("UPDATE users SET totp_enabled = 0, totp_secret = NULL WHERE id = ?");
-            $stmt->execute([$_SESSION['user_id']]);
-            $stmt = $pdo->prepare("DELETE FROM totp_backup_codes WHERE user_id = ?");
-            $stmt->execute([$_SESSION['user_id']]);
+            $auth->disableTotp($userId);
+            
             header("Location: /settings");
             exit;
         } else {
             echo "Invalid 2FA code.";
         }
 
-    } elseif (isset($_POST['password']) && !$user['totp_enabled']) {
+    } elseif (isset($_POST['password']) && !$auth->hasTotpEnabled($userId)) {
         // Handle 2FA enable
         
         $password = $_POST['password'];
@@ -100,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Generate TOTP secret and save to database
             $data = totp_generate_secret($user['username'], 'Innerspace');
 
-            $_SESSION['pending_totp_user'] = $userId;
+            $_SESSION['pending_totp_user_id'] = $userId;
             $_SESSION['pending_totp_secret'] = $data['secret'];
             $_SESSION['pending_totp_qr'] = $data['qr_base64'];
 
@@ -169,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button type="submit">Update Password</button>
                 </form>
 
-                <?php if ($user['totp_enabled']): ?>
+                <?php if ($auth->hasTotpEnabled($userId)): ?>
                     <form action="settings" method="POST">
                         <h2>Disable 2FA</h2>
                         <label for="totp_code">Current 2FA Code:</label>
