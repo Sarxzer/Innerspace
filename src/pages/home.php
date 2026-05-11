@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
     <script src="<?= $jsDir ?>" defer></script>
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#your-accent-color">
+    <meta name="theme-color" content="#0f3460">
 </head>
 
 <body>
