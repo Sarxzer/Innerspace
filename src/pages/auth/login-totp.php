@@ -5,33 +5,35 @@
  * @var string $cssDir
  * @var string $jsDir
  */
-require_once __DIR__ . '/../../php/database.php';
 require_once __DIR__ . '/../../php/totp.php';
 
-$userId = $_SESSION['pending_2fa_user'] ?? null;
-if (!$userId) { header('Location: /login'); exit; }
-
-if (($_SESSION['totp_attempts'] ?? 0) >= 5) {
-    $error = "Too many attempts. Please try again later.";
+if (!isset($_SESSION['pending_2fa_user'])) {
+    header("Location: /login");
+    exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($error)) {
-    $code = trim($_POST['code'] ?? '');
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $code = $_POST['code'] ?? '';
+    $userId = $_SESSION['pending_2fa_user'];
 
-    $stmt = $pdo->prepare("SELECT totp_secret FROM users WHERE id = ?");
-    $stmt->execute([$userId]);
-    $secret = $stmt->fetchColumn();
+    $auth = new Auth($pdo);
+    $secret = $auth->getTotpSecret($userId);
 
-    $ok = totp_verify($secret, $code) || totp_verify_backup($pdo, $userId, $code);
-
-    if ($ok) {
-        unset($_SESSION['pending_2fa_user'], $_SESSION['totp_attempts']);
-        $_SESSION['user_id'] = $userId;
-        header('Location: /');
-        exit;
+    if (!$secret || !totp_verify($secret, $code)) {
+        $error = "Invalid code, try again.";
     } else {
-        $_SESSION['totp_attempts'] = ($_SESSION['totp_attempts'] ?? 0) + 1;
-        $error = "Invalid code.";
+        // TOTP verified, log user in
+        $auth->login($userId, false);
+        unset($_SESSION['pending_2fa_user'], $_SESSION['totp_attempts']);
+        header("Location: /");
+        exit;
+    }
+
+    // Increment attempt count, lock out after 5 attempts
+    $_SESSION['totp_attempts'] = ($_SESSION['totp_attempts'] ?? 0) + 1;
+    if ($_SESSION['totp_attempts'] >= 5) {
+        unset($_SESSION['pending_2fa_user_id'], $_SESSION['totp_attempts']);
+        $error = "Too many failed attempts. Please log in again.";
     }
 }
 ?>

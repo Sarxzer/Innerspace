@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../src/php/database.php';
+require_once __DIR__ . '/../src/php/auth.php';
 
 use Dotenv\Dotenv;
 
@@ -14,8 +16,8 @@ if ($_ENV['APP_DEBUG'] === 'true') {
     ini_set('display_errors', '0');
 }
 
-require_once __DIR__ . '/../src/php/database.php';
-
+$database = new Database();
+$pdo = $database->getPdo();
 
 session_start();
 

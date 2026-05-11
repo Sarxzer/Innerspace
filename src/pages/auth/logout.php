@@ -1,8 +1,8 @@
 <?php
-// Destroy the session to log the user out
-session_destroy();
 
-// Redirect to the login page after logout
+$auth = new Auth($pdo);
+$auth->requireLogin();
+$auth->logout();
 header('Location: /login');
 
 exit;

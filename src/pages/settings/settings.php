@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Generate TOTP secret and save to database
             $data = totp_generate_secret($user['username'], 'Innerspace');
 
-            $_SESSION['pending_totp_user_id'] = $userId;
+            $_SESSION['pending_totp_user'] = $userId;
             $_SESSION['pending_totp_secret'] = $data['secret'];
             $_SESSION['pending_totp_qr'] = $data['qr_base64'];
 

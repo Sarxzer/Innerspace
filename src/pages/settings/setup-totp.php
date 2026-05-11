@@ -9,7 +9,7 @@
 require_once __DIR__ . '/../../php/database.php';
 require_once __DIR__ . '/../../php/totp.php';
 
-$userId = $_SESSION['pending_totp_user_id'] ?? null;
+$userId = $_SESSION['pending_totp_user'] ?? null;
 $secret = $_SESSION['pending_totp_secret'] ?? null;
 $qr     = $_SESSION['pending_totp_qr'] ?? null;
 

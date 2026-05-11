@@ -9,6 +9,7 @@
  */
 
 require_once __DIR__ . '/../../php/database.php';
+require_once __DIR__ . '/../../php/auth.php';
 require_once __DIR__ . '/../../php/totp.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -20,25 +21,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Username and password are required.");
     }
 
-    // Check if username already exists
-    $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
-    $stmt->execute([$username]);
-    if ($stmt->fetch()) {
+    $auth = new Auth($pdo);
+    $userId = $auth->register($username, $password);
+
+    if ($userId === null) {
         die("Username already taken.");
     }
-
-    // Create new user
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    $stmt = $pdo->prepare("INSERT INTO users (username, password_hash) VALUES (?, ?)");
-    $stmt->execute([$username, $hashed_password]);
-
-    $userId = $pdo->lastInsertId();
 
     // Log the user in
     if ($totpEnabled) {
         $data = totp_generate_secret($username, 'Innerspace');
 
-        $_SESSION['pending_totp_user_id'] = $userId;
+        $_SESSION['pending_totp_user'] = $userId;
         $_SESSION['pending_totp_secret'] = $data['secret'];
         $_SESSION['pending_totp_qr'] = $data['qr_base64'];
 
