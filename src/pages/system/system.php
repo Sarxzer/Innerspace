@@ -11,7 +11,7 @@
 
 $parts ??= explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 
-$system_handle = ltrim($parts[0], '@');
+$system_handle = $parts[1] ?? null;
 
 $stmt = $pdo->prepare("SELECT * FROM systems WHERE handle = ?");
 $stmt->execute([$system_handle]);
@@ -118,7 +118,7 @@ foreach ($fronting_session_members as $fsm) {
 
                 <div class="members-grid">
                     <?php foreach ($members as $member): ?>
-                        <a href='/system/<?= htmlspecialchars($system['handle']) ?>/<?= htmlspecialchars($member['handle']) ?>' class="member-card">
+                        <a href='/s/<?= htmlspecialchars($system['handle']) ?>/@<?= htmlspecialchars($member['handle']) ?>' class="member-card">
                             <div class="member-accent-bar" style="background: <?= htmlspecialchars($member['color']) ?>;"></div>
                             <div class="member-hex" style="color: <?= htmlspecialchars($member['color']) ?>">#<?= substr(htmlspecialchars($member['color']), 1) ?></div>
                             <div class="member-top">

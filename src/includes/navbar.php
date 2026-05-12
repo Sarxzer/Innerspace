@@ -2,6 +2,7 @@
 /**
  * @var array $parts
  * @var array $current_user
+ * @var array $breadcrumbs
  */
 ?>
 <nav>
@@ -26,11 +27,7 @@
     </div>
 </nav>
 <div class="breadcrumb">
-    <a href="/home">Home</a>
-    <?php if ($parts[0] !== 'home' && $parts[0] !== ''): ?>
-        <?php foreach ($parts as $index => $part): ?>
-            <span>/</span>
-            <a href="/<?php echo implode('/', array_slice($parts, 0, $index + 1)); ?>"><?php echo ucfirst(htmlspecialchars($part)); ?></a>
-        <?php endforeach; ?>
-    <?php endif; ?>
+    <?php foreach ($breadcrumbs as $crumb): ?>
+        / <a href="<?= $crumb['url'] ?>"><?= $crumb['name'] ?></a>
+    <?php endforeach; ?>
 </div>
