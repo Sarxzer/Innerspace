@@ -13,3 +13,13 @@ links.querySelectorAll('a').forEach(a => {
         toggle.setAttribute('aria-expanded', false);
     });
 });
+
+
+// Auto-hide alerts after 3 seconds
+document.querySelectorAll('.alert').forEach(alert => {
+    setTimeout(() => {
+        alert.style.animation = 'fadeOut 0.5s ease-out forwards';
+        alert.style.opacity = '0';
+        setTimeout(() => alert.remove(), 300);
+    }, 3000);
+});

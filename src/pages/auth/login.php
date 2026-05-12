@@ -4,9 +4,8 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
+ * @var Alert $alert
  */
-require_once __DIR__ . '/../../php/database.php';
-require_once __DIR__ . '/../../php/auth.php';
 require_once __DIR__ . '/../../php/totp.php';
 
 
@@ -29,10 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // No TOTP, proceed with regular login
         $remember = isset($_POST['remember']);
         $auth->login($userId, $remember);
+
+        $alert->success("Login successful! Welcome back.");
         header('Location: /');
         exit;
     } else {
-        $error = "Invalid username or password.";
+        $alert->error("Invalid username or password.");
     }
 }
 ?>
@@ -51,13 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="pixel-scanlines"></div>
         <div class="content">
             <?php include $includesDir . '/navbar.php'; ?>
+            <div class="alerts-wrapper">
+                <?php include $includesDir . '/alerts.php'; ?>
+            </div>
             <div class="main">
                 <form action="login" method="post" class="auth-form">
                     <h1>Login</h1>
 
-                    <?php if (!empty($error)): ?>
-                        <p class="error"><?= htmlspecialchars($error) ?></p>
-                    <?php endif; ?>
 
                     <label for="username">Username:</label><br>
                     <input type="text" id="username" name="username"

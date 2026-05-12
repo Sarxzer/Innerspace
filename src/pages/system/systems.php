@@ -54,6 +54,9 @@ $systems = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="pixel-scanlines"></div>
         <div class="content">
             <?php include $includesDir . '/navbar.php'; ?>
+            <div class="alerts-wrapper">
+                <?php include $includesDir . '/alerts.php'; ?>
+            </div>
 
             <div class="main">
                 <h1>Systems</h1>

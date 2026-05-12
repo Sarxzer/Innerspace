@@ -5,6 +5,7 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
+ * @var Alert $alert
  */
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
@@ -113,6 +114,9 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="pixel-scanlines"></div>
         <div class="content">
             <?php include $includesDir . '/navbar.php'; ?>
+            <div class="alerts-wrapper">
+                <?php include $includesDir . '/alerts.php'; ?>
+            </div>
 
             <div class="main">
                 <h1><?= htmlspecialchars($system['name']) ?></h1>

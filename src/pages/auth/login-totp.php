@@ -4,6 +4,7 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
+ * @var Alert $alert
  */
 require_once __DIR__ . '/../../php/totp.php';
 
@@ -20,11 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $secret = $auth->getTotpSecret($userId);
 
     if (!$secret || !totp_verify($secret, $code)) {
-        $error = "Invalid code, try again.";
+        $alert->error("Invalid code. Please try again.");
     } else {
         // TOTP verified, log user in
         $auth->login($userId, false);
         unset($_SESSION['pending_2fa_user'], $_SESSION['totp_attempts']);
+
+        $alert->success("Login successful! Welcome back.");
         header("Location: /");
         exit;
     }
@@ -33,7 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['totp_attempts'] = ($_SESSION['totp_attempts'] ?? 0) + 1;
     if ($_SESSION['totp_attempts'] >= 5) {
         unset($_SESSION['pending_2fa_user_id'], $_SESSION['totp_attempts']);
-        $error = "Too many failed attempts. Please log in again.";
+        $alert->error("Too many failed attempts. Please log in again.");
+        header("Location: /login");
+        exit;
     }
 }
 ?>
@@ -52,14 +57,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="pixel-scanlines"></div>
         <div class="content">
             <?php include $includesDir . '/navbar.php'; ?>
+            <div class="alerts-wrapper">
+                <?php include $includesDir . '/alerts.php'; ?>
+            </div>
             <div class="main">
                 <form action="totp" method="POST" class="auth-form">
                     <h1>Two-Factor Auth</h1>
                     <p>Enter the 6-digit code from your authenticator app, or a backup code.</p>
 
-                    <?php if (!empty($error)): ?>
-                        <p class="error"><?= htmlspecialchars($error) ?></p>
-                    <?php endif; ?>
 
                     <label for="code">Code:</label><br>
                     <input type="text" id="code" name="code" maxlength="8"

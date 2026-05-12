@@ -23,6 +23,9 @@
         <div class="pixel-scanlines"></div>
         <div class="content">
             <?php include $includesDir . '/navbar.php'; ?>
+            <div class="alerts-wrapper">
+                <?php include $includesDir . '/alerts.php'; ?>
+            </div>
 
             <h1>404 - Page Not Found</h1>
             <p>The page you are looking for does not exist.</p>

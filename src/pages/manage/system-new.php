@@ -5,6 +5,7 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
+ * @var Alert $alert
  */
 // system creation page
 
@@ -56,6 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="pixel-scanlines"></div>
         <div class="content">
             <?php include $includesDir . '/navbar.php'; ?>
+            <div class="alerts-wrapper">
+                <?php include $includesDir . '/alerts.php'; ?>
+            </div>
             <div class="main">
                 <h1>Create a new system</h1>
                 <p>Welcome to the system creation page!</p>

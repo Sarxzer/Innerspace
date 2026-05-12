@@ -5,6 +5,7 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
+ * @var Alert $alert
  */
 
 $parts ??= explode('/', trim($_SERVER['REQUEST_URI'], '/'));
@@ -30,6 +31,9 @@ if (!isset($_SESSION['user_id'])) {
         <div class="pixel-scanlines"></div>
         <div class="content">
             <?php include $includesDir . '/navbar.php'; ?>
+            <div class="alerts-wrapper">
+                <?php include $includesDir . '/alerts.php'; ?>
+            </div>
 
             <div class="main">
                 <h1>Dashboard</h1>

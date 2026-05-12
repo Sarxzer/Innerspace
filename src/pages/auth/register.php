@@ -6,10 +6,9 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
+ * @var Alert $alert
  */
 
-require_once __DIR__ . '/../../php/database.php';
-require_once __DIR__ . '/../../php/auth.php';
 require_once __DIR__ . '/../../php/totp.php';
 
 function passwordMeetsCriteria($password) {
@@ -37,19 +36,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $totpEnabled = isset($_POST['totp']);
 
     if (empty($username) || empty($password)) {
-        die("Username and password are required.");
+        $alert->error("Username and password are required.");
+        header("Location: /register");
+        exit;
     }
 
     $passwordCheck = passwordMeetsCriteria($password);
     if ($passwordCheck !== true) {
-        die($passwordCheck);
+        $alert->error($passwordCheck);
+        header("Location: /register");
+        exit;
     }
 
     $auth = new Auth($pdo);
     $userId = $auth->register($username, $password);
 
     if ($userId === null) {
-        die("Username already taken.");
+        $alert->error("Username already taken.");
+        header("Location: /register");
+        exit;
     }
 
     // Log the user in
@@ -60,10 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['pending_totp_secret'] = $data['secret'];
         $_SESSION['pending_totp_qr'] = $data['qr_base64'];
 
+        $alert->info("Please scan the QR code with your authenticator app.");
+
         header("Location: /register/totp");
         exit;
     }
     $_SESSION['user_id'] = $userId;
+
+    $alert->success("Registration successful! Welcome, $username.");
 
     header("Location: /dashboard");
     exit;
@@ -88,6 +97,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="pixel-scanlines"></div>
         <div class="content">
             <?php include $includesDir . '/navbar.php'; ?>
+            <div class="alerts-wrapper">
+                <?php include $includesDir . '/alerts.php'; ?>
+            </div>
 
             <div class="main">
                 <form action="register" method="post" class="auth-form">

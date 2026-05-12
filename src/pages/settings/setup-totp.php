@@ -5,6 +5,7 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
+ * @var Alert $alert
  */
 require_once __DIR__ . '/../../php/database.php';
 require_once __DIR__ . '/../../php/auth.php';
@@ -23,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $code = trim($_POST['code'] ?? '');
 
     if (!totp_verify($secret, $code)) {
-        $error = "Invalid code, try again.";
+        $alert->error("Invalid code. Please try again.");
     } else {
         // Save secret, enable TOTP
         $auth = new Auth($pdo);
@@ -57,6 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="pixel-scanlines"></div>
         <div class="content">
             <?php include $includesDir . '/navbar.php'; ?>
+            <div class="alerts-wrapper">
+                <?php include $includesDir . '/alerts.php'; ?>
+            </div>
             <div class="main">
                 <h1>Set up 2FA</h1>
                 <p>Scan this QR code with your authenticator app (Google Authenticator, Aegis, Authy…)</p>
@@ -69,9 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </details><br>
 
                 <form action="setup-totp" method="POST" class="auth-form">
-                    <?php if (!empty($error)): ?>
-                        <p class="error"><?= htmlspecialchars($error) ?></p>
-                    <?php endif; ?>
 
                     <label for="code">Enter the 6-digit code from your app:</label><br>
                     <input type="text" id="code" name="code" maxlength="6"

@@ -23,6 +23,9 @@ unset($_SESSION['show_backup_codes']);
         <div class="pixel-scanlines"></div>
         <div class="content">
             <?php include $includesDir . '/navbar.php'; ?>
+            <div class="alerts-wrapper">
+                <?php include $includesDir . '/alerts.php'; ?>
+            </div>
             <div class="main">
                 <h1>Backup codes</h1>
                 <p><strong>Save these somewhere safe.</strong> Each one works once. You won't see them again.</p>

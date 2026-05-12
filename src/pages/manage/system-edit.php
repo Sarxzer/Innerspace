@@ -35,6 +35,9 @@ $system = $stmt->fetch(PDO::FETCH_ASSOC);
         <div class="pixel-scanlines"></div>
         <div class="content">
             <?php include $includesDir . '/navbar.php'; ?>
+            <div class="alerts-wrapper">
+                <?php include $includesDir . '/alerts.php'; ?>
+            </div>
 
             <div class="main">
                 <h1>Manage <?= htmlspecialchars($system['name']) ?></h1>
