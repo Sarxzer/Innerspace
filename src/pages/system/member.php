@@ -28,10 +28,18 @@ if (!$member) {
     die("Member not found.");
 }
 
-// echo "<h1>" . htmlspecialchars($member['name']) . "</h1>";
-// echo "<p>System: <a href='/system/" . htmlspecialchars($system['handle']) . "'>" . htmlspecialchars($system['name']) . "</a></p>";
-// echo "<p>Pronouns: " . htmlspecialchars($member['pronouns']) . "</p>";
-// echo "<p>Color: <span style='color: " . htmlspecialchars($member['color']) . "'>" . htmlspecialchars($member['color']) . "</span></p>";
+$memberName = htmlspecialchars($member['name']);
+$systemName = htmlspecialchars($system['name']);
+$systemHandle = htmlspecialchars($system['handle']);
+$pronouns = !empty($member['pronouns']) ? htmlspecialchars($member['pronouns']) : null;
+
+// Build a actually useful description
+$description = $pronouns
+    ? "{$memberName} ({$pronouns}) is a member of the {$systemName} system on Innerspace."
+    : "{$memberName} is a member of the {$systemName} system on Innerspace.";
+
+$canonicalUrl = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +51,22 @@ if (!$member) {
     <title><?= htmlspecialchars($member['name']) ?> | Innerspace</title>
     <link rel="stylesheet" href="<?= $cssDir ?>">
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
-    <script src="<?= $jsDir?>" defer></script>
+    <script src="<?= $jsDir ?>" defer></script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="profile">
+    <meta property="og:site_name" content="Innerspace">
+    <meta property="og:title" content="<?= $memberName ?> · <?= $systemName ?>">
+    <meta property="og:description" content="<?= $description ?>">
+    <meta property="og:url" content="<?= $canonicalUrl ?>">
+    <meta property="og:image" content="/assets/icons/icon-512.png">
+    <meta property="og:image:alt" content="<?= $memberName ?> on Innerspace">
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="<?= $memberName ?> · <?= $systemName ?>">
+    <meta name="twitter:description" content="<?= $description ?>">
+    <meta name="twitter:image" content="/assets/icons/icon-512.png">
 </head>
 
 <body>
