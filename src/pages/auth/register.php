@@ -12,6 +12,25 @@ require_once __DIR__ . '/../../php/database.php';
 require_once __DIR__ . '/../../php/auth.php';
 require_once __DIR__ . '/../../php/totp.php';
 
+function passwordMeetsCriteria($password) {
+    if (strlen($password) < 8) {
+        return "Password must be at least 8 characters long.";
+    }
+    if (!preg_match('/[A-Z]/', $password)) {
+        return "Password must contain at least one uppercase letter.";
+    }
+    if (!preg_match('/[a-z]/', $password)) {
+        return "Password must contain at least one lowercase letter.";
+    }
+    if (!preg_match('/[0-9]/', $password)) {
+        return "Password must contain at least one digit.";
+    }
+    if (!preg_match('/[\W_]/', $password)) {
+        return "Password must contain at least one special character.";
+    }
+    return true;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
@@ -19,6 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($username) || empty($password)) {
         die("Username and password are required.");
+    }
+
+    $passwordCheck = passwordMeetsCriteria($password);
+    if ($passwordCheck !== true) {
+        die($passwordCheck);
     }
 
     $auth = new Auth($pdo);

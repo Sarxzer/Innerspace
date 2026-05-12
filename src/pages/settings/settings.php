@@ -16,6 +16,25 @@ $auth->requireLogin();
 $user = $auth->getCurrentUser();
 $userId = $_SESSION['user_id'];
 
+function passwordMeetsCriteria($password) {
+    if (strlen($password) < 8) {
+        return "Password must be at least 8 characters long.";
+    }
+    if (!preg_match('/[A-Z]/', $password)) {
+        return "Password must contain at least one uppercase letter.";
+    }
+    if (!preg_match('/[a-z]/', $password)) {
+        return "Password must contain at least one lowercase letter.";
+    }
+    if (!preg_match('/[0-9]/', $password)) {
+        return "Password must contain at least one digit.";
+    }
+    if (!preg_match('/[\W_]/', $password)) {
+        return "Password must contain at least one special character.";
+    }
+    return true;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle settings form submission here
     // For example, you could update the user's username in the database
@@ -59,6 +78,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif (!password_verify($current_password, $user['password_hash'])) {
             echo "Incorrect current password.";
         } else {
+
+            $passwordCheck = passwordMeetsCriteria($new_password);
+            if ($passwordCheck !== true) {
+                echo $passwordCheck;
+                exit;
+            }
+
             $auth->updatePassword($userId, $new_password);
 
             header('Location: /settings');
