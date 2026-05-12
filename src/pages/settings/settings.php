@@ -45,15 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $ok = $auth->updateUsername($userId, $new_username);
         if (!$ok) {
-            echo "Username already taken.";
+            $alert->error("Username already taken.");
+            header('Location: /settings');
             exit;
         } else {
-            // Update successful
+            $alert->success("Username updated successfully.");
+            header('Location: /settings');
+            exit;
         }
-
-        // Redirect to avoid form resubmission
-        header('Location: /settings');
-        exit;
     } elseif (isset($_POST['new_email'], $_POST['password'])) {
         // Handle email update
         $new_email = $_POST['new_email'];
@@ -62,11 +61,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Verify password
         if ($auth->verifyPassword($userId, $password)) {
             $auth->updateEmail($userId, $new_email);
+            $alert->success("Email updated successfully.");
             header('Location: /settings');
             exit;
         } else {
             // Handle incorrect password
-            echo "Incorrect password.";
+            $alert->error("Incorrect password.");
+            header('Location: /settings');
+            exit;
         }
     } elseif (isset($_POST['new_password'], $_POST['new_password_confirm'], $_POST['password'])) {
         // Handle password update
@@ -75,18 +77,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $current_password = $_POST['password'];
 
         if ($new_password !== $new_password_confirm) {
-            echo "New passwords do not match.";
+            $alert->error("New password and confirmation do not match.");
+            header('Location: /settings');
+            exit;
         } elseif (!password_verify($current_password, $user['password_hash'])) {
-            echo "Incorrect current password.";
+            $alert->error("Incorrect current password.");
+            header('Location: /settings');
+            exit;
         } else {
 
             $passwordCheck = passwordMeetsCriteria($new_password);
             if ($passwordCheck !== true) {
-                echo $passwordCheck;
+                $alert->error($passwordCheck);
+                header('Location: /settings');
                 exit;
             }
 
             $auth->updatePassword($userId, $new_password);
+
+            $alert->success("Password updated successfully.");
 
             header('Location: /settings');
             exit;
@@ -102,11 +111,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($ok) {
             // Disable 2FA in the database and delete all backup codes
             $auth->disableTotp($userId);
+
+            $alert->success("2FA disabled successfully.");
             
             header("Location: /settings");
             exit;
         } else {
-            echo "Invalid 2FA code.";
+            $alert->error("Invalid 2FA code.");
+            header("Location: /settings");
+            exit;
         }
 
     } elseif (isset($_POST['password']) && !$auth->hasTotpEnabled($userId)) {
@@ -125,10 +138,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: /settings/setup-totp");
             exit;
         } else {
-            echo "Incorrect password.";
+            $alert->error("Incorrect password.");
+            header("Location: /settings");
+            exit;
         }
     }
 }
+
 
 ?>
 <!DOCTYPE html>

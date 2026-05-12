@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @var array $parts (optional)
  */

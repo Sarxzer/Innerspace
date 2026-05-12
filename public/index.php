@@ -24,6 +24,19 @@ $alert = new Alert();
 
 session_start();
 
+set_error_handler(function (int $errno, string $errstr): bool {
+    error_log("PHP Error [$errno]: $errstr in {$_SERVER['SCRIPT_NAME']} on line {$_SERVER['LINE']}");
+    match (true) {
+        in_array($errno, [E_ERROR, E_USER_ERROR])        => Alert::error("Error: $errstr"),
+        in_array($errno, [E_WARNING, E_USER_WARNING])    => Alert::warning("Warning: $errstr"),
+        in_array($errno, [E_NOTICE, E_USER_NOTICE,
+                          E_DEPRECATED, E_USER_DEPRECATED]) => Alert::info("Notice: $errstr"),
+        default                                          => Alert::info($errstr),
+    };
+
+    return true;
+});
+
 $pagesDir = __DIR__ . '/../src/pages';
 $includesDir = __DIR__ . '/../src/includes';
 
