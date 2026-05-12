@@ -71,6 +71,12 @@ foreach ($fronting_session_members as $fsm) {
 //     echo "<li><a href='/system/" . htmlspecialchars($system['handle']) . "/" . htmlspecialchars($member['handle']) . "'>" . htmlspecialchars($member['name']) . "</a> (" . htmlspecialchars($member['pronouns']) . ", <span style='color: " . htmlspecialchars($member['color']) . "'>" . htmlspecialchars($member['color']) . "</span>)</li>";
 // }
 // echo "</ul>";
+
+
+$systemName = htmlspecialchars($system['name']);
+$systemDescription = htmlspecialchars($system['description']);
+$systemHandle = htmlspecialchars($system['handle']);
+$canonicalUrl = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,6 +88,21 @@ foreach ($fronting_session_members as $fsm) {
     <link rel="stylesheet" href="<?= $cssDir ?>">
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
     <script src="<?= $jsDir?>" defer></script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Innerspace">
+    <meta property="og:title" content="<?= $systemName ?>">
+    <meta property="og:description" content="<?= $systemDescription ?>">
+    <meta property="og:url" content="<?= $canonicalUrl ?>">
+    <meta property="og:image" content="https://innerspace.space/assets/icons/icon-512.png"> 
+    <meta property="og:image:alt" content="<?= $systemName ?> system on Innerspace">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="<?= $systemName ?>">
+    <meta name="twitter:description" content="<?= $systemDescription ?>">
+    <meta name="twitter:image" content="https://innerspace.space/assets/icons/icon-512.png">
 </head>
 
 <body>
