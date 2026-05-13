@@ -44,6 +44,13 @@ class Alert
         self::add($message, 'info');
     }
 
+    public static function dev(string $message): void
+    {
+        if ($_ENV['APP_DEBUG'] === 'true') {
+            self::add($message, 'dev');
+        }
+    }
+
     /**
      * Internal method to add alert to session
      * @param string $message The message to display

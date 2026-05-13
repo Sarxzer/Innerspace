@@ -21,13 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $secret = $auth->getTotpSecret($userId);
 
     if (!$secret || !totp_verify($secret, $code)) {
-        $alert->error("Invalid code. Please try again.");
+        Alert::error("Invalid code. Please try again.");
     } else {
         // TOTP verified, log user in
         $auth->login($userId, false);
         unset($_SESSION['pending_2fa_user'], $_SESSION['totp_attempts']);
 
-        $alert->success("Login successful! Welcome back.");
+        Alert::success("Login successful! Welcome back.");
         header("Location: /");
         exit;
     }
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['totp_attempts'] = ($_SESSION['totp_attempts'] ?? 0) + 1;
     if ($_SESSION['totp_attempts'] >= 5) {
         unset($_SESSION['pending_2fa_user_id'], $_SESSION['totp_attempts']);
-        $alert->error("Too many failed attempts. Please log in again.");
+        Alert::error("Too many failed attempts. Please log in again.");
         header("Location: /login");
         exit;
     }

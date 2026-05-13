@@ -11,6 +11,6 @@ $auth = new Auth($pdo);
 $auth->requireLogin();
 $auth->logout();
 
-$alert->success("You have been logged out.");
+Alert::success("You have been logged out.");
 header('Location: /login');
 exit;

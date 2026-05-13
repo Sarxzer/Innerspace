@@ -3,6 +3,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../src/php/database.php';
 require_once __DIR__ . '/../src/php/auth.php';
 require_once __DIR__ . '/../src/php/alert.php';
+require_once __DIR__ . '/../src/php/utils.php';
 
 use Dotenv\Dotenv;
 
@@ -19,8 +20,6 @@ if ($_ENV['APP_DEBUG'] === 'true') {
 
 $database = new Database();
 $pdo = $database->getPdo();
-
-$alert = new Alert();
 
 session_start();
 
@@ -57,6 +56,15 @@ if (in_array($parts[0], $protected_routes) && !isset($_SESSION['user_id'])) {
     header('Location: /login');
     exit;
 }
+
+
+// CSRF token generation and verification
+Csrf::generate();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    Csrf::verify();
+}
+
 
 // Fetch current user if logged in
 if (isset($_SESSION['user_id'])) {
@@ -114,6 +122,8 @@ foreach ($parts as $index => $part) {
     if (isset($member_name, $parts[2]) && $part === $parts[2]) {
         $name = $member_name ?? $part;
     }
+
+    $name = htmlspecialchars($name);
 
     $breadcrumbs[] = ['name' => $name, 'url' => $accumulated_path];
 }
@@ -180,8 +190,5 @@ match ($parts[0]) {
     'friend' => require $pagesDir . '/friends/friend-view.php', // /friend/{token}  
 
     // Fallback
-    default => (function () use ($pagesDir) {
-        http_response_code(404);
-        require $pagesDir . '/errors/404.php';
-    })(),
+    default => require $pagesDir . '/errors/404.php',
 };

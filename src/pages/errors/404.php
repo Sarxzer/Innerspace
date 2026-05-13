@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @var string $includesDir
  * @var string $cssDir
@@ -27,9 +26,9 @@
                 <?php include $includesDir . '/alerts.php'; ?>
             </div>
 
-            <h1>404 - Page Not Found</h1>
-            <p>The page you are looking for does not exist.</p>
-            <img src="https://beurreland.cc/assets/img/davide-jambon-beuere.gif" alt="">
+            <h1 style="text-align: center; font-size: larger;">404 - Page Not Found</h1>
+            <p style="text-align: center;">The page you are looking for does not exist.</p>
+            <img src="https://beurreland.cc/assets/img/davide-jambon-beuere.gif" alt="" style="margin: 30px;">
 
             <?php include $includesDir . '/footer.php'; ?>
         </div>

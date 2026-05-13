@@ -18,18 +18,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validate input
     if (empty($name) || empty($handle)) {
-        die('Name and handle are required.');
+        Alert::error("Name and handle are required.");
+        header('Location: /manage/systems/new');
+        exit;
     }
 
     if (!preg_match('/^[a-z0-9\-]+$/', $handle)) {
-        die('Handle can only contain lowercase letters, numbers, and hyphens.');
+        Alert::error("Handle can only contain lowercase letters, numbers, and hyphens.");
+        header('Location: /manage/systems/new');
+        exit;
     }
 
     // Check if handle already exists
     $stmt = $pdo->prepare('SELECT COUNT(*) FROM systems WHERE handle = ?');
     $stmt->execute([$handle]);
     if ($stmt->fetchColumn() > 0) {
-        die('Handle already exists. Please choose a different one.');
+        Alert::error("Handle already exists. Please choose a different one.");
+        header('Location: /manage/systems/new');
+        exit;
     }
 
     // Insert new system into database
@@ -74,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="text" id="handle" name="handle" pattern="[a-z0-9\-]+" title="Lowercase letters, numbers, and hyphens only." required>
                     </div>
 
+                    <input type="hidden" name="csrf_token" value="<?= Csrf::token() ?>">
                     <button type="submit">Create System</button>
                 </form>
             </div>

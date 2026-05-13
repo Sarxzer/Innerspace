@@ -17,24 +17,6 @@ $auth->requireLogin();
 $user = $auth->getCurrentUser();
 $userId = $_SESSION['user_id'];
 
-function passwordMeetsCriteria($password) {
-    if (strlen($password) < 8) {
-        return "Password must be at least 8 characters long.";
-    }
-    if (!preg_match('/[A-Z]/', $password)) {
-        return "Password must contain at least one uppercase letter.";
-    }
-    if (!preg_match('/[a-z]/', $password)) {
-        return "Password must contain at least one lowercase letter.";
-    }
-    if (!preg_match('/[0-9]/', $password)) {
-        return "Password must contain at least one digit.";
-    }
-    if (!preg_match('/[\W_]/', $password)) {
-        return "Password must contain at least one special character.";
-    }
-    return true;
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle settings form submission here
@@ -45,11 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $ok = $auth->updateUsername($userId, $new_username);
         if (!$ok) {
-            $alert->error("Username already taken.");
+            Alert::error("Username already taken.");
             header('Location: /settings');
             exit;
         } else {
-            $alert->success("Username updated successfully.");
+            Alert::success("Username updated successfully.");
             header('Location: /settings');
             exit;
         }
@@ -61,12 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Verify password
         if ($auth->verifyPassword($userId, $password)) {
             $auth->updateEmail($userId, $new_email);
-            $alert->success("Email updated successfully.");
+            Alert::success("Email updated successfully.");
             header('Location: /settings');
             exit;
         } else {
             // Handle incorrect password
-            $alert->error("Incorrect password.");
+            Alert::error("Incorrect password.");
             header('Location: /settings');
             exit;
         }
@@ -77,25 +59,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $current_password = $_POST['password'];
 
         if ($new_password !== $new_password_confirm) {
-            $alert->error("New password and confirmation do not match.");
+            Alert::error("New password and confirmation do not match.");
             header('Location: /settings');
             exit;
-        } elseif (!password_verify($current_password, $user['password_hash'])) {
-            $alert->error("Incorrect current password.");
+        } elseif (!$auth->verifyPassword($userId, $current_password)) {
+            Alert::error("Incorrect current password.");
             header('Location: /settings');
             exit;
         } else {
 
-            $passwordCheck = passwordMeetsCriteria($new_password);
+            $passwordCheck = $auth->passwordMeetsCriteria($new_password);
             if ($passwordCheck !== true) {
-                $alert->error($passwordCheck);
+                Alert::error($passwordCheck);
                 header('Location: /settings');
                 exit;
             }
 
             $auth->updatePassword($userId, $new_password);
 
-            $alert->success("Password updated successfully.");
+            Alert::success("Password updated successfully.");
 
             header('Location: /settings');
             exit;
@@ -112,12 +94,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Disable 2FA in the database and delete all backup codes
             $auth->disableTotp($userId);
 
-            $alert->success("2FA disabled successfully.");
+            Alert::success("2FA disabled successfully.");
             
             header("Location: /settings");
             exit;
         } else {
-            $alert->error("Invalid 2FA code.");
+            Alert::error("Invalid 2FA code.");
             header("Location: /settings");
             exit;
         }
@@ -138,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: /settings/setup-totp");
             exit;
         } else {
-            $alert->error("Incorrect password.");
+            Alert::error("Incorrect password.");
             header("Location: /settings");
             exit;
         }
@@ -178,6 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username">
 
+                    <input type="hidden" name="csrf_token" value="<?= Csrf::token() ?>">
                     <button type="submit">Update Username</button>
                 </form>
 
@@ -189,6 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="password">Actual Password:</label>
                     <input type="password" id="password" name="password">
 
+                    <input type="hidden" name="csrf_token" value="<?= Csrf::token() ?>">
                     <button type="submit">Update Email</button>
                 </form>
 
@@ -203,6 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="new_password_confirm">Confirm New Password:</label>
                     <input type="password" id="new_password_confirm" name="new_password_confirm">
 
+                    <input type="hidden" name="csrf_token" value="<?= Csrf::token() ?>">
                     <button type="submit">Update Password</button>
                 </form>
 
@@ -212,6 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="totp_code">Current 2FA Code:</label>
                         <input type="text" id="totp_code" name="totp_code">
 
+                        <input type="hidden" name="csrf_token" value="<?= Csrf::token() ?>">
                         <button type="submit">Disable 2FA</button>
                     </form>
                 <?php else: ?>
@@ -220,6 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="password">Actual Password:</label>
                         <input type="password" id="password" name="password">
 
+                        <input type="hidden" name="csrf_token" value="<?= Csrf::token() ?>">
                         <button type="submit">Enable 2FA</button>
                     </form>
                 <?php endif; ?>

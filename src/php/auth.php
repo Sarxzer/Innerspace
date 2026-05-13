@@ -195,6 +195,32 @@ class Auth
     // -------------------------------------------------------------------------
 
     /**
+     * Check if a password meets the defined criteria (length, complexity, etc.)
+     * @param string $password
+     * @return bool|string
+     */
+    public function passwordMeetsCriteria(string $password): bool|string
+    {
+        if (strlen($password) < 8) {
+            return "Password must be at least 8 characters long.";
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            return "Password must contain at least one uppercase letter.";
+        }
+        if (!preg_match('/[a-z]/', $password)) {
+            return "Password must contain at least one lowercase letter.";
+        }
+        if (!preg_match('/[0-9]/', $password)) {
+            return "Password must contain at least one digit.";
+        }
+        if (!preg_match('/[\W_]/', $password)) {
+            return "Password must contain at least one special character.";
+        }
+        return true;
+    }
+
+
+    /**
      * Change user's password and log out from all other sessions
      * @param int $userId
      * @param string $newPassword
@@ -209,11 +235,11 @@ class Auth
     }
 
     /**
-      * Change user's username
-      * @param int $userId
-      * @param string $newUsername
-      * @return bool True if successful, false if username is taken
-      */
+     * Change user's username
+     * @param int $userId
+     * @param string $newUsername
+     * @return bool True if successful, false if username is taken
+     */
     public function updateUsername(int $userId, string $newUsername): bool
     {
         // Check if new username is already taken by another user
@@ -268,12 +294,14 @@ class Auth
         $token   = bin2hex(random_bytes(32));
         $expires = time() + (30 * 24 * 60 * 60); // 30 days
 
+        $token_hash = hash('sha256', $token);
+
         $stmt = $this->pdo->prepare("
             INSERT INTO sessions (id, user_id, expires_at, ip_address, user_agent)
             VALUES (?, ?, ?, ?, ?)
         ");
         $stmt->execute([
-            $token,
+            $token_hash,
             $userId,
             date('Y-m-d H:i:s', $expires),
             $_SERVER['REMOTE_ADDR']      ?? null,
@@ -282,7 +310,13 @@ class Auth
 
         // Secure flag should be true for HTTPS, false for HTTP (e.g., local testing)
         $secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
-        setcookie('remember_token', $token, $expires, '/', '', $secure, true);
+        setcookie('remember_token', $token, [
+            'expires'  => $expires,
+            'path'     => '/',
+            'secure'   => $secure,
+            'httponly' => true,
+            'samesite' => 'Strict',
+        ]);
     }
 
     /**
@@ -297,6 +331,8 @@ class Auth
 
         $token = $_COOKIE['remember_token'];
 
+        $token_hash = hash('sha256', $token);
+
         $stmt = $this->pdo->prepare("
             SELECT * FROM sessions
             WHERE id = ?
@@ -306,7 +342,7 @@ class Auth
               AND user_agent = ?
         ");
         $stmt->execute([
-            $token,
+            $token_hash,
             $_SERVER['REMOTE_ADDR']     ?? null,
             $_SERVER['HTTP_USER_AGENT'] ?? null,
         ]);
@@ -315,7 +351,7 @@ class Auth
 
         if ($session) {
             $_SESSION['user_id'] = $session['user_id'];
-            $this->revokeToken($token);       // rotate: one-time use token
+            $this->revokeToken($token_hash);       // rotate: one-time use token
             $this->rememberUser($session['user_id']);
         } else {
             $this->clearRememberCookie();

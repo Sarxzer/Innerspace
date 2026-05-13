@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $code = trim($_POST['code'] ?? '');
 
     if (!totp_verify($secret, $code)) {
-        $alert->error("Invalid code. Please try again.");
+        Alert::error("Invalid code. Please try again.");
     } else {
         // Save secret, enable TOTP
         $auth = new Auth($pdo);

@@ -11,24 +11,6 @@
 
 require_once __DIR__ . '/../../php/totp.php';
 
-function passwordMeetsCriteria($password) {
-    if (strlen($password) < 8) {
-        return "Password must be at least 8 characters long.";
-    }
-    if (!preg_match('/[A-Z]/', $password)) {
-        return "Password must contain at least one uppercase letter.";
-    }
-    if (!preg_match('/[a-z]/', $password)) {
-        return "Password must contain at least one lowercase letter.";
-    }
-    if (!preg_match('/[0-9]/', $password)) {
-        return "Password must contain at least one digit.";
-    }
-    if (!preg_match('/[\W_]/', $password)) {
-        return "Password must contain at least one special character.";
-    }
-    return true;
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
@@ -36,14 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $totpEnabled = isset($_POST['totp']);
 
     if (empty($username) || empty($password)) {
-        $alert->error("Username and password are required.");
+        Alert::error("Username and password are required.");
         header("Location: /register");
         exit;
     }
 
-    $passwordCheck = passwordMeetsCriteria($password);
+    $passwordCheck = $auth->passwordMeetsCriteria($password);
     if ($passwordCheck !== true) {
-        $alert->error($passwordCheck);
+        Alert::error($passwordCheck);
         header("Location: /register");
         exit;
     }
@@ -52,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $auth->register($username, $password);
 
     if ($userId === null) {
-        $alert->error("Username already taken.");
+        Alert::error("Username already taken.");
         header("Location: /register");
         exit;
     }
@@ -65,14 +47,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['pending_totp_secret'] = $data['secret'];
         $_SESSION['pending_totp_qr'] = $data['qr_base64'];
 
-        $alert->info("Please scan the QR code with your authenticator app.");
+        Alert::info("Please scan the QR code with your authenticator app.");
 
         header("Location: /register/totp");
         exit;
     }
     $_SESSION['user_id'] = $userId;
 
-    $alert->success("Registration successful! Welcome, $username.");
+    Alert::success("Registration successful! Welcome, $username.");
 
     header("Location: /dashboard");
     exit;
@@ -116,8 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         Enable Two-Factor Authentication
                     </label><br>
 
+                    <input type="hidden" name="csrf_token" value="<?= Csrf::token() ?>">
                     <input type="submit" value="Register">
-
                 </form>
 
                 <p><a href="/login">Already have an account? Login here.</a></p>

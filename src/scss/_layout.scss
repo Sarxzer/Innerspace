@@ -152,3 +152,16 @@ nav a {
         color: #c3b1e1;
     }
 }
+
+
+// ── Images ────────────────────────────────────────────────
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: $border-pixel rgba($color-light-blue, 0.25);
+    box-shadow: 3px 3px 0 $shadow-dark;
+    transition:
+        transform 0.08s,
+        box-shadow 0.08s;
+}
