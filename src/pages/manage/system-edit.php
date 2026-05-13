@@ -16,6 +16,12 @@ $stmt = $pdo->prepare('SELECT * FROM systems WHERE handle = ?');
 $stmt->execute([$handle]);
 $system = $stmt->fetch(PDO::FETCH_ASSOC);
 
+if (!$system['user_id'] || $system['user_id'] != $userId) {
+    Alert::error("System not found or you don't have permission to manage it.");
+    header('Location: /dashboard');
+    exit;
+}
+
 ?>
 
 <!DOCTYPE html>

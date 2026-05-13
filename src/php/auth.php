@@ -98,6 +98,10 @@ class Auth
      */
     public function login(int $userId, bool $remember = false): void
     {
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_regenerate_id(true);
+        }
+
         $_SESSION['user_id'] = $userId;
         if ($remember) {
             $this->rememberUser($userId);
@@ -148,6 +152,10 @@ class Auth
      */
     public function loginWithTwoFactor(int $userId): void
     {
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_regenerate_id(true);
+        }
+
         $_SESSION['pending_2fa_user'] = $userId;
         $_SESSION['totp_attempts'] = 0;
     }

@@ -330,3 +330,14 @@
         text-shadow: 0 0 4px rgba(120, 196, 232, 0.5);
     }
 }
+
+.alert-dev {
+    border-color: #4d2d5a;
+    background: rgba(77, 45, 90, 0.15);
+    color: #c478e8;
+
+    &.alert-icon {
+        color: #4d2d5a;
+        text-shadow: 0 0 4px rgba(196, 120, 232, 0.5);
+    }
+}

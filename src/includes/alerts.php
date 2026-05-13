@@ -30,6 +30,12 @@ if (empty($alerts)) {
                         case 'info':
                             echo 'ℹ';
                             break;
+                        case 'dev':
+                            echo '🐞';
+                            break;
+                        default:
+                            echo 'ℹ';
+                            break;
                     }
                 ?>
             </span>

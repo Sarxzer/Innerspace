@@ -44,6 +44,11 @@ class Alert
         self::add($message, 'info');
     }
 
+    /**
+     * Add a development/debug message (only shown when APP_DEBUG is true)
+     * @param string $message
+     * @return void
+     */
     public static function dev(string $message): void
     {
         if ($_ENV['APP_DEBUG'] === 'true') {

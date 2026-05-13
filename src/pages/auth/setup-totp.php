@@ -78,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="text" id="code" name="code" maxlength="6"
                            placeholder="123456" autocomplete="one-time-code" required><br><br>
 
+                    <input type="hidden" name="csrf_token" value="<?= Csrf::token() ?>">
                     <input type="submit" value="Verify & Enable">
                 </form>
             </div>

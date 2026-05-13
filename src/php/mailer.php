@@ -48,4 +48,21 @@ class Mailer
             return false;
         }
     }
+
+    public function sendPasswordResetEmail(string $to, string $token): bool
+    {
+        $resetLink = "https://innerspace.example.com/reset-password?token=$token";
+        $subject = 'Innerspace Password Reset Request';
+        $body = "Hello,<br><br>We received a request to reset your password. Click the link below to reset it:<br><a href='$resetLink'>$resetLink</a><br><br>If you didn't request this, please ignore this email.<br><br>Best,<br>Innerspace Team";
+
+        return $this->sendEmail($to, $subject, $body, true);
+    }
+
+    public function send2FACodeEmail(string $to, string $code): bool
+    {
+        $subject = 'Your Innerspace 2FA Code';
+        $body = "Hello,<br><br>Your Two-Factor Authentication code is: <strong>$code</strong><br><br>This code will expire in 5 minutes.<br><br>Best,<br>Innerspace Team";
+
+        return $this->sendEmail($to, $subject, $body, true);
+    }
 }

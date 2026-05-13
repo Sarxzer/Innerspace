@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Increment attempt count, lock out after 5 attempts
     $_SESSION['totp_attempts'] = ($_SESSION['totp_attempts'] ?? 0) + 1;
     if ($_SESSION['totp_attempts'] >= 5) {
-        unset($_SESSION['pending_2fa_user_id'], $_SESSION['totp_attempts']);
+        unset($_SESSION['pending_2fa_user'], $_SESSION['totp_attempts']);
         Alert::error("Too many failed attempts. Please log in again.");
         header("Location: /login");
         exit;
@@ -69,6 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="code">Code:</label><br>
                     <input type="text" id="code" name="code" maxlength="8"
                            placeholder="123456" autocomplete="one-time-code" required><br><br>
+
+                    <input type="hidden" name="csrf_token" value="<?= Csrf::token() ?>">
                     <input type="submit" value="Verify">
                 </form>
                 <p><a href="/login">← Back to login</a></p>

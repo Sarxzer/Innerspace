@@ -21,6 +21,17 @@ if ($_ENV['APP_DEBUG'] === 'true') {
 $database = new Database();
 $pdo = $database->getPdo();
 
+$sessionSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || (!empty($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443);
+
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => $sessionSecure,
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
+
 session_start();
 
 set_error_handler(function (int $errno, string $errstr): bool {
