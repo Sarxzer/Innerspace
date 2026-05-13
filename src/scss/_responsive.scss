@@ -5,125 +5,213 @@
 
 @use "variables" as *;
 
+// @media (max-width: 768px) {
+//     nav {
+//         flex-direction: column;
+//         align-items: stretch;
+//         padding: 0;
+//         animation: slideInFromTop 0.3s ease-out;
+//         position: relative;
+//         z-index: 10;
+//     }
+
+//     .nav-inner {
+//         display: flex;
+//         align-items: center;
+//         justify-content: space-between;
+//         padding: 0 1rem;
+//         height: 52px;
+//         box-sizing: border-box;
+//         position: relative;
+//         z-index: 2;
+//         background: $color-bg-panel;
+//     }
+
+//     .nav-logo {
+//         border-right: none;
+//         margin-right: 0;
+//         padding-right: 0;
+//     }
+
+//     .nav-toggle {
+//         display: flex;
+//         flex-direction: column;
+//         justify-content: center;
+//         gap: 5px;
+//         cursor: pointer;
+//         width: 36px;
+//         height: 36px;
+//         padding: 0;
+//         background: rgba($color-light-blue, 0.08);
+//         border: 1px solid rgba($color-light-blue, 0.35);
+//         align-items: center;
+//         transition:
+//             background 0.2s ease,
+//             box-shadow 0.2s ease,
+//             transform 0.15s ease;
+
+//         &:hover {
+//             background: rgba($color-light-blue, 0.16);
+//             box-shadow: 0 0 0 2px rgba($color-light-blue, 0.16);
+//         }
+
+//         &:active {
+//             transform: scale(0.96);
+//         }
+
+//         span {
+//             display: block;
+//             width: 22px;
+//             height: 2px;
+//             background: $color-light-blue;
+//             transform-origin: center;
+//             transition:
+//                 transform 0.28s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+//                 opacity 0.2s ease,
+//                 box-shadow 0.2s ease;
+//             box-shadow: 0 0 6px rgba($color-light-blue, 0.15);
+//         }
+
+//         &[aria-expanded="true"] {
+//             background: rgba($color-light-blue, 0.2);
+
+//             span:nth-child(1) {
+//                 transform: translateY(7px) rotate(45deg);
+//             }
+
+//             span:nth-child(2) {
+//                 opacity: 0;
+//                 transform: scaleX(0.2);
+//             }
+
+//             span:nth-child(3) {
+//                 transform: translateY(-7px) rotate(-45deg);
+//             }
+//         }
+//     }
+
+//     .nav-links {
+//         display: none;
+//         flex-direction: column;
+//         align-items: stretch;
+//         background: $color-bg-panel;
+//         border-top: 2px solid rgba($color-light-blue, 0.3);
+//         box-shadow: 0 4px 0 $shadow-dark;
+//         position: absolute;
+//         top: 52px;
+//         left: 0;
+//         right: 0;
+//         z-index: 1;
+
+//         &.is-open {
+//             display: flex;
+//             animation: slideInFromTop 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+//         }
+//     }
+
+//     nav a {
+//         display: block;
+//         border-bottom: none;
+//         border-left: 3px solid transparent;
+//         margin-bottom: 0;
+//         padding: 0.75rem 1.25rem;
+
+//         &:hover {
+//             border-bottom-color: transparent;
+//             border-left-color: $color-light-purple;
+//         }
+
+//         &.active {
+//             border-bottom-color: transparent;
+//             border-left-color: $color-light-blue;
+//         }
+//     }
+// }
+
+// ── Bottom Nav (mobile only) ──────────────────────────────
+
 @media (max-width: 768px) {
-    nav {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 0;
-        animation: slideInFromTop 0.3s ease-out;
-        position: relative;
-        z-index: 10;
+    .top-nav {
+        display: none;
     }
 
-    .nav-inner {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 1rem;
-        height: 52px;
-        box-sizing: border-box;
-        position: relative;
-        z-index: 2;
-        background: $color-bg-panel;
-    }
-
-    .nav-logo {
-        border-right: none;
-        margin-right: 0;
-        padding-right: 0;
+    .breadcrumb {
+        display: none;
     }
 
     .nav-toggle {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 5px;
-        cursor: pointer;
-        width: 36px;
-        height: 36px;
-        padding: 0;
-        background: rgba($color-light-blue, 0.08);
-        border: 1px solid rgba($color-light-blue, 0.35);
-        align-items: center;
-        transition:
-            background 0.2s ease,
-            box-shadow 0.2s ease,
-            transform 0.15s ease;
-
-        &:hover {
-            background: rgba($color-light-blue, 0.16);
-            box-shadow: 0 0 0 2px rgba($color-light-blue, 0.16);
-        }
-
-        &:active {
-            transform: scale(0.96);
-        }
-
-        span {
-            display: block;
-            width: 22px;
-            height: 2px;
-            background: $color-light-blue;
-            transform-origin: center;
-            transition:
-                transform 0.28s cubic-bezier(0.68, -0.55, 0.27, 1.55),
-                opacity 0.2s ease,
-                box-shadow 0.2s ease;
-            box-shadow: 0 0 6px rgba($color-light-blue, 0.15);
-        }
-
-        &[aria-expanded="true"] {
-            background: rgba($color-light-blue, 0.2);
-
-            span:nth-child(1) {
-                transform: translateY(7px) rotate(45deg);
-            }
-
-            span:nth-child(2) {
-                opacity: 0;
-                transform: scaleX(0.2);
-            }
-
-            span:nth-child(3) {
-                transform: translateY(-7px) rotate(-45deg);
-            }
-        }
+        display: none;
     }
 
-    .nav-links {
+    .site-footer {
         display: none;
-        flex-direction: column;
-        align-items: stretch;
-        background: $color-bg-panel;
-        border-top: 2px solid rgba($color-light-blue, 0.3);
-        box-shadow: 0 4px 0 $shadow-dark;
-        position: absolute;
-        top: 52px;
+    }
+
+    // put site announcement in the middle of the screen on mobile, above the bottom nav
+    .site-announcement {
+        position: fixed;
+        bottom: 60px;
         left: 0;
         right: 0;
-        z-index: 1;
+        z-index: 100;
+        color: $color-light-blue;
+        background: $color-bg-panel;
+        border-top: 1px solid rgba($color-light-blue, 0.2);
+        box-shadow: 0 -3px 0 $shadow-dark;
+        padding: 0.4rem 1rem calc(0.4rem + env(safe-area-inset-bottom));
+        text-align: center;
+        font-size: 0.8rem;
+    }
 
-        &.is-open {
-            display: flex;
-            animation: slideInFromTop 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+    .bottom-nav {
+        display: flex;
+        flex-direction: row;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background: $color-bg-panel;
+        border-top: 1px solid rgba($color-light-blue, 0.2);
+        box-shadow: 0 -3px 0 $shadow-dark;
+        padding: 0.4rem 0 calc(0.4rem + env(safe-area-inset-bottom));
+        justify-content: space-around;
+        align-items: center;
+        height: 60px;
+        box-sizing: border-box;
+    }
+
+    .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.15rem;
+        text-decoration: none;
+        color: inherit;
+        opacity: 0.45;
+        font-size: 0.6rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        transition: opacity 0.15s, color 0.15s;
+        padding: 0.25rem 0.5rem;
+
+        &.active {
+            opacity: 1;
+            color: $color-light-blue;
+            border-bottom: 2px solid $color-light-blue;
+        }
+
+        &:hover {
+            opacity: 0.8;
         }
     }
 
-    nav a {
-        display: block;
-        border-bottom: none;
-        border-left: 3px solid transparent;
-        margin-bottom: 0;
-        padding: 0.75rem 1.25rem;
+    .bottom-nav-icon {
+        font-size: 1.2rem;
+        line-height: 1;
+    }
 
-        &:hover {
-            border-bottom-color: transparent;
-            border-left-color: $color-light-purple;
-        }
-
-        &.active {
-            border-bottom-color: transparent;
-            border-left-color: $color-light-blue;
-        }
+    .content {
+        padding-bottom: 80px;
     }
 }

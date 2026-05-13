@@ -144,6 +144,8 @@ match ($parts[0]) {
     // Public
     ''  => header('Location: /home'), // Redirect root to home
     'home'  => require $pagesDir . '/home.php',
+    // Changelog
+    'changelog' => require $pagesDir . '/changelog.php',
     // 'login'     => require $pagesDir . '/auth/login.php',
     'login'     => match (true) {
         isset($parts[1]) && $parts[1] === 'totp' => require $pagesDir . '/auth/login-totp.php', // /login/totp
@@ -194,11 +196,11 @@ match ($parts[0]) {
         default                                     => require $pagesDir . '/settings/settings.php',      // /settings
     },
 
-    // 'friends' => match (true) {
-    //     isset($parts[1]) && $parts[1] === 'invite' => require $pagesDir . '/friends/invite.php',  // /friends/invite
-    //     default                                     => require $pagesDir . '/friends/friends.php', // /friends
-    // },
-    // 'friend' => require $pagesDir . '/friends/friend-view.php', // /friend/{token}  
+    'friends' => match (true) {
+        isset($parts[1]) && $parts[1] === 'invite' => require $pagesDir . '/friends/invite.php',  // /friends/invite
+        default                                     => require $pagesDir . '/friends/friends.php', // /friends
+    },
+    'friend' => require $pagesDir . '/friends/friend-view.php', // /friend/{token}  
 
     // Fallback
     default => require $pagesDir . '/errors/404.php',

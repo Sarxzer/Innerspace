@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Register | Innerspace</title>
     <link rel="stylesheet" href="<?= $cssDir ?>">
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
-    <script src="<?= $jsDir?>" defer></script>
+    <script src="<?= $jsDir ?>" defer></script>
 
 </head>
 
@@ -84,25 +84,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="main">
-                <form action="register" method="post" class="auth-form">
-                    <h1>Register</h1>
+                <div class="register-container">
+                    <h1 class="register-title">Register</h1>
 
-                    <label for="username">Username:</label><br>
-                    <input type="text" id="username" name="username" required><br><br>
+                    <form action="register" method="post" class="register-form">
+                        <label for="username">Username:</label><br>
+                        <input type="text" id="username" name="username" required><br><br>
 
-                    <label for="password">Password:</label><br>
-                    <input type="password" id="password" name="password" required><br><br>
+                        <label for="password">Password:</label><br>
+                        <input type="password" id="password" name="password" required><br><br>
 
-                    <label for="totp">
-                        <input type="checkbox" name="totp" id="totp" value="1">
-                        Enable Two-Factor Authentication
-                    </label><br>
+                        <label for="totp" class="checkbox-label">
+                            <input type="checkbox" name="totp" id="totp" value="1">
+                            Enable Two-Factor Authentication
+                        </label><br>
 
-                    <input type="hidden" name="csrf_token" value="<?= Csrf::token() ?>">
-                    <input type="submit" value="Register">
-                </form>
+                        <input type="hidden" name="csrf_token" value="<?= Csrf::token() ?>">
+                        <input type="submit" value="Register">
+                    </form>
 
-                <p><a href="/login">Already have an account? Login here.</a></p>
+                    <p class="register-subtext"><a href="/login">Already have an account? Login here.</a></p>
+                </div>
             </div>
 
             <?php include $includesDir . '/footer.php'; ?>

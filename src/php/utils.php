@@ -33,13 +33,3 @@ class Csrf {
         return $_SESSION['csrf_token'] ?? '';
     }
 }
-
-
-
-
-function loadFile(string $path): string {
-    if (!file_exists($path)) {
-        
-    }
-    return file_get_contents($path);
-}

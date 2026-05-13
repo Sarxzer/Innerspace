@@ -30,21 +30,36 @@
             </div>
 
             <div class="main">
+                <div class="home-hero">
+                    <h1 class="home-title">Innerspace</h1>
+                    <p class="home-subtitle">A cozy space for plural systems to track, share, and understand themselves.</p>
+                    <div class="home-actions">
+                        <?php if (isset($_SESSION['user_id'])): ?>
+                            <a href="/dashboard" class="btn btn-primary">Go to Dashboard</a>
+                        <?php else: ?>
+                            <a href="/register" class="btn btn-primary">Get Started</a>
+                            <a href="/login" class="btn btn-secondary">Log In</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
 
-                <h1>Innerspace</h1>
-
-                <p>Welcome to Innerspace! This is a platform for managing and sharing information about systems, members, and fronting sessions.</p>
-
-                <h2>Getting Started</h2>
-
-                <p>To get started, please log in or create an account. Once you have an account, you can create your own system, add members, and track fronting sessions.</p>
-
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Id quos esse ullam. Labore velit molestiae perferendis voluptate ipsam, accusamus mollitia sed reiciendis quas, eius eum tempora minima. Qui, temporibus molestiae?
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus nulla, nam minus consequatur, hic illo molestias laborum magni odio consequuntur tempore quam repellat repudiandae non et id pariatur a necessitatibus.
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus accusamus assumenda sit quos consequatur illum laudantium porro ipsam quidem nisi. Perspiciatis distinctio quae aperiam. Veritatis autem eligendi voluptates ad saepe.
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste molestias iure facilis dicta ad modi cupiditate totam dolorem libero explicabo consequuntur neque voluptatibus inventore numquam, fugit hic unde in sed?
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores autem dolor ratione placeat distinctio voluptatibus explicabo eligendi quo quis error itaque, impedit reprehenderit aspernatur exercitationem unde nemo dignissimos! Id, recusandae.
-
+                <div class="home-features">
+                    <div class="home-feature">
+                        <span class="home-feature-icon">🧩</span>
+                        <h3>Manage your system</h3>
+                        <p>Create and organise your system's members, with profiles, handles, and more.</p>
+                    </div>
+                    <div class="home-feature">
+                        <span class="home-feature-icon">🔄</span>
+                        <h3>Track fronting</h3>
+                        <p>Log who's fronting and when, and keep a history of fronting sessions.</p>
+                    </div>
+                    <div class="home-feature">
+                        <span class="home-feature-icon">🤝</span>
+                        <h3>Share with friends</h3>
+                        <p>Invite trusted friends to view your system — on your terms, with granular sharing controls.</p>
+                    </div>
+                </div>
             </div>
             <?php include $includesDir . '/footer.php'; ?>
         </div>

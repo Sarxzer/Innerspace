@@ -43,7 +43,7 @@
 
 // ── Nav ────────────────────────────────────────────────
 
-nav {
+.nav-top {
     background: $color-bg-panel;
     border-bottom: 3px solid $color-light-blue;
     box-shadow: 0 4px 0 $shadow-dark;
@@ -53,6 +53,10 @@ nav {
 }
 
 .nav-toggle {
+    display: none;
+}
+
+.bottom-nav {
     display: none;
 }
 
@@ -73,7 +77,7 @@ nav {
     flex: 1;
 }
 
-nav a {
+.nav-top a {
     font-family: $font-retro;
     font-size: 20px;
     color: $color-text-muted;
@@ -117,6 +121,27 @@ nav a {
     span {
         margin: 0;
         color: rgba($color-light-blue, 0.4);
+    }
+}
+
+// ── Site announcement ───────────────────────────────────
+
+.site-announcement {
+    background: $color-light-blue;
+    color: $color-text-inverted;
+    font-family: $font-retro;
+    font-size: 14px;
+    padding: 0.5rem 1.5rem;
+    border-bottom: 3px solid $color-light-purple;
+    letter-spacing: 1px;
+
+    a {
+        color: #fff;
+        text-decoration: underline;
+
+        &:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
     }
 }
 
