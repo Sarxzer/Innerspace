@@ -38,6 +38,7 @@
                             <a href="/dashboard" class="btn btn-primary">Go to Dashboard</a>
                         <?php else: ?>
                             <a href="/register" class="btn btn-primary">Get Started</a>
+                            <span>/</span>
                             <a href="/login" class="btn btn-secondary">Log In</a>
                         <?php endif; ?>
                     </div>
@@ -45,17 +46,17 @@
 
                 <div class="home-features">
                     <div class="home-feature">
-                        <span class="home-feature-icon">🧩</span>
+                        <span class="home-feature-icon white glow-sm">><span class="blinking">_</span></span>
                         <h3>Manage your system</h3>
                         <p>Create and organise your system's members, with profiles, handles, and more.</p>
                     </div>
                     <div class="home-feature">
-                        <span class="home-feature-icon">🔄</span>
+                        <span class="home-feature-icon green glow-sm">↺</span>
                         <h3>Track fronting</h3>
                         <p>Log who's fronting and when, and keep a history of fronting sessions.</p>
                     </div>
                     <div class="home-feature">
-                        <span class="home-feature-icon">🤝</span>
+                        <span class="home-feature-icon yellow glow-sm">⊕</span>
                         <h3>Share with friends</h3>
                         <p>Invite trusted friends to view your system — on your terms, with granular sharing controls.</p>
                     </div>

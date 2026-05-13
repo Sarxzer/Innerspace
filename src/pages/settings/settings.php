@@ -210,6 +210,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <button type="submit">Enable 2FA</button>
                     </form>
                 <?php endif; ?>
+
+                <a href="/logout">Logout</a>
             </div>
 
             <?php include $includesDir . '/footer.php'; ?>

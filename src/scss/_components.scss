@@ -6,7 +6,6 @@
 @use "variables" as *;
 @use "sass:color";
 
-
 // ── Scanlines overlay ──────────────────────────────────
 
 .pixel-scanlines {
@@ -553,4 +552,52 @@
     margin-top: 1rem;
     font-size: 0.9rem;
     color: $color-text-muted;
+}
+
+/* ── Random small components ─────────────────────────────────────── */
+
+.blinking {
+    animation: blink 1.4s step-end infinite;
+}
+
+.white {
+    color: $color-text-main;
+
+    &.glow-sm {
+        text-shadow: 0 0 4px rgba($color-text-main, 0.5);
+    }
+    &.glow-md {
+        text-shadow: 0 0 6px rgba($color-text-main, 0.7);
+    }
+    &.glow-lg {
+        text-shadow: 0 0 8px rgba($color-text-main, 0.7);
+    }
+}
+
+.green {
+    color: $color-online;
+
+    &.glow-sm {
+        text-shadow: 0 0 4px rgba($color-online, 0.5);
+    }
+    &.glow-md {
+        text-shadow: 0 0 6px rgba($color-online, 0.7);
+    }
+    &.glow-lg {
+        text-shadow: 0 0 8px rgba($color-online, 0.7);
+    }
+}
+
+.yellow {
+    color: $color-warning;
+
+    &.glow-sm {
+        text-shadow: 0 0 4px rgba($color-warning, 0.5);
+    }
+    &.glow-md {
+        text-shadow: 0 0 6px rgba($color-warning, 0.7);
+    }
+    &.glow-lg {
+        text-shadow: 0 0 8px rgba($color-warning, 0.7);
+    }
 }

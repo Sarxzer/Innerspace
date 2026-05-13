@@ -596,6 +596,50 @@ h2,
   color: #9d9ab5;
 }
 
+/* ── Random small components ─────────────────────────────────────── */
+.blinking {
+  animation: blink 1.4s step-end infinite;
+}
+
+.white {
+  color: #e8e6f0;
+}
+.white.glow-sm {
+  text-shadow: 0 0 4px rgba(232, 230, 240, 0.5);
+}
+.white.glow-md {
+  text-shadow: 0 0 6px rgba(232, 230, 240, 0.7);
+}
+.white.glow-lg {
+  text-shadow: 0 0 8px rgba(232, 230, 240, 0.7);
+}
+
+.green {
+  color: #a3f3c4;
+}
+.green.glow-sm {
+  text-shadow: 0 0 4px rgba(163, 243, 196, 0.5);
+}
+.green.glow-md {
+  text-shadow: 0 0 6px rgba(163, 243, 196, 0.7);
+}
+.green.glow-lg {
+  text-shadow: 0 0 8px rgba(163, 243, 196, 0.7);
+}
+
+.yellow {
+  color: #f9c74f;
+}
+.yellow.glow-sm {
+  text-shadow: 0 0 4px rgba(249, 199, 79, 0.5);
+}
+.yellow.glow-md {
+  text-shadow: 0 0 6px rgba(249, 199, 79, 0.7);
+}
+.yellow.glow-lg {
+  text-shadow: 0 0 8px rgba(249, 199, 79, 0.7);
+}
+
 .page {
   background-color: #1a1a2e;
   min-height: 100dvh;
@@ -827,5 +871,58 @@ img {
   }
   .content {
     padding-bottom: 80px;
+  }
+  /* ── Home Page Specific ── */
+  .home-hero {
+    padding: 3rem 1.5rem 2rem;
+    text-align: center;
+  }
+  .home-hero .home-title {
+    font-size: 2rem;
+  }
+  .home-hero .home-subtitle {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+    color: #9d9ab5;
+  }
+  .home-hero .home-action {
+    margin-top: 1.5rem;
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: #a3c4f3;
+    color: #0f3460;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+  }
+  .home-hero .home-action:hover {
+    background-color: rgb(208.1153846154, 224.9326923077, 248.8846153846);
+  }
+  .home-features {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+    align-items: center;
+  }
+  .home-features .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+  .home-features .feature .feature-icon {
+    font-size: 2rem;
+    color: #a3c4f3;
+  }
+  .home-features .feature .feature-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  .home-features .feature .feature-description {
+    color: #9d9ab5;
+    font-size: 0.9rem;
+    max-width: 400px;
   }
 }
