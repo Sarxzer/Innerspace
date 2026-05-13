@@ -16,8 +16,13 @@ $color-text-main: #e8e6f0;
 $color-text-muted: #9d9ab5;
 $color-text-inverted: #0f3460;
 
-$color-warning: #f9c74f;  // Yellow for warnings
-$color-error: #f94144;    // Red for errors
+$color-warning: #e8c778;  // Yellow for warnings
+$color-error: #e87878;    // Red for errors
+$color-success: #7eda9e;  // Green for success messages
+$color-info: #78c4e8;     // Teal for informational messages
+$color-dev: #c478e8;      // Purple for development/debugging
+
+$color-pink: #ff6f91;
 
 // Accent colors
 $color-light-blue: #a3c4f3;

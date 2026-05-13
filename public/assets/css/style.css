@@ -172,7 +172,7 @@ h2,
   height: 8px;
   flex-shrink: 0;
   background: #a3f3c4;
-  box-shadow: 0 0 0 2px #0a0a1a, 0 0 0 3px #a3f3c4;
+  box-shadow: 0 0 0 2px #0a0a1a, 0 0 0 3px #a3f3c4, 0 0 8px 2px #a3f3c4;
   animation: blink 1.4s step-end infinite;
 }
 
@@ -247,11 +247,13 @@ h2,
 }
 
 .color-dot {
+  background-color: var(--color-dot);
   width: 14px;
   height: 14px;
   flex-shrink: 0;
   border: 2px solid #0a0a1a;
   outline: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 4px var(--color-dot);
 }
 
 .member-name {
@@ -358,52 +360,52 @@ h2,
 }
 
 .alert-success {
-  border-color: #2d5a3d;
-  background: rgba(45, 90, 61, 0.15);
+  border-color: rgb(34.5036144578, 120.2963855422, 64.3445783133);
+  background: rgba(34.5036144578, 120.2963855422, 64.3445783133, 0.15);
   color: #7eda9e;
 }
 .alert-success.alert-icon {
-  color: #2d5a3d;
+  color: rgb(34.5036144578, 120.2963855422, 64.3445783133);
   text-shadow: 0 0 4px rgba(126, 218, 158, 0.5);
 }
 
 .alert-error {
-  border-color: #5a2d2d;
-  background: rgba(90, 45, 45, 0.15);
+  border-color: rgb(135.3417721519, 23.0582278481, 23.0582278481);
+  background: rgba(135.3417721519, 23.0582278481, 23.0582278481, 0.15);
   color: #e87878;
 }
 .alert-error.alert-icon {
-  color: #5a2d2d;
+  color: rgb(135.3417721519, 23.0582278481, 23.0582278481);
   text-shadow: 0 0 4px rgba(232, 120, 120, 0.5);
 }
 
 .alert-warning {
-  border-color: #5a4d2d;
-  background: rgba(90, 77, 45, 0.15);
+  border-color: rgb(135.3417721519, 102.2582278481, 23.0582278481);
+  background: rgba(135.3417721519, 102.2582278481, 23.0582278481, 0.15);
   color: #e8c778;
 }
 .alert-warning.alert-icon {
-  color: #5a4d2d;
+  color: rgb(135.3417721519, 102.2582278481, 23.0582278481);
   text-shadow: 0 0 4px rgba(232, 199, 120, 0.5);
 }
 
 .alert-info {
-  border-color: #2d425a;
-  background: rgba(45, 66, 90, 0.15);
+  border-color: rgb(23.0582278481, 99.2506329114, 135.3417721519);
+  background: rgba(23.0582278481, 99.2506329114, 135.3417721519, 0.15);
   color: #78c4e8;
 }
 .alert-info.alert-icon {
-  color: #2d425a;
+  color: rgb(23.0582278481, 99.2506329114, 135.3417721519);
   text-shadow: 0 0 4px rgba(120, 196, 232, 0.5);
 }
 
 .alert-dev {
-  border-color: #4d2d5a;
-  background: rgba(77, 45, 90, 0.15);
+  border-color: rgb(99.2506329114, 23.0582278481, 135.3417721519);
+  background: rgba(99.2506329114, 23.0582278481, 135.3417721519, 0.15);
   color: #c478e8;
 }
 .alert-dev.alert-icon {
-  color: #4d2d5a;
+  color: rgb(99.2506329114, 23.0582278481, 135.3417721519);
   text-shadow: 0 0 4px rgba(196, 120, 232, 0.5);
 }
 
@@ -628,16 +630,29 @@ h2,
 }
 
 .yellow {
-  color: #f9c74f;
+  color: #e8c778;
 }
 .yellow.glow-sm {
-  text-shadow: 0 0 4px rgba(249, 199, 79, 0.5);
+  text-shadow: 0 0 4px rgba(232, 199, 120, 0.5);
 }
 .yellow.glow-md {
-  text-shadow: 0 0 6px rgba(249, 199, 79, 0.7);
+  text-shadow: 0 0 6px rgba(232, 199, 120, 0.7);
 }
 .yellow.glow-lg {
-  text-shadow: 0 0 8px rgba(249, 199, 79, 0.7);
+  text-shadow: 0 0 8px rgba(232, 199, 120, 0.7);
+}
+
+.pink {
+  color: #ff6f91;
+}
+.pink.glow-sm {
+  text-shadow: 0 0 4px rgba(255, 111, 145, 0.5);
+}
+.pink.glow-md {
+  text-shadow: 0 0 6px rgba(255, 111, 145, 0.7);
+}
+.pink.glow-lg {
+  text-shadow: 0 0 8px rgba(255, 111, 145, 0.7);
 }
 
 .page {

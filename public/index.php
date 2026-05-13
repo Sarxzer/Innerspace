@@ -146,6 +146,8 @@ match ($parts[0]) {
     'home'  => require $pagesDir . '/home.php',
     // Changelog
     'changelog' => require $pagesDir . '/changelog.php',
+    // Alert tests
+    'tests' => require $pagesDir . '/tests.php',
     // 'login'     => require $pagesDir . '/auth/login.php',
     'login'     => match (true) {
         isset($parts[1]) && $parts[1] === 'totp' => require $pagesDir . '/auth/login-totp.php', // /login/totp

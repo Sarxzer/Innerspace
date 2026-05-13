@@ -146,7 +146,7 @@ $canonicalUrl = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                             <div class="member-accent-bar" style="background: <?= htmlspecialchars($member['color']) ?>;"></div>
                             <div class="member-hex" style="color: <?= htmlspecialchars($member['color']) ?>">#<?= substr(htmlspecialchars($member['color']), 1) ?></div>
                             <div class="member-top">
-                                <div class="color-dot" style="background-color: <?= htmlspecialchars($member['color']) ?>"></div>
+                                <div class="color-dot" style="--color-dot: <?= htmlspecialchars($member['color']) ?>"></div>
                                 <div class="member-name"><?= htmlspecialchars($member['name']) ?></div>
                                 <div class="member-role"><?= htmlspecialchars($member['role']) ?></div>
                             </div>

@@ -31,7 +31,7 @@ if (empty($alerts)) {
                             echo 'ℹ';
                             break;
                         case 'dev':
-                            echo '🐞';
+                            echo '⟨/⟩';
                             break;
                         default:
                             echo 'ℹ';
