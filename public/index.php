@@ -34,18 +34,18 @@ session_set_cookie_params([
 
 session_start();
 
-set_error_handler(function (int $errno, string $errstr): bool {
-    error_log("PHP Error [$errno]: $errstr in {$_SERVER['SCRIPT_NAME']} on line {$_SERVER['LINE']}");
-    match (true) {
-        in_array($errno, [E_ERROR, E_USER_ERROR])        => Alert::error("Error: $errstr"),
-        in_array($errno, [E_WARNING, E_USER_WARNING])    => Alert::warning("Warning: $errstr"),
-        in_array($errno, [E_NOTICE, E_USER_NOTICE,
-                          E_DEPRECATED, E_USER_DEPRECATED]) => Alert::info("Notice: $errstr"),
-        default                                          => Alert::info($errstr),
-    };
+// set_error_handler(function (int $errno, string $errstr): bool {
+//     error_log("PHP Error [$errno]: $errstr in {$_SERVER['SCRIPT_NAME']} on line {$_SERVER['
+//     match (true) {
+//         in_array($errno, [E_ERROR, E_USER_ERROR])        => Alert::error("Error: $errstr"),
+//         in_array($errno, [E_WARNING, E_USER_WARNING])    => Alert::warning("Warning: $errstr"),
+//         in_array($errno, [E_NOTICE, E_USER_NOTICE,
+//                           E_DEPRECATED, E_USER_DEPRECATED]) => Alert::info("Notice: $errstr"),
+//         default                                          => Alert::info($errstr),
+//     };
 
-    return true;
-});
+//     return true;
+// });
 
 $pagesDir = __DIR__ . '/../src/pages';
 $includesDir = __DIR__ . '/../src/includes';
@@ -172,14 +172,14 @@ match ($parts[0]) {
 
     // Managed (authenticated) system/member editing
     'manage' => match (true) {
-        isset($parts[1], $parts[2], $parts[3], $parts[4]) && $parts[1] === 'system' && $parts[3] === 'member'
-        => require $pagesDir . '/manage/member-edit.php',   // /manage/system/{handle}/member/{member_handle}
-        isset($parts[1], $parts[2], $parts[3]) && $parts[1] === 'system' && $parts[3] === 'members'
-        => require $pagesDir . '/manage/members.php',       // /manage/system/{handle}/members
-        isset($parts[1], $parts[2]) && $parts[1] === 'system'
-        => require $pagesDir . '/manage/system-edit.php',   // /manage/system/{handle}
-        isset($parts[1], $parts[2]) && $parts[1] === 'systems' && $parts[2] === 'new'
-        => require $pagesDir . '/manage/system-new.php',    // /manage/systems/new
+        isset($parts[1], $parts[2], $parts[3], $parts[4]) && $parts[1] === 's'
+        => require $pagesDir . '/manage/member-edit.php',   // /manage/s/{handle}/@{member_handle}
+        isset($parts[1], $parts[2], $parts[3]) && $parts[1] === 's' && $parts[3] === 'members'
+        => require $pagesDir . '/manage/members.php',       // /manage/s/{handle}/members
+        isset($parts[1], $parts[2]) && $parts[1] === 's'
+        => require $pagesDir . '/manage/system-edit.php',   // /manage/s/{handle}
+        isset($parts[1], $parts[2]) && $parts[1] === 'system' && $parts[2] === 'new'
+        => require $pagesDir . '/manage/system-new.php',    // /manage/system/new
         default                           => require $pagesDir . '/manage/systems.php',       // /manage or /manage/systems
     },
 
@@ -194,11 +194,11 @@ match ($parts[0]) {
         default                                     => require $pagesDir . '/settings/settings.php',      // /settings
     },
 
-    'friends' => match (true) {
-        isset($parts[1]) && $parts[1] === 'invite' => require $pagesDir . '/friends/invite.php',  // /friends/invite
-        default                                     => require $pagesDir . '/friends/friends.php', // /friends
-    },
-    'friend' => require $pagesDir . '/friends/friend-view.php', // /friend/{token}  
+    // 'friends' => match (true) {
+    //     isset($parts[1]) && $parts[1] === 'invite' => require $pagesDir . '/friends/invite.php',  // /friends/invite
+    //     default                                     => require $pagesDir . '/friends/friends.php', // /friends
+    // },
+    // 'friend' => require $pagesDir . '/friends/friend-view.php', // /friend/{token}  
 
     // Fallback
     default => require $pagesDir . '/errors/404.php',

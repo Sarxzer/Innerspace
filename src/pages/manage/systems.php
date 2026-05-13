@@ -18,7 +18,7 @@ if (empty($systems)) {
 }
 
 // For now, this page will redirect to the first system's edit page, but in the future we can expand it for multiple systems per user and have a proper listing page here.
-header('Location: /manage/system/' . $systems[0]['handle']);
+header('Location: /manage/s/' . $systems[0]['handle']);
 exit;
 ?>
 <!DOCTYPE html>

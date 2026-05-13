@@ -31,7 +31,7 @@ function totp_generate_secret(string $userEmail, string $issuer): array
 
 function totp_verify(string $secret, string $code): bool
 {
-    $otp = TOTP::createFromSecret($secret);
+    $otp = TOTP::createFromSecret($secret, clock: new NativeClock());
     return $otp->verify($code, null, 1); // ±1 window = ±30s drift tolerance
 }
 
