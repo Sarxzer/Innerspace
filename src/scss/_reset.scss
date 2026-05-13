@@ -9,7 +9,10 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    overscroll-behavior: none;
+}
+
+nav {
+    overscroll-behavior-y: none;
 }
 
 a {
@@ -19,4 +22,21 @@ a {
 
 ul {
     list-style: none;
+}
+
+:root {
+    --vv-bottom: 0px;
+}
+
+html,
+body {
+    height: 100%;
+    overscroll-behavior-y: none;
+}
+
+body {
+    min-height: 100dvh;
+    min-height: 100svh;
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
 }
