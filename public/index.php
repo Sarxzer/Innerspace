@@ -5,6 +5,7 @@ require_once __DIR__ . '/../src/php/auth.php';
 require_once __DIR__ . '/../src/php/alert.php';
 require_once __DIR__ . '/../src/php/utils.php';
 require_once __DIR__ . '/../src/php/discord.php';
+session_start();
 
 use Dotenv\Dotenv;
 
@@ -36,8 +37,6 @@ session_set_cookie_params([
     'httponly' => true,
     'samesite' => 'Lax',
 ]);
-
-session_start();
 
 // Discord logging — runs in production too
 if (($_ENV['DISCORD_WEBHOOK_LOGGING'] ?? 'false') === 'true') {
