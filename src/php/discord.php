@@ -2,14 +2,11 @@
 
 /**
  * Discord Webhook Sender
+ * This class provides methods to send messages and embeds to a Discord channel via a webhook URL.
  */
 
 class DiscordWebhook
 {
-    /**
-     * @var string $webhookUrl The URL of the Discord webhook to send messages to.
-     */
-
     private string $webhookUrl;
 
     public function __construct(string $webhookUrl)

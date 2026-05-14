@@ -22,6 +22,10 @@ if ($_ENV['APP_DEBUG'] === 'true') {
 $database = new Database();
 $pdo = $database->getPdo();
 
+$active = new ActiveVisitors($pdo);
+
+$active->ping($_SESSION['user_id'] ?? null);
+
 $sessionSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
     || (!empty($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443);
 
