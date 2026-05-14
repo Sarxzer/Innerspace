@@ -208,6 +208,20 @@
         }
     }
 
+    .bottom-nav .debug-indicator {
+        opacity: 1;
+        color: $color-dev;
+    }
+
+    .bottom-nav .debug-indicator .bottom-nav-icon {
+        color: $color-dev;
+        text-shadow: 0 0 6px rgba($color-dev, 0.7);
+    }
+
+    .bottom-nav .debug-indicator .bottom-nav-label {
+        color: $color-dev;
+    }
+
     .bottom-nav-icon {
         font-size: 1.2rem;
         line-height: 1;

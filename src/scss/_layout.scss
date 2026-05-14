@@ -31,7 +31,7 @@
 .content {
     position: relative;
     z-index: 1;
-    
+
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
@@ -101,6 +101,44 @@
         color: $color-light-blue;
         border-bottom-color: $color-light-blue;
     }
+}
+
+.nav-register {
+    border: 1px solid rgba($color-light-blue, 0.4) !important;
+    color: $color-light-blue !important;
+    padding: 0.3rem 0.9rem !important;
+    margin-left: 0.25rem;
+    border-bottom: 1px solid rgba($color-light-blue, 0.4) !important;
+    margin-bottom: 0 !important;
+    transition:
+        background 0.1s,
+        color 0.1s,
+        border-color 0.1s !important;
+
+    &:hover {
+        background: rgba($color-light-blue, 0.1) !important;
+        color: $color-text-main !important;
+        border-color: $color-light-blue !important;
+    }
+
+    &.active {
+        background: $color-light-blue !important;
+        color: $color-text-inverted !important;
+    }
+}
+
+.top-nav .debug-indicator {
+    font-family: $font-retro;
+    font-size: 24px;
+    color: $color-dev;
+    margin-left: auto; // pushes everything after it to the right
+    padding: 0.15rem 0.25rem;
+    border: 2px solid rgba($color-dev, 0.5);
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 6px rgba($color-dev, 0.7);
+    box-shadow:
+        0 0 8px 2px rgba($color-dev, 0.7),
+        0 0 4px rgba($color-dev, 0.5);
 }
 
 // ── Breadcrumb ─────────────────────────────────────────
@@ -179,7 +217,6 @@
         color: #c3b1e1;
     }
 }
-
 
 // ── Images ────────────────────────────────────────────────
 img {

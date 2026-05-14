@@ -23,7 +23,11 @@
             <a href="/settings" class="<?php echo ($parts[0] === 'settings') ? 'active' : ''; ?>">Settings</a>
             <a href="/logout">Logout (<?= htmlspecialchars($current_user['username']) ?>)</a>
         <?php else: ?>
-            <a href="/login" class="<?php echo ($parts[0] === 'login') ? 'active' : ''; ?>">Login</a>
+            <a href="/login" class="<?= ($parts[0] === 'login') ? 'active' : '' ?>">Login</a>
+            <a href="/register" class="nav-register <?= ($parts[0] === 'register') ? 'active' : '' ?>">Register</a>
+        <?php endif; ?>
+        <?php if ($_ENV['APP_DEBUG'] === 'true'): ?>
+            <span class="debug-indicator" title="Debug mode is ON">[DEBUG]</span>
         <?php endif; ?>
     </div>
 </nav>
@@ -66,5 +70,11 @@
             <span class="bottom-nav-icon">⎆</span>
             <span class="bottom-nav-label">Login</span>
         </a>
+    <?php endif; ?>
+    <?php if ($_ENV['APP_DEBUG'] === 'true'): ?>
+        <span class="bottom-nav-item debug-indicator" title="Debug mode is ON" aria-label="Debug mode is on">
+            <span class="bottom-nav-icon">⟨/⟩</span>
+            <span class="bottom-nav-label">Debug</span>
+        </span>
     <?php endif; ?>
 </nav>

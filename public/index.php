@@ -56,11 +56,6 @@ if (($_ENV['DISCORD_WEBHOOK_LOGGING'] ?? 'false') === 'true') {
     });
 }
 
-// Debug banner — only in dev
-if ($_ENV['APP_DEBUG'] === 'true') {
-    Alert::info("Debug mode is enabled!");
-}
-
 $pagesDir = __DIR__ . '/../src/pages';
 $includesDir = __DIR__ . '/../src/includes';
 

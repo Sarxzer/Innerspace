@@ -971,7 +971,7 @@
         text-shadow: 0 0 6px rgba($color-text-main, 0.7);
     }
     &.glow-lg {
-        text-shadow: 0 0 8px rgba($color-text-main, 0.7);
+        text-shadow: 0 0 10px rgba($color-text-main, 0.7);
     }
 }
 
@@ -985,7 +985,7 @@
         text-shadow: 0 0 6px rgba($color-online, 0.7);
     }
     &.glow-lg {
-        text-shadow: 0 0 8px rgba($color-online, 0.7);
+        text-shadow: 0 0 10px rgba($color-online, 0.7);
     }
 }
 
@@ -999,7 +999,7 @@
         text-shadow: 0 0 6px rgba($color-warning, 0.7);
     }
     &.glow-lg {
-        text-shadow: 0 0 8px rgba($color-warning, 0.7);
+        text-shadow: 0 0 10px rgba($color-warning, 0.7);
     }
 }
 
@@ -1013,6 +1013,20 @@
         text-shadow: 0 0 6px rgba($color-pink, 0.7);
     }
     &.glow-lg {
-        text-shadow: 0 0 8px rgba($color-pink, 0.7);
+        text-shadow: 0 0 10px rgba($color-pink, 0.7);
+    }
+}
+
+.purple {
+    color: $color-dev;
+
+    &.glow-sm {
+        text-shadow: 0 0 4px rgba($color-dev, 0.5);
+    }
+    &.glow-md {
+        text-shadow: 0 0 6px rgba($color-dev, 0.7);
+    }
+    &.glow-lg {
+        text-shadow: 0 0 10px rgba($color-dev, 0.7);
     }
 }
