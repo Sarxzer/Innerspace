@@ -4,6 +4,7 @@ require_once __DIR__ . '/../src/php/database.php';
 require_once __DIR__ . '/../src/php/auth.php';
 require_once __DIR__ . '/../src/php/alert.php';
 require_once __DIR__ . '/../src/php/utils.php';
+require_once __DIR__ . '/../src/php/discord.php';
 
 use Dotenv\Dotenv;
 
@@ -34,18 +35,31 @@ session_set_cookie_params([
 
 session_start();
 
-// set_error_handler(function (int $errno, string $errstr): bool {
-//     error_log("PHP Error [$errno]: $errstr in {$_SERVER['SCRIPT_NAME']} on line {$_SERVER['
-//     match (true) {
-//         in_array($errno, [E_ERROR, E_USER_ERROR])        => Alert::error("Error: $errstr"),
-//         in_array($errno, [E_WARNING, E_USER_WARNING])    => Alert::warning("Warning: $errstr"),
-//         in_array($errno, [E_NOTICE, E_USER_NOTICE,
-//                           E_DEPRECATED, E_USER_DEPRECATED]) => Alert::info("Notice: $errstr"),
-//         default                                          => Alert::info($errstr),
-//     };
+// Discord logging — runs in production too
+if (($_ENV['DISCORD_WEBHOOK_LOGGING'] ?? 'false') === 'true') {
+    $discord = new DiscordWebhook($_ENV['DISCORD_WEBHOOK_URL']);
 
-//     return true;
-// });
+    set_exception_handler(function(Throwable $e) use ($discord) {
+        $discord->log('error', $e->getMessage(), [
+            ['name' => 'File', 'value' => basename($e->getFile()), 'inline' => true], // no full paths in prod
+            ['name' => 'Line', 'value' => (string)$e->getLine(), 'inline' => true],
+        ]);
+    });
+
+    set_error_handler(function(int $errno, string $errstr, string $errfile, int $errline) use ($discord) {
+        if (in_array($errno, [E_NOTICE, E_DEPRECATED, E_USER_DEPRECATED])) return false;
+        $discord->log('error', $errstr, [
+            ['name' => 'File', 'value' => basename($errfile), 'inline' => true],
+            ['name' => 'Line', 'value' => (string)$errline, 'inline' => true],
+        ]);
+        return false;
+    });
+}
+
+// Debug banner — only in dev
+if ($_ENV['APP_DEBUG'] === 'true') {
+    Alert::info("Debug mode is enabled!");
+}
 
 $pagesDir = __DIR__ . '/../src/pages';
 $includesDir = __DIR__ . '/../src/includes';

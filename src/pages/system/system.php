@@ -76,7 +76,7 @@ foreach ($fronting_session_members as $fsm) {
 $systemName = htmlspecialchars($system['name']);
 $systemDescription = htmlspecialchars($system['description']);
 $systemHandle = htmlspecialchars($system['handle']);
-$canonicalUrl = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$canonicalUrl = htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -134,7 +134,7 @@ $canonicalUrl = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                     <div class="system-description"><?= nl2br(htmlspecialchars($system['description'])) ?></div>
                     <div class="fronting-badge">
                         <div class="fronting-dot"></div>
-                        <div class="fronting-text"><?= $nowFrontingMembers ? "Now fronting: " . implode(", ", $nowFrontingMembers) : "No one is fronting" ?></div>
+                        <div class="fronting-text"><?= $nowFrontingMembers ? "Now fronting: " . htmlspecialchars(implode(", ", $nowFrontingMembers)) : "No one is fronting" ?></div>
                     </div>
                 </div>
 

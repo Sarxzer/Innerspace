@@ -388,7 +388,9 @@ class Auth
     private function revokeRememberToken(): void
     {
         if (isset($_COOKIE['remember_token'])) {
-            $this->revokeToken($_COOKIE['remember_token']);
+            $token_hash = hash('sha256', $_COOKIE['remember_token']);
+
+            $this->revokeToken($token_hash);
             $this->clearRememberCookie();
         }
     }

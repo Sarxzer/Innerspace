@@ -9,6 +9,12 @@
 
 // Show all system (dev)
 
+if ($_ENV['APP_DEBUG'] !== 'true') {
+    Alert::error("This page is only accessible in debug mode.");
+    header('Location: /');
+    exit;
+}
+
 $stmt = $pdo->prepare("SELECT * FROM systems");
 $stmt->execute();
 $systems = $stmt->fetchAll(PDO::FETCH_ASSOC);

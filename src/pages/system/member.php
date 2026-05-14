@@ -38,7 +38,7 @@ $description = $pronouns
     ? "{$memberName} ({$pronouns}) is a member of the {$systemName} system on Innerspace."
     : "{$memberName} is a member of the {$systemName} system on Innerspace.";
 
-$canonicalUrl = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$canonicalUrl = htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 
 ?>
 

@@ -12,6 +12,8 @@ For who don't know, a plural system is a group of individuals who share a common
 - **Community Interaction**: Innerspace provides a platform for users to tell others their current fronting status, fostering a sense of community and support among users.
 - **Friendly Interface**: Innerspace is designed with a user-friendly interface, making it easy for users to navigate and manage their systems and members.
 
+## Todos and planned features can be found in the [TODO.md](TODO.md) file.
+
 ## Installation
 
 Usage :
