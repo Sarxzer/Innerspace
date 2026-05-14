@@ -61,10 +61,24 @@ class ActiveVisitors
      */
     public function ping(?int $userId): void
     {
+        $blockedBots = [
+            'uptime-kuma',
+            'bot',
+            'crawler',
+            'monitor',
+            'pingdom',
+        ];
+
         $id = session_id();
         $page = $_SERVER['REQUEST_URI'] ?? 'unknown';
         $ip = $_SERVER['REMOTE_ADDR'] ?? '';
         $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+
+        foreach ($blockedBots as $bot) {
+            if (stripos($_SERVER['HTTP_USER_AGENT'] ?? '', $bot) !== false) {
+                return; // Don't track bots
+            }
+        }
 
         $stmt = $this->pdo->prepare("
             INSERT INTO active_visitors (id, user_id, page, last_seen, ip, user_agent)
@@ -99,7 +113,7 @@ class ActiveVisitors
         $stmt->bindValue(':t', $this->timeout, PDO::PARAM_INT);
         $stmt->execute();
 
-        return (int)$stmt->fetchColumn();
+        return (int) $stmt->fetchColumn();
     }
 
     /**
@@ -116,7 +130,7 @@ class ActiveVisitors
         $stmt->bindValue(':t', $this->timeout, PDO::PARAM_INT);
         $stmt->execute();
 
-        return (int)$stmt->fetchColumn();
+        return (int) $stmt->fetchColumn();
     }
 
     /**
@@ -133,7 +147,7 @@ class ActiveVisitors
         $stmt->bindValue(':t', $this->timeout, PDO::PARAM_INT);
         $stmt->execute();
 
-        return (int)$stmt->fetchColumn();
+        return (int) $stmt->fetchColumn();
     }
 
     /**
