@@ -17,6 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $totpEnabled = isset($_POST['totp']);
 
+    $auth = new Auth($pdo);
+
+
     if (empty($username) || empty($password)) {
         Alert::error("Username and password are required.");
         header("Location: /register");
@@ -30,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $auth = new Auth($pdo);
     $userId = $auth->register($username, $password);
 
     if ($userId === null) {

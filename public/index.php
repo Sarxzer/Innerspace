@@ -207,7 +207,7 @@ match ($parts[0]) {
     'history'   => require $pagesDir . '/dashboard/history.php',
     // 'settings'  => require $pagesDir . '/settings/settings.php',
     'settings'  => match (true) {
-        isset($parts[1]) && $parts[1] === 'setup-totp' => require $pagesDir . '/settings/setup-totp.php',          // /settings/setup-totp
+        isset($parts[1]) && $parts[1] === 'totp' => require $pagesDir . '/settings/setup-totp.php',          // /settings/setup-totp
         isset($parts[1]) && $parts[1] === 'backup-codes' => require $pagesDir . '/settings/backup-codes.php', // /settings/backup-codes
         default                                     => require $pagesDir . '/settings/settings.php',      // /settings
     },

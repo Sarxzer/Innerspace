@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } elseif (isset($_POST['totp_code']) && $auth->hasTotpEnabled($userId)) {
         // Handle 2FA disable
-        
+
         $code = trim($_POST['totp_code']);
         $secret = $auth->getTotpSecret($userId);
 
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $auth->disableTotp($userId);
 
             Alert::success("2FA disabled successfully.");
-            
+
             header("Location: /settings");
             exit;
         } else {
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } elseif (isset($_POST['password']) && !$auth->hasTotpEnabled($userId)) {
         // Handle 2FA enable
-        
+
         $password = $_POST['password'];
 
         if (password_verify($password, $user['password_hash'])) {
@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['pending_totp_secret'] = $data['secret'];
             $_SESSION['pending_totp_qr'] = $data['qr_base64'];
 
-            header("Location: /settings/setup-totp");
+            header("Location: /settings/totp");
             exit;
         } else {
             Alert::error("Incorrect password.");
@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Settings | Innerspace</title>
     <link rel="stylesheet" href="<?= $cssDir ?>">
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
-    <script src="<?= $jsDir?>" defer></script>
+    <script src="<?= $jsDir ?>" defer></script>
 
 </head>
 
@@ -228,4 +228,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit">Save Settings</button>
     </form> -->
 </body>
+
 </html>
