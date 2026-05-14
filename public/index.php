@@ -5,6 +5,18 @@ require_once __DIR__ . '/../src/php/auth.php';
 require_once __DIR__ . '/../src/php/alert.php';
 require_once __DIR__ . '/../src/php/utils.php';
 require_once __DIR__ . '/../src/php/discord.php';
+
+$sessionSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || (!empty($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443);
+
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => $sessionSecure,
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
+
 session_start();
 
 use Dotenv\Dotenv;
@@ -26,17 +38,6 @@ $pdo = $database->getPdo();
 $active = new ActiveVisitors($pdo);
 
 $active->ping($_SESSION['user_id'] ?? null);
-
-$sessionSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-    || (!empty($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443);
-
-session_set_cookie_params([
-    'lifetime' => 0,
-    'path' => '/',
-    'secure' => $sessionSecure,
-    'httponly' => true,
-    'samesite' => 'Lax',
-]);
 
 // Discord logging — runs in production too
 if (($_ENV['DISCORD_WEBHOOK_LOGGING'] ?? 'false') === 'true') {
