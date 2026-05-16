@@ -71,7 +71,7 @@ $systems = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php else: ?>
                     <ul>
                         <?php foreach ($systems as $system): ?>
-                            <li><a href='/s/<?= htmlspecialchars($system['handle']) ?>'><?= htmlspecialchars($system['name']) ?></a> (@<?= htmlspecialchars($system['handle']) ?>) - <?= $system['is_public'] ? 'Public' : 'Private' ?></li>
+                            <li><a href='/s/<?= htmlspecialchars($system['handle']) ?>'><?= htmlspecialchars($system['name']) ?></a> (/s/<?= htmlspecialchars($system['handle']) ?>) - <?= $system['is_public'] ? 'Public' : 'Private' ?></li>
                         <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>

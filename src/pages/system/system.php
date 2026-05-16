@@ -136,6 +136,11 @@ $canonicalUrl = htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['
                         <div class="fronting-dot"></div>
                         <div class="fronting-text"><?= $nowFrontingMembers ? "Now fronting: " . htmlspecialchars(implode(", ", $nowFrontingMembers)) : "No one is fronting" ?></div>
                     </div>
+                    <div class="system-actions">
+                        <?php if ($auth->isLoggedIn() && Guards::isSystemOwner($pdo, (int) $system['id'])): ?>
+                            <a href="/manage/s/<?= htmlspecialchars($system['handle']) ?>" class="btn btn-secondary">Manage System</a>
+                        <?php endif; ?>
+                    </div>
                 </div>
 
                 <div class="section-title">Members</div>
@@ -158,8 +163,8 @@ $canonicalUrl = htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['
                     <?php if ($auth->isLoggedIn() && Guards::isSystemOwner($pdo, (int) $system['id'])): ?>
                         <a href="/manage/s/<?= htmlspecialchars($system['handle']) ?>/new" class="member-card new-member-card">
                             <div class="new-member-content">
-                                <div class="new-member-plus">+</div>
-                                <div class="new-member-text">Add New Member</div>
+                                <div class="plus-icon">+</div>
+                                <div class="label">Add New Member</div>
                             </div>
                         </a>
                     <?php endif; ?>

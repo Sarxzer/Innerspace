@@ -187,7 +187,7 @@ match ($parts[0]) {
 
     // Managed (authenticated) system/member editing
     'manage' => match (true) {
-        isset($parts[1], $parts[2], $parts[3]) && $parts[1] === 's'
+        isset($parts[1], $parts[2], $parts[3]) && $parts[1] === 's' && str_starts_with($parts[3], '@')
         => require $pagesDir . '/manage/member-edit.php',   // /manage/s/{handle}/@{member_handle}
         isset($parts[1], $parts[2], $parts[3]) && $parts[1] === 's' && $parts[3] === 'new'
         => require $pagesDir . '/manage/member-new.php',    // /manage/s/{handle}/new
