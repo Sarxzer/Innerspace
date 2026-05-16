@@ -48,6 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Alert::error("Invalid username or password.");
         $_SESSION['login_cooldown'] = time() + 15; // 15 second cooldown after failed attempt
         $_SESSION['login_attempts'] = ($_SESSION['login_attempts'] ?? 0) + 1;
+        $_SESSION['last_failed_username'] = $username;
+        header('Location: /login');
+        exit;
     }
 
     if ($_SESSION['login_attempts'] >= 5) {
@@ -85,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form action="login" method="post" class="login-form">
                         <label for="username">Username:</label><br>
                         <input type="text" id="username" name="username"
-                            value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required><br><br>
+                            value="<?= htmlspecialchars($_SESSION['last_failed_username'] ?? '') ?>" required><br><br>
 
                         <label for="password">Password:</label><br>
                         <input type="password" id="password" name="password" required><br><br>

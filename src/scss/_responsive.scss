@@ -149,7 +149,6 @@
         display: none;
     }
 
-    
     .site-announcement {
         position: fixed;
         bottom: 60px;
@@ -194,7 +193,9 @@
         font-size: 0.6rem;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        transition: opacity 0.15s, color 0.15s;
+        transition:
+            opacity 0.15s,
+            color 0.15s;
         padding: 0.25rem 0.5rem;
 
         &.active {
@@ -231,13 +232,12 @@
         padding-bottom: 80px;
     }
 
-
     /* ── Home Page Specific ── */
 
     .home-hero {
         padding: 3rem 1.5rem 2rem;
         text-align: center;
-        
+
         .home-title {
             font-size: 2rem;
         }
@@ -259,7 +259,10 @@
             transition: background-color 0.2s;
 
             &:hover {
-                background-color: color.adjust($color-light-blue, $lightness: 10%);
+                background-color: color.adjust(
+                    $color-light-blue,
+                    $lightness: 10%
+                );
             }
         }
     }
@@ -301,5 +304,14 @@
 
     .alerts-wrapper {
         top: 1rem;
+    }
+
+
+    /* ── Password Requirements (Signup & Change Password Pages) ── */
+    .password-requirements {
+        position: static;
+        transform: none;
+        width: min(360px, 92vw);
+        margin: 1.5rem auto 0;
     }
 }

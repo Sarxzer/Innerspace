@@ -541,6 +541,11 @@
 
 /* ── Register Page ─────────────────────────────────────── */
 
+.register-layout {
+    position: relative;
+    width: 100%;
+}
+
 .register-container {
     max-width: 400px;
     margin: 3rem auto;
@@ -614,6 +619,99 @@
     margin-top: 1rem;
     font-size: 0.9rem;
     color: $color-text-muted;
+}
+
+.password-requirements   {
+    position: absolute;
+    top: 3rem;
+    left: 50%;
+    transform: translateX(calc(200px + 2rem));
+    width: 280px;
+    margin-top: 0;
+    padding: 1rem;
+    background: rgba($color-warning, 0.1);
+    border: 1px solid rgba($color-warning, 0.3);
+
+    .title {
+        font-family: $font-pixel;
+        font-size: 10px;
+        color: $color-warning;
+        margin-bottom: 0.75rem;
+    }
+
+    .group {
+        margin-bottom: 1rem;
+
+        .label {
+            font-family: $font-retro;
+            font-size: 16px;
+            color: $color-text-main;
+            margin-bottom: 0.5rem;
+        }
+
+        .list {
+            list-style: none;
+            padding-left: 0;
+
+            .item {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-family: $font-retro;
+                font-size: 14px;
+                color: $color-text-muted;
+
+                .pip {
+                    width: 10px;
+                    height: 10px;
+                    border: 1px solid rgba($color-warning, 0.3);
+                    background: rgba($color-warning, 0.3);
+                    flex-shrink: 0;
+                }
+
+                &.met {
+                    color: $color-success;
+
+                    .pip {
+                        background: $color-success;
+                        border: 1px solid rgba($color-success, 0.3);
+                        box-shadow: 0 0 4px $color-success;
+                    }
+                }
+
+                &.failed {
+                    color: $color-error;
+
+                    .pip {
+                        background: $color-error;
+                        border: 1px solid rgba($color-error, 0.3);
+                        box-shadow: 0 0 4px $color-error;
+                    }
+                }
+            }
+        }
+    }
+
+    .or {
+        font-family: $font-retro;
+        font-size: 16px;
+        color: rgba($color-text-muted, 0.4);
+        text-align: center;
+        margin: 0.5rem 0;
+        letter-spacing: 2px;
+    }
+
+    &.mode-passphrase {
+        .group:last-of-type {
+            opacity: 0.4;
+        }
+    }
+
+    &.mode-classic {
+        .group:first-of-type {
+            opacity: 0.4;
+        }
+    }
 }
 
 /* ── TOTP Setup Page ─────────────────────────────────────── */
@@ -1628,7 +1726,6 @@
     display: flex;
     gap: 0.75rem;
     flex-wrap: wrap;
-
 
     .action-btn {
         font-family: $font-retro;

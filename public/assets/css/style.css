@@ -588,6 +588,11 @@ h2,
 }
 
 /* ── Register Page ─────────────────────────────────────── */
+.register-layout {
+  position: relative;
+  width: 100%;
+}
+
 .register-container {
   max-width: 400px;
   margin: 3rem auto;
@@ -655,6 +660,82 @@ h2,
   margin-top: 1rem;
   font-size: 0.9rem;
   color: #9d9ab5;
+}
+
+.password-requirements {
+  position: absolute;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(calc(200px + 2rem));
+  width: 280px;
+  margin-top: 0;
+  padding: 1rem;
+  background: rgba(232, 199, 120, 0.1);
+  border: 1px solid rgba(232, 199, 120, 0.3);
+}
+.password-requirements .title {
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  color: #e8c778;
+  margin-bottom: 0.75rem;
+}
+.password-requirements .group {
+  margin-bottom: 1rem;
+}
+.password-requirements .group .label {
+  font-family: "VT323", monospace;
+  font-size: 16px;
+  color: #e8e6f0;
+  margin-bottom: 0.5rem;
+}
+.password-requirements .group .list {
+  list-style: none;
+  padding-left: 0;
+}
+.password-requirements .group .list .item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "VT323", monospace;
+  font-size: 14px;
+  color: #9d9ab5;
+}
+.password-requirements .group .list .item .pip {
+  width: 10px;
+  height: 10px;
+  border: 1px solid rgba(232, 199, 120, 0.3);
+  background: rgba(232, 199, 120, 0.3);
+  flex-shrink: 0;
+}
+.password-requirements .group .list .item.met {
+  color: #7eda9e;
+}
+.password-requirements .group .list .item.met .pip {
+  background: #7eda9e;
+  border: 1px solid rgba(126, 218, 158, 0.3);
+  box-shadow: 0 0 4px #7eda9e;
+}
+.password-requirements .group .list .item.failed {
+  color: #e87878;
+}
+.password-requirements .group .list .item.failed .pip {
+  background: #e87878;
+  border: 1px solid rgba(232, 120, 120, 0.3);
+  box-shadow: 0 0 4px #e87878;
+}
+.password-requirements .or {
+  font-family: "VT323", monospace;
+  font-size: 16px;
+  color: rgba(157, 154, 181, 0.4);
+  text-align: center;
+  margin: 0.5rem 0;
+  letter-spacing: 2px;
+}
+.password-requirements.mode-passphrase .group:last-of-type {
+  opacity: 0.4;
+}
+.password-requirements.mode-classic .group:first-of-type {
+  opacity: 0.4;
 }
 
 /* ── TOTP Setup Page ─────────────────────────────────────── */
@@ -2034,5 +2115,12 @@ img {
   /* ── Alert messages ── */
   .alerts-wrapper {
     top: 1rem;
+  }
+  /* ── Password Requirements (Signup & Change Password Pages) ── */
+  .password-requirements {
+    position: static;
+    transform: none;
+    width: min(360px, 92vw);
+    margin: 1.5rem auto 0;
   }
 }

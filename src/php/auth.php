@@ -8,7 +8,9 @@
 class Auth
 {
 
-    public function __construct(private PDO $pdo) {}
+    public function __construct(private PDO $pdo)
+    {
+    }
 
     // -------------------------------------------------------------------------
     // Session
@@ -48,7 +50,7 @@ class Auth
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password_hash'])) {
-            return (int)$user['id'];
+            return (int) $user['id'];
         }
         return null;
     }
@@ -87,7 +89,7 @@ class Auth
         $stmt = $this->pdo->prepare("INSERT INTO users (username, password_hash) VALUES (?, ?)");
         $stmt->execute([$username, $hashedPassword]);
 
-        return (int)$this->pdo->lastInsertId();
+        return (int) $this->pdo->lastInsertId();
     }
 
     /**
@@ -118,7 +120,7 @@ class Auth
         $stmt = $this->pdo->prepare("SELECT totp_enabled FROM users WHERE id = ?");
         $stmt->execute([$userId]);
         $result = $stmt->fetchColumn();
-        return (bool)$result;
+        return (bool) $result;
     }
 
     /**
@@ -225,6 +227,13 @@ class Auth
      */
     public function passwordMeetsCriteria(string $password): bool|string
     {
+
+        // passphrases
+        $words = preg_split('/[\s\-]+/', trim($password), -1, PREG_SPLIT_NO_EMPTY);
+        if (count($words) >= 4 && strlen($password) >= 20) {
+            return true;
+        }
+
         if (strlen($password) < 8) {
             return "Password must be at least 8 characters long.";
         }
@@ -315,7 +324,7 @@ class Auth
      */
     public function rememberUser(int $userId): void
     {
-        $token   = bin2hex(random_bytes(32));
+        $token = bin2hex(random_bytes(32));
         $expires = time() + (30 * 24 * 60 * 60); // 30 days
 
         $token_hash = hash('sha256', $token);
@@ -328,16 +337,16 @@ class Auth
             $token_hash,
             $userId,
             date('Y-m-d H:i:s', $expires),
-            $_SERVER['REMOTE_ADDR']      ?? null,
-            $_SERVER['HTTP_USER_AGENT']  ?? null,
+            $_SERVER['REMOTE_ADDR'] ?? null,
+            $_SERVER['HTTP_USER_AGENT'] ?? null,
         ]);
 
         // Secure flag should be true for HTTPS, false for HTTP (e.g., local testing)
         $secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
         setcookie('remember_token', $token, [
-            'expires'  => $expires,
-            'path'     => '/',
-            'secure'   => $secure,
+            'expires' => $expires,
+            'path' => '/',
+            'secure' => $secure,
             'httponly' => true,
             'samesite' => 'Strict',
         ]);
@@ -367,7 +376,7 @@ class Auth
         ");
         $stmt->execute([
             $token_hash,
-            $_SERVER['REMOTE_ADDR']     ?? null,
+            $_SERVER['REMOTE_ADDR'] ?? null,
             $_SERVER['HTTP_USER_AGENT'] ?? null,
         ]);
 
