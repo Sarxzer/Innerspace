@@ -2,14 +2,18 @@
 // Manual signup script for testing purposes. Not meant to be used in production.
 
 require_once __DIR__ . '/../src/php/database.php';
+require_once __DIR__ . '/../src/php/auth.php';
 
 $username = readline("Enter username: ");
 $password = readline("Enter password: ");
 
-$password_hash = password_hash($password, PASSWORD_DEFAULT);
-
 $database = new Database();
 $pdo = $database->getPdo();
-$stmt = $pdo->prepare("INSERT INTO users (username, password_hash) VALUES (?, ?)");
-$stmt->execute([$username, $password_hash]);
-echo "User '$username' created with ID " . $pdo->lastInsertId() . "\n";
+$auth = new Auth($pdo);
+$userId = $auth->register($username, $password);
+if ($userId === null) {
+	echo "Username '$username' already exists.\n";
+	exit(1);
+}
+
+echo "User '$username' created with ID " . $userId . "\n";

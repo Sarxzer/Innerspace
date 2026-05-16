@@ -5,11 +5,12 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
- * @var Alert $alert
  */
 // system creation page
 
-$userId = $_SESSION['user_id'];
+$auth = new Auth($pdo);
+$currentUser = $auth->requireCurrentUser();
+$userId = (int) $currentUser['id'];
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -50,14 +51,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New System | Innerspace</title>
     <link rel="stylesheet" href="<?= $cssDir ?>">
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
-    <script src="<?= $jsDir?>" defer></script>
+    <script src="<?= $jsDir ?>" defer></script>
 </head>
+
 <body>
     <div class="page">
         <div class="pixel-scanlines"></div>
@@ -77,7 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="handle">System Handle (lowercase, no spaces):</label>
                     <div class="input-wrapper">
                         <span class="input-prefix">@</span>
-                        <input type="text" id="handle" name="handle" pattern="[a-z0-9\-]+" title="Lowercase letters, numbers, and hyphens only." required>
+                        <input type="text" id="handle" name="handle" pattern="[a-z0-9\-]+"
+                            title="Lowercase letters, numbers, and hyphens only." required>
                     </div>
 
                     <input type="hidden" name="csrf_token" value="<?= Csrf::token() ?>">
@@ -89,4 +93,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </body>
+
 </html>

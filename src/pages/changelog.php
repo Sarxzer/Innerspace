@@ -4,7 +4,7 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
- * @var Alert $alert
+
  */
 
 // Fetch latest version info from GitHub API

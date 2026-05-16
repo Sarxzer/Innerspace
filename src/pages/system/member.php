@@ -1,5 +1,4 @@
 <?php
-
 /** @var array $parts
  * @var PDO $pdo
  * @var string $includesDir
@@ -81,19 +80,17 @@ $canonicalUrl = htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['
             <div class="main">
                 <h1><?= htmlspecialchars($member['name']) ?></h1>
                 <p>System: <a href='/system/<?= htmlspecialchars($system['handle']) ?>'><?= htmlspecialchars($system['name']) ?></a></p>
-                <p>Pronouns: <?= htmlspecialchars($member['pronouns']) ?></p>
+                <p>Pronouns: <?= htmlspecialchars($member['pronouns'] ?? 'Not specified') ?></p>
                 <p>Color: <span style='color: <?= htmlspecialchars($member['color']) ?>'><?= htmlspecialchars($member['color']) ?></span></p>
+
+                <?php if ($auth->isLoggedIn() && Guards::isSystemOwner($pdo, (int) $system['id'])): ?>
+                    <a href="/manage/s/<?= htmlspecialchars($system['handle']) ?>/@<?= htmlspecialchars($member['handle']) ?>" class="btn btn-secondary">Edit Member</a>
+                <?php endif; ?>
             </div>
 
             <?php include $includesDir . '/footer.php'; ?>
         </div>
     </div>
-    <!-- <?php include $includesDir . '/navbar.php'; ?>
-
-    <h1><?= htmlspecialchars($member['name']) ?></h1>
-    <p>System: <a href='/system/<?= htmlspecialchars($system['handle']) ?>'><?= htmlspecialchars($system['name']) ?></a></p>
-    <p>Pronouns: <?= htmlspecialchars($member['pronouns']) ?></p>
-    <p>Color: <span style='color: <?= htmlspecialchars($member['color']) ?>'><?= htmlspecialchars($member['color']) ?></span></p> -->
 </body>
 
 </html>

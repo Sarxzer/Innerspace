@@ -6,7 +6,7 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
- * @var Alert $alert
+
  */
 
 require_once __DIR__ . '/../../php/totp.php';
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: /register/totp");
         exit;
     }
-    $_SESSION['user_id'] = $userId;
+    $auth->login($userId, false);
 
     Alert::success("Registration successful! Welcome, $username.");
 
@@ -112,18 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php include $includesDir . '/footer.php'; ?>
         </div>
     </div>
-    <!-- <?php include $includesDir . '/navbar.php'; ?>
-
-    <h1>Register</h1>
-    <form action="register" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-
-        <button type="submit">Register</button>
-    </form> -->
 </body>
 
 </html>

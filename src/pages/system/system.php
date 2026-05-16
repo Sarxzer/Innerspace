@@ -74,7 +74,7 @@ foreach ($fronting_session_members as $fsm) {
 
 
 $systemName = htmlspecialchars($system['name']);
-$systemDescription = htmlspecialchars($system['description']);
+$systemDescription = htmlspecialchars($system['description'] ?? "No description provided.");
 $systemHandle = htmlspecialchars($system['handle']);
 $canonicalUrl = htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 ?>
@@ -116,7 +116,7 @@ $canonicalUrl = htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['
 
             <div class="main">
                 <div class="system-header">
-                    <div class="system-title"><?= htmlspecialchars($system['name']) ?></div>
+                    <div class="system-title"><?= $systemName ?></div>
                     <div class="system-meta">
                         <div class="meta-item">
                             <div class="meta-label">Handle</div>
@@ -131,7 +131,7 @@ $canonicalUrl = htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['
                             <div class="meta-value"><?= count($members) ?></div>
                         </div>
                     </div>
-                    <div class="system-description"><?= nl2br(htmlspecialchars($system['description'])) ?></div>
+                    <div class="system-description"><?= nl2br($systemDescription) ?></div>
                     <div class="fronting-badge">
                         <div class="fronting-dot"></div>
                         <div class="fronting-text"><?= $nowFrontingMembers ? "Now fronting: " . htmlspecialchars(implode(", ", $nowFrontingMembers)) : "No one is fronting" ?></div>
@@ -142,19 +142,27 @@ $canonicalUrl = htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['
 
                 <div class="members-grid">
                     <?php foreach ($members as $member): ?>
-                        <a href='/s/<?= htmlspecialchars($system['handle']) ?>/@<?= htmlspecialchars($member['handle']) ?>' class="member-card">
-                            <div class="member-accent-bar" style="background: <?= htmlspecialchars($member['color']) ?>;"></div>
-                            <div class="member-hex" style="color: <?= htmlspecialchars($member['color']) ?>">#<?= substr(htmlspecialchars($member['color']), 1) ?></div>
+                        <a href='/s/<?= htmlspecialchars($system['handle']) ?>/@<?= htmlspecialchars($member['handle'] ?? 'unnamed') ?>' class="member-card">
+                            <div class="member-accent-bar" style="background: <?= htmlspecialchars($member['color'] ?? '#000000') ?>;"></div>
+                            <div class="member-hex" style="color: <?= htmlspecialchars($member['color'] ?? '#000000') ?>">#<?= substr(htmlspecialchars($member['color'] ?? '#000000'), 1) ?></div>
                             <div class="member-top">
                                 <div class="color-dot" style="--color-dot: <?= htmlspecialchars($member['color']) ?>"></div>
-                                <div class="member-name"><?= htmlspecialchars($member['name']) ?></div>
-                                <div class="member-role"><?= htmlspecialchars($member['role']) ?></div>
+                                <div class="member-name"><?= htmlspecialchars($member['name'] ?? 'Unnamed') ?></div>
+                                <div class="member-role"><?= htmlspecialchars($member['role'] ?? 'Member') ?></div>
                             </div>
-                            <div class="member-pronouns"><?= htmlspecialchars($member['pronouns']) ?></div>
-                            <div class="member-description"><?= nl2br(htmlspecialchars($member['description'])) ?></div>
+                            <div class="member-pronouns"><?= htmlspecialchars($member['pronouns'] ?? 'Not specified') ?></div>
+                            <div class="member-description"><?= nl2br(htmlspecialchars($member['description'] ?? 'No description provided.')) ?></div>
                             <div class="card-arrow">[->]</div>
                         </a>
                     <?php endforeach; ?>
+                    <?php if ($auth->isLoggedIn() && Guards::isSystemOwner($pdo, (int) $system['id'])): ?>
+                        <a href="/manage/s/<?= htmlspecialchars($system['handle']) ?>/new" class="member-card new-member-card">
+                            <div class="new-member-content">
+                                <div class="new-member-plus">+</div>
+                                <div class="new-member-text">Add New Member</div>
+                            </div>
+                        </a>
+                    <?php endif; ?>
                 </div>
 
             </div>

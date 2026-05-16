@@ -80,19 +80,6 @@ $systems = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php include $includesDir . '/footer.php'; ?>
         </div>
     </div>
-
-    <!-- <?php include $includesDir . '/navbar.php'; ?>
-
-    <h1>Systems</h1>
-    <?php if (count($systems) === 0): ?>
-        <p>No systems found.</p>
-    <?php else: ?>
-        <ul>
-            <?php foreach ($systems as $system): ?>
-                <li><a href='/system/<?= htmlspecialchars($system['handle']) ?>'><?= htmlspecialchars($system['name']) ?></a> (@<?= htmlspecialchars($system['handle']) ?>) - <?= $system['is_public'] ? 'Public' : 'Private' ?></li>
-            <?php endforeach; ?>
-        </ul>
-    <?php endif; ?> -->
 </body>
 
 </html>

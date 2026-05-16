@@ -5,7 +5,7 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
- * @var Alert $alert
+
  */
 require_once __DIR__ . '/../../php/totp.php';
 
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Clean up setup session keys, log user in
         unset($_SESSION['pending_totp_user_id'], $_SESSION['pending_totp_secret'], $_SESSION['pending_totp_qr']);
-        $_SESSION['user_id'] = $userId;
+        $auth->login($userId, false);
         $_SESSION['show_backup_codes'] = $backupCodes;
 
         header("Location: /settings/backup-codes");

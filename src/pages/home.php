@@ -34,7 +34,7 @@
                     <h1 class="home-title">Innerspace</h1>
                     <p class="home-subtitle">A cozy space for plural systems to track, share, and understand themselves.</p>
                     <div class="home-actions">
-                        <?php if (isset($_SESSION['user_id'])): ?>
+                        <?php if (isset($current_user)): ?>
                             <a href="/dashboard" class="btn btn-primary">Go to Dashboard</a>
                         <?php else: ?>
                             <a href="/register" class="btn btn-primary">Get Started</a>
@@ -65,12 +65,6 @@
             <?php include $includesDir . '/footer.php'; ?>
         </div>
     </div>
-    <!-- <h1>Innerspace</h1>
-    <p>Welcome to Innerspace! This is a platform for managing and sharing information about systems, members, and fronting sessions.</p>
-
-    <h2>Getting Started</h2>
-    <p>To get started, please log in or create an account. Once you have an account, you can create your own system, add members, and track fronting sessions.</p> -->
-
 </body>
 
 </html>

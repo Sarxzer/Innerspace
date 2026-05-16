@@ -175,6 +175,22 @@ class Auth
     }
 
     /**
+     * Require a logged-in user record and return it.
+     * @return array
+     */
+    public function requireCurrentUser(): array
+    {
+        $this->requireLogin();
+
+        $user = $this->getCurrentUser();
+        if (!$user) {
+            $this->logout();
+        }
+
+        return $user;
+    }
+
+    /**
      * Log out the user by clearing session and cookies
      * @return void
      */

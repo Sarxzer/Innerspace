@@ -5,17 +5,15 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
- * @var Alert $alert
+
  */
 
 include_once __DIR__ . '/../../php/auth.php';
 include_once __DIR__ . '/../../php/totp.php';
 
 $auth = new Auth($pdo);
-$auth->requireLogin();
-
-$user = $auth->getCurrentUser();
-$userId = $_SESSION['user_id'];
+$user = $auth->requireCurrentUser();
+$userId = (int) $user['id'];
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -217,16 +215,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php include $includesDir . '/footer.php'; ?>
         </div>
     </div>
-    <!-- <?php include $includesDir . '/navbar.php'; ?>
-
-    <h1>Settings</h1>
-    <p>This is the settings page.</p>
-    
-    <form action="settings" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username">
-        <button type="submit">Save Settings</button>
-    </form> -->
 </body>
 
 </html>

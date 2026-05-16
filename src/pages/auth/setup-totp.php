@@ -5,7 +5,7 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
- * @var Alert $alert
+
  */
 require_once __DIR__ . '/../../php/totp.php';
 
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $backupCodes = totp_generate_backup_codes($pdo, $userId);
 
         unset($_SESSION['pending_totp_user_id'], $_SESSION['pending_totp_secret'], $_SESSION['pending_totp_qr']);
-        $_SESSION['user_id'] = $userId;
+        $auth->login($userId, false);
         $_SESSION['show_backup_codes'] = $backupCodes;
 
         header("Location: /register/backup-codes");

@@ -184,3 +184,76 @@ class ActiveVisitors
         $stmt->execute();
     }
 }
+
+
+
+/**
+ * Guard functions to protect routes and ensure users have the necessary permissions to access certain pages or perform certain actions.
+ * These functions can be called at the top of any page or action handler to enforce access control
+ */
+class Guards 
+{
+    /**
+     * Require that the user is logged in to access the page. If not logged in, redirect to the login page with an error message.
+     * @return void
+     */
+    public static function requireLogin(): void
+    {
+        if (empty($_SESSION['user_id'])) {
+            Alert::error('You must be logged in to access this page.');
+            header('Location: /login');
+            exit;
+        }
+    }
+
+    /**
+     * Require that the user is an administrator to access the page. If not an admin, redirect to the dashboard with an error message.
+     * @param PDO $pdo
+     * @return void
+     */
+    public static function requireAdmin(PDO $pdo): void
+    {
+        self::requireLogin();
+
+        $stmt = $pdo->prepare('SELECT is_admin FROM users WHERE id = ?');
+        $stmt->execute([$_SESSION['user_id']]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user || !$user['is_admin']) {
+            Alert::error('You do not have permission to access this page.');
+            header('Location: /dashboard');
+            exit;
+        }
+    }
+
+    /**
+     * Require that the user owns the specified system to access the page. If not the owner, redirect to the dashboard with an error message.
+     * @param PDO $pdo
+     * @param int $systemId
+     * @return void
+     */
+    public static function requireSystemOwnership(PDO $pdo, int $systemId): void
+    {
+        self::requireLogin();
+
+        if (!self::isSystemOwner($pdo, $systemId)) {
+            Alert::error('System not found or you do not have permission to manage it.');
+            header('Location: /dashboard');
+            exit;
+        }
+    }
+
+
+    public static function isSystemOwner(PDO $pdo, int $systemId): bool
+    {
+        if (empty($_SESSION['user_id'])) {
+            return false;
+        }
+
+        $stmt = $pdo->prepare('SELECT user_id FROM systems WHERE id = ?');
+        $stmt->execute([$systemId]);
+        $system = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $system && $system['user_id'] == $_SESSION['user_id'];
+    }
+}

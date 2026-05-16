@@ -5,7 +5,7 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
- * @var Alert $alert
+
  */
 $auth = new Auth($pdo);
 $auth->requireLogin();

@@ -4,7 +4,7 @@
  * @var string $includesDir
  * @var string $cssDir
  * @var string $jsDir
- * @var Alert $alert
+
  */
 require_once __DIR__ . '/../../php/totp.php';
 if (!isset($_SESSION['pending_2fa_user'])) {

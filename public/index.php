@@ -35,6 +35,9 @@ if ($_ENV['APP_DEBUG'] === 'true') {
 $database = new Database();
 $pdo = $database->getPdo();
 
+$auth = new Auth($pdo);
+$auth->checkRememberedUser();
+
 $active = new ActiveVisitors($pdo);
 
 $active->ping($_SESSION['user_id'] ?? null);
@@ -76,9 +79,8 @@ $parts  = explode('/', $uri);
 
 // Auth guard
 $protected_routes = ['dashboard', 'manage', 'settings', 'fronting', 'history', 'friends'];
-if (in_array($parts[0], $protected_routes) && !isset($_SESSION['user_id'])) {
-    header('Location: /login');
-    exit;
+if (in_array($parts[0], $protected_routes, true)) {
+    $auth->requireLogin();
 }
 
 
@@ -91,11 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 // Fetch current user if logged in
-if (isset($_SESSION['user_id'])) {
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
-    $stmt->execute([$_SESSION['user_id']]);
-    $current_user = $stmt->fetch(PDO::FETCH_ASSOC);
-}
+$current_user = $auth->getCurrentUser();
 
 
 // Get systen and memner names for navbar if we're on a system/member page
@@ -189,10 +187,10 @@ match ($parts[0]) {
 
     // Managed (authenticated) system/member editing
     'manage' => match (true) {
-        isset($parts[1], $parts[2], $parts[3], $parts[4]) && $parts[1] === 's'
+        isset($parts[1], $parts[2], $parts[3]) && $parts[1] === 's'
         => require $pagesDir . '/manage/member-edit.php',   // /manage/s/{handle}/@{member_handle}
-        isset($parts[1], $parts[2], $parts[3]) && $parts[1] === 's' && $parts[3] === 'members'
-        => require $pagesDir . '/manage/members.php',       // /manage/s/{handle}/members
+        isset($parts[1], $parts[2], $parts[3]) && $parts[1] === 's' && $parts[3] === 'new'
+        => require $pagesDir . '/manage/member-new.php',    // /manage/s/{handle}/new
         isset($parts[1], $parts[2]) && $parts[1] === 's'
         => require $pagesDir . '/manage/system-edit.php',   // /manage/s/{handle}
         isset($parts[1], $parts[2]) && $parts[1] === 'system' && $parts[2] === 'new'

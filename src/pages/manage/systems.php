@@ -6,7 +6,9 @@
  * @var string $jsDir
  */
 
-$userId = $_SESSION['user_id'];
+$auth = new Auth($pdo);
+$currentUser = $auth->requireCurrentUser();
+$userId = (int) $currentUser['id'];
 
 $stmt = $pdo->prepare('SELECT * FROM systems WHERE user_id = ?');
 $stmt->execute([$userId]);
