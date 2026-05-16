@@ -23,3 +23,44 @@ document.querySelectorAll('.alert').forEach(alert => {
         setTimeout(() => alert.remove(), 300);
     }, 3000);
 });
+
+// Inline edit toggles for manage system fields
+document.querySelectorAll('.inline-edit').forEach(wrapper => {
+    const display = wrapper.querySelector('.inline-edit-display');
+    const form = wrapper.querySelector('.inline-edit-form');
+    const cancel = wrapper.querySelector('.inline-edit-cancel');
+    const input = wrapper.querySelector('.inline-edit-input, .inline-edit-select');
+
+    if (!display || !form || !cancel || !input) {
+        return;
+    }
+
+    input.dataset.initialValue = input.value;
+
+    const startEdit = () => {
+        wrapper.classList.add('is-editing');
+        if (input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) {
+            input.focus();
+            input.select();
+        } else {
+            input.focus();
+        }
+    };
+
+    const stopEdit = () => {
+        wrapper.classList.remove('is-editing');
+        input.value = input.dataset.initialValue || '';
+    };
+
+    display.addEventListener('click', startEdit);
+    cancel.addEventListener('click', event => {
+        event.preventDefault();
+        stopEdit();
+    });
+    form.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            stopEdit();
+        }
+    });
+});
