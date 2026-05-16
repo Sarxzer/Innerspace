@@ -15,7 +15,7 @@ $stmt->execute([$userId]);
 $systems = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if (empty($systems)) {
-    header('Location: /manage/systems/new');
+    header('Location: /manage/system/new');
     exit;
 }
 

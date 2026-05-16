@@ -17,7 +17,7 @@
         <a href="/home" class="<?php echo ($parts[0] === 'home' || $parts[0] === '') ? 'active' : ''; ?>">Home</a>
         <a href="/system" class="<?php echo ($parts[0] === 'system') ? 'active' : ''; ?>">System</a>
         <?php if (isset($current_user)): ?>
-            <a href="/friends" class="<?php echo ($parts[0] === 'friends') ? 'active' : ''; ?>">Friends</a>
+            <!-- <a href="/friends" class="<?php echo ($parts[0] === 'friends') ? 'active' : ''; ?>">Friends</a> -->
             <a href="/dashboard" class="<?php echo ($parts[0] === 'dashboard') ? 'active' : ''; ?>">Dashboard</a>
             <a href="/manage" class="<?php echo ($parts[0] === 'manage') ? 'active' : ''; ?>">Manage</a>
             <a href="/settings" class="<?php echo ($parts[0] === 'settings') ? 'active' : ''; ?>">Settings</a>

@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h1>Create a new system</h1>
                 <p>Welcome to the system creation page!</p>
 
-                <form action="/manage/systems/new" method="POST">
+                <form action="/manage/system/new" method="POST">
                     <label for="name">System Name:</label>
                     <input type="text" id="name" name="name" required>
 

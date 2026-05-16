@@ -336,7 +336,7 @@
     border: 2px solid;
     border-radius: 0;
     background: $color-bg-card;
-    box-shadow: 4px 4px 0px #0a0a1a;
+    box-shadow: 4px 4px 0px $shadow-dark;
     font-family: "VT323", monospace;
     font-size: 18px;
 }
@@ -427,6 +427,51 @@
         gap: 1rem;
         justify-content: center;
         flex-wrap: wrap;
+
+        .btn {
+            font-family: $font-retro;
+            font-size: 18px;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid rgba($color-light-blue, 0.2);
+            background: rgba($color-light-blue, 0.1);
+            color: $color-text-main;
+            transition:
+                background 0.1s,
+                border-color 0.1s;
+
+            &:hover {
+                background: rgba($color-light-blue, 0.15);
+                border-color: rgba($color-light-blue, 0.4);
+            }
+
+            &.btn-primary {
+                background: $color-light-blue;
+                border-color: $color-light-blue;
+                color: $color-text-inverted;
+
+                &:hover {
+                    background: color.adjust(
+                        $color-light-blue,
+                        $lightness: 10%
+                    );
+                    border-color: color.adjust(
+                        $color-light-blue,
+                        $lightness: 10%
+                    );
+                }
+            }
+
+            &.btn-secondary {
+                background: rgba($color-light-blue, 0.1);
+                border-color: rgba($color-light-blue, 0.2);
+                color: $color-text-main;
+
+                &:hover {
+                    background: rgba($color-light-blue, 0.15);
+                    border-color: rgba($color-light-blue, 0.4);
+                }
+            }
+        }
     }
 }
 
@@ -621,7 +666,7 @@
     color: $color-text-muted;
 }
 
-.password-requirements   {
+.password-requirements {
     position: absolute;
     top: 3rem;
     left: 50%;
@@ -1856,17 +1901,5 @@
 
     &:hover {
         background-color: color.adjust($color-light-blue, $lightness: 10%);
-    }
-}
-
-.btn-secondary {
-    background: rgba($color-light-blue, 0.1);
-    border: 1px solid rgba($color-light-blue, 0.2);
-    color: $color-light-blue;
-
-    &:hover {
-        background: rgba($color-light-blue, 0.15);
-        border-color: rgba($color-light-blue, 0.4);
-        color: color.adjust($color-light-blue, $lightness: 10%);
     }
 }

@@ -38,7 +38,6 @@
                             <a href="/dashboard" class="btn btn-primary">Go to Dashboard</a>
                         <?php else: ?>
                             <a href="/register" class="btn btn-primary">Get Started</a>
-                            <span>/</span>
                             <a href="/login" class="btn btn-secondary">Log In</a>
                         <?php endif; ?>
                     </div>

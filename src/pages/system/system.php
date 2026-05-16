@@ -175,23 +175,6 @@ $canonicalUrl = htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['
             <?php include $includesDir . '/footer.php'; ?>
         </div>
     </div>
-
-    <!-- <?php include $includesDir . '/navbar.php'; ?>
-
-    <h1><?= htmlspecialchars($system['name']) ?></h1>
-    <p>Handle: @<?= htmlspecialchars($system['handle']) ?></p>
-    <p>Owner: <?= htmlspecialchars($user['username']) ?></p>
-    <p>Description: <?= nl2br(htmlspecialchars($system['description'])) ?></p>
-    <p>Number of members: <?= count($members) ?></p>
-
-    <p>Now fronting: <?= $nowFrontingMembers ? implode(", ", $nowFrontingMembers) : "No one" ?></p>
-
-    <h2>Members:</h2>
-    <ul>
-        <?php foreach ($members as $member): ?>
-            <li><a href='/system/<?= htmlspecialchars($system['handle']) ?>/<?= htmlspecialchars($member['handle']) ?>'><?= htmlspecialchars($member['name']) ?></a> (<?= htmlspecialchars($member['pronouns']) ?>, <span style='color: <?= htmlspecialchars($member['color']) ?>'><?= htmlspecialchars($member['color']) ?></span>)</li>
-        <?php endforeach; ?>
-    </ul> -->
 </body>
 
 </html>
